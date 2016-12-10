@@ -14,8 +14,8 @@
 
 class Vec3 {
 public:
-    explicit Vec3(float x, float y, float z);
-    explicit Vec3(const vec3 &other);
+    Vec3(float x, float y, float z);
+    Vec3(const vec3 &other);
     Vec3 &operator=(const vec3 &other);
     ~Vec3() = default;
 
@@ -35,8 +35,8 @@ public:
     Vec3 &nor();        // Normalization
 
 public:
-    static float dot(const Vec3 &vectorA, const Vec3 &vectorB);        // Dot Product
-    static Vec3 cro(const Vec3 &vectorA, const Vec3 &vectorB);        // Cross Product
+    float dot(const Vec3 &vector);        // Dot Product
+    Vec3 cro(const Vec3 &vector);        // Cross Product
 
 public:
     float x();

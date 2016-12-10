@@ -27,3 +27,9 @@
 *.exe
 *.out
 *.app
+
+# Test files
+Test/
+
+# Vs code setting files
+.vscode/

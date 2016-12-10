@@ -14,9 +14,9 @@
 
 class Vec2 {
 public:
-    explicit Vec2(float x, float y);
-    explicit Vec2(const vec2 &other);
-    Vec3 &operator=(const vec2 &other);
+    Vec2(float x, float y);
+    Vec2(const Vec2 &other);
+    Vec2 &operator=(const Vec2 &other);
     ~Vec2() = default;
 
 public:
@@ -35,7 +35,7 @@ public:
     Vec2 &nor();        // Normalization
 
 public:
-    static float dot(const Vec2 &vectorA, const Vec2 &vectorB);        // Dot Product
+    float dot(const Vec2 &vector);        // Dot Product
 
 public:
     float x();

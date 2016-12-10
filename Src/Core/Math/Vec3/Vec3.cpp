@@ -25,9 +25,9 @@ Vec3 &Vec3::operator=(const vec3 &other) {
 }
 
 Vec3 Vec3::operator+(const Vec3 &vector) {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
     
     __m128 sseA;
     __m128 sseB;
@@ -44,9 +44,9 @@ Vec3 Vec3::operator+(const Vec3 &vector) {
 }
 
 Vec3 &Vec3::operator+=(const Vec3 &vector) {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
     
     __m128 sseA;
     __m128 sseB;
@@ -67,9 +67,9 @@ Vec3 &Vec3::operator+=(const Vec3 &vector) {
 }
 
 Vec3 Vec3::operator-(const Vec3 &vector) {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
     
     __m128 sseA;
     __m128 sseB;
@@ -86,9 +86,9 @@ Vec3 Vec3::operator-(const Vec3 &vector) {
 }
 
 Vec3 &Vec3::operator-=(const Vec3 &vector) {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
     
     __m128 sseA;
     __m128 sseB;
@@ -109,9 +109,9 @@ Vec3 &Vec3::operator-=(const Vec3 &vector) {
 }
 
 Vec3 Vec3::operator*(float scalar) {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {scalar, scalar, scalar, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {scalar, scalar, scalar, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
     
     __m128 sseA;
     __m128 sseB;
@@ -128,9 +128,9 @@ Vec3 Vec3::operator*(float scalar) {
 }
 
 Vec3 &Vec3::operator*=(float scalar) {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {scalar, scalar, scalar, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {scalar, scalar, scalar, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
     
     __m128 sseA;
     __m128 sseB;
@@ -151,9 +151,9 @@ Vec3 &Vec3::operator*=(float scalar) {
 }
 
 Vec3 Vec3::operator/(float scalar) {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {scalar, scalar, scalar, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {scalar, scalar, scalar, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
     
     __m128 sseA;
     __m128 sseB;
@@ -170,9 +170,9 @@ Vec3 Vec3::operator/(float scalar) {
 }
 
 Vec3 &Vec3::operator/=(float scalar) {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {scalar, scalar, scalar, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {scalar, scalar, scalar, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
     
     __m128 sseA;
     __m128 sseB;
@@ -194,11 +194,11 @@ Vec3 &Vec3::operator/=(float scalar) {
 
 // Module
 float Vec3::mod() {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {2.0f, 2.0f, 2.0f, 0.0f};
-    _MM_ALIGN16 float vectorC[4] = {0.0f};
-    _MM_ALIGN16 float vectorD[4] = {0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorC[4] = {0.0f};
+    __declspec(align(16)) float vectorD[4] = {0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
 
     __m128 sseA;
     __m128 sseB;
@@ -209,7 +209,7 @@ float Vec3::mod() {
     sseA = _mm_load_ps(vectorA);  
     sseB = _mm_load_ps(vectorB);
 
-    sseC = _mm_pow_ps(sseA, sseB);
+    sseC = _mm_mul_ps(sseA, sseB);
 
     _mm_store_ps(vectorC, sseC);
     
@@ -226,11 +226,11 @@ float Vec3::mod() {
 
 // Module's reciprocal
 float Vec3::rmod() {
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {2.0f, 2.0f, 2.0f, 0.0f};
-    _MM_ALIGN16 float vectorC[4] = {0.0f};
-    _MM_ALIGN16 float vectorD[4] = {0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorC[4] = {0.0f};
+    __declspec(align(16)) float vectorD[4] = {0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
 
     __m128 sseA;
     __m128 sseB;
@@ -241,7 +241,7 @@ float Vec3::rmod() {
     sseA = _mm_load_ps(vectorA);  
     sseB = _mm_load_ps(vectorB);
 
-    sseC = _mm_pow_ps(sseA, sseB);
+    sseC = _mm_mul_ps(sseA, sseB);
 
     _mm_store_ps(vectorC, sseC);
     
@@ -259,9 +259,9 @@ float Vec3::rmod() {
 // Normalization
 Vec3 &Vec3::nor() {
     float module = this->rmod();
-    _MM_ALIGN16 float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {module, module, module, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+    __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {module, module, module, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
 
     __m128 sseA;
     __m128 sseB;
@@ -282,18 +282,17 @@ Vec3 &Vec3::nor() {
 }
 
 // Dot Product
-float Vec3::dot(const Vec3 &vectorA, const Vec3 &vectorB) {
-    Vec3 vectorMul = vectorA * vectorB;
-    return vectorMul.x() + vectorMul.y() + vectorMul.z();
+float Vec3::dot(const Vec3 &vector) {
+    return (this->mX * vector.mX) + (this->mY * vector.mY) + (this->mZ * vector.mZ);
 }
 
 // Cross Product
-Vec3 Vec3::cro(const Vec3 &vectorA, const Vec3 &vectorB) {
-    _MM_ALIGN16 float vectorA[4] = {vectorA.mY, vectorA.mZ, vectorA.mX, 0.0f};
-    _MM_ALIGN16 float vectorB[4] = {vectorB.mZ, vectorB.mX, vectorB.mY, 0.0f};
-    _MM_ALIGN16 float vectorC[4] = {vectorA.mZ, vectorA.mX, vectorA.mY, 0.0f};
-    _MM_ALIGN16 float vectorD[4] = {vectorB.mY, vectorB.mZ, vectorB.mX, 0.0f};
-    _MM_ALIGN16 float vectorResult[4] = {0.0f};
+Vec3 Vec3::cro(const Vec3 &vector) {
+    __declspec(align(16)) float vectorA[4] = {this->mY, this->mZ, this->mX, 0.0f};
+    __declspec(align(16)) float vectorB[4] = {vector.mZ, vector.mX, vector.mY, 0.0f};
+    __declspec(align(16)) float vectorC[4] = {this->mZ, this->mX, this->mY, 0.0f};
+    __declspec(align(16)) float vectorD[4] = {vector.mY, vector.mZ, vector.mX, 0.0f};
+    __declspec(align(16)) float vectorResult[4] = {0.0f};
 
     __m128 sseA;
     __m128 sseB;
