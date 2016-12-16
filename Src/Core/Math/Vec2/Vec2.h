@@ -9,16 +9,16 @@
 // ----------------------------------------------------------------------------------------------------
 #ifndef RALFLIGHT_SRC_CORE_MATH_VEC2_H
 #define RALFLIGHT_SRC_CORE_MATH_VEC2_H
-
+ 
 #include <intrin.h>
-
+ 
 class Vec2 {
 public:
     Vec2(float x, float y);
     Vec2(const Vec2 &other);
     Vec2 &operator=(const Vec2 &other);
     ~Vec2() = default;
-
+ 
 public:
     Vec2 operator+(const Vec2 &vector);
     Vec2 &operator+=(const Vec2 &vector);
@@ -28,22 +28,23 @@ public:
     Vec2 &operator*=(float scalar);
     Vec2 operator/(float scalar);
     Vec2 &operator/=(float scalar);
-
+ 
 public:
     float mod();      // Module
     float rmod();     // Module's reciprocal
-    Vec2 &nor();        // Normalization
-
+    Vec2 &nor();      // Normalization
+ 
 public:
     float dot(const Vec2 &vector);        // Dot Product
-
+    Vec2 pro(const Vec2 &vector);		  // Projection
+ 
 public:
     float x();
     float y();
-
+ 
 private:
     float mX;
     float mY;
 };
-
-#endif        // RALFLIGHT_SRC_CORE_MATH_VEC2_H
+ 
+#endif // RALFLIGHT_SRC_CORE_MATH_VEC2_H
