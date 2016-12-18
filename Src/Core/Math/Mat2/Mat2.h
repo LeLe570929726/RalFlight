@@ -9,22 +9,36 @@
 // ----------------------------------------------------------------------------------------------------
 #ifndef RALFLIGHT_SRC_CORE_MATH_MAT2_H
 #define RALFLIGHT_SRC_CORE_MATH_MAT2_H
+
+#include "../Vec2/Vec2.h"
+#include <intrin.h>
  
 class Mat2 {
 public:
 	Mat2(float m11, float m12, float m21, float m22);
+	Mat2(float (&array)[4]);
 	Mat2(const Mat2 &other);
 	Mat2 &operator=(const Mat2 &other);
 	~Mat2() = default;
  
 public:
-	Vec4 operator+(const Mat4 &matrix);
-	Vec4 &operator+=(const Mat4 &matrix);
-	Vec4 operator-(const Mat4 &matrix);
-	Vec4 &operator-=(const Mat4 &matrix);
+	Mat2 operator+(const Mat2 &matrix) const;
+	Mat2 &operator+=(const Mat2 &matrix);
+	Mat2 operator-(const Mat2 &matrix) const;
+	Mat2 &operator-=(const Mat2 &matrix);
+	Mat2 operator*(float scalar) const;
+	Mat2 &operator*=(float scalar);
+	Vec2 operator*(const Vec2 &vector) const;
+	Mat2 operator*(const Mat2 &matrix) const;
+	Mat2 &operator*=(const Mat2 &matrix);
+	Mat2 operator/(float scalar) const;
+	Mat2 &operator/=(float scalar);
+
+public:
+	Mat2 &tra();		// Transpose
  
 private:
-	float matrix[4];
-}
+	float mMatrix[4];
+};
  
 #endif		// RALFLIGHT_SRC_CORE_MATH_MAT2_H

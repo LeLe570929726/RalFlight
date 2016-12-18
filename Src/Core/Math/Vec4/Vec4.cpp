@@ -12,6 +12,10 @@
 Vec4::Vec4(float x, float y, float z, float w) : 
     mX(x), mY(y), mZ(z), mW(w) {
 }
+
+Vec4::Vec4(float (&array)[4]) : 
+    mX(array[0]), mY(array[1]), mZ(array[2]), mW(array[3]) {
+}
  
 Vec4(const Vec4 &other) :
      mX(other.mX), mY(pther.mY), mZ(other.mZ), mW(other.mW){
@@ -326,6 +330,29 @@ Vec4 Vec4::pro(const Vec4 &vector) {
     _mm_store_ps(vectorResult, sseResult);
  
     return Vec4(vectroResult[0], vectroResult[1], vectroResult[2], vectroResult[3]);
+}
+
+void Vec4::set(float (&array)[4]) {
+    this->mX = array[0];
+    this->mY = array[1];
+    this->mZ = array[2];
+    this->mW = array[3];
+}
+    
+void Vec4::setX(float x) {
+    this->mX = x;
+}
+
+void Vec4::setY(float y) {
+    this->mY = y;
+}
+
+void Vec4::setZ(float z) {
+    this->mZ = z;
+}
+
+void Vec4::setW(float w) {
+    this->mW = w;
 }
  
 float Vec4::x() {

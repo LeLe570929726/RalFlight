@@ -12,19 +12,23 @@
 Vec3::Vec3(float x, float y, float z) : 
     mX(x), mY(y), mZ(z) {
 }
+
+Vec3::Vec3(float (&array)[3]) :
+    mX(array[0]), mY(array[1]), mZ(array[2]) {
+}
  
-Vec3::Vec3(const vec3 &other) : 
+Vec3::Vec3(const Vec3 &other) : 
     mX(other.mX), mY(other.mY), mZ(other.mZ) {
 }
  
-Vec3 &Vec3::operator=(const vec3 &other) {
+Vec3 &Vec3::operator=(const Vec3 &other) {
     this->mX = other.mX;
     this->mY = other.mY;
     this->mZ = other.mZ;
     return *this;
 }
  
-Vec3 Vec3::operator+(const Vec3 &vector) {
+Vec3 Vec3::operator+(const Vec3 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
     __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -66,7 +70,7 @@ Vec3 &Vec3::operator+=(const Vec3 &vector) {
     return *this;
 }
  
-Vec3 Vec3::operator-(const Vec3 &vector) {
+Vec3 Vec3::operator-(const Vec3 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
     __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -108,7 +112,7 @@ Vec3 &Vec3::operator-=(const Vec3 &vector) {
     return *this;
 }
  
-Vec3 Vec3::operator*(float scalar) {
+Vec3 Vec3::operator*(float scalar) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
     __declspec(align(16)) float vectorB[4] = {scalar, scalar, scalar, 0.0f};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -150,7 +154,7 @@ Vec3 &Vec3::operator*=(float scalar) {
     return *this;
 }
  
-Vec3 Vec3::operator/(float scalar) {
+Vec3 Vec3::operator/(float scalar) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
     __declspec(align(16)) float vectorB[4] = {scalar, scalar, scalar, 0.0f};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -193,7 +197,7 @@ Vec3 &Vec3::operator/=(float scalar) {
 }
  
 // Module
-float Vec3::mod() {
+float Vec3::mod() const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
     __declspec(align(16)) float vectorB[4] = {this->mX, this->mY, this->mZ, 0.0f};
     __declspec(align(16)) float vectorC[4] = {0.0f};
@@ -225,7 +229,7 @@ float Vec3::mod() {
 }
  
 // Module's reciprocal
-float Vec3::rmod() {
+float Vec3::rmod() const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
     __declspec(align(16)) float vectorB[4] = {this->mX, this->mY, this->mZ, 0.0f};
     __declspec(align(16)) float vectorC[4] = {0.0f};
@@ -282,7 +286,7 @@ Vec3 &Vec3::nor() {
 }
  
 // Dot Product
-float Vec3::dot(const Vec3 &vector) {
+float Vec3::dot(const Vec3 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, 0.0f};
 	__declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
 	__declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -302,7 +306,7 @@ float Vec3::dot(const Vec3 &vector) {
 }
  
 // Cross Product
-Vec3 Vec3::cro(const Vec3 &vector) {
+Vec3 Vec3::cro(const Vec3 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mY, this->mZ, this->mX, 0.0f};
     __declspec(align(16)) float vectorB[4] = {vector.mZ, vector.mX, vector.mY, 0.0f};
     __declspec(align(16)) float vectorC[4] = {this->mZ, this->mX, this->mY, 0.0f};
@@ -328,11 +332,11 @@ Vec3 Vec3::cro(const Vec3 &vector) {
  
     _mm_store_ps(vectorResult, sseResult);
  
-    return Vec3(vectorResult[0], vectorResult[1], vectorResult[2])
+    return Vec3(vectorResult[0], vectorResult[1], vectorResult[2]);
 }
  
 // Projection
-Vec3 Vec3::pro(const Vec3 &vector) {
+Vec3 Vec3::pro(const Vec3 &vector) const {
 	float module = vector.rmod();
 	float scalar = this->dot(vector) * (module * module);	// u' = ((u · v) / |v|^2) * v
 	__declspec(align(16)) float vectorA[4] = {vector.mX, vector.mY, vector.mZ, 0.0f};
@@ -350,17 +354,35 @@ Vec3 Vec3::pro(const Vec3 &vector) {
  
     _mm_store_ps(vectorResult, sseResult);
  
-    return Vec3(vectroResult[0], vectroResult[1], vectroResult[2]);
+    return Vec3(vectorResult[0], vectorResult[1], vectorResult[2]);
+}
+
+void Vec3::set(float (&array)[3]) {
+    this->mX = array[0];
+    this->mY = array[2];
+    this->mZ = array[2];
+}
+
+void Vec3::setX(float x) {
+    this->mX = x;
+}
+
+void Vec3::setY(float y) {
+    this->mY = y;
+}
+
+void Vec3::setZ(float z) {
+    this->mZ = z;
 }
  
-float Vec3::x() {
+float Vec3::x() const {
     return this->mX;
 }
  
-float Vec3::y() {
+float Vec3::y() const {
     return this->mY;
 }
  
-float Vec3::z() {
+float Vec3::z() const {
     return this->mZ;
 }

@@ -15,6 +15,7 @@
 class Vec4 {
 public:
     Vec4(float x, float y, float z, float w);
+    Vec4(float (&array)[4]);
     Vec4(const Vec4 &other);
     Vec4 &operator=(const Vec4 &other);
     ~Vec4() = default;
@@ -37,6 +38,13 @@ public:
 public:
     float dot(const Vec4 &vector);        // Dot Product
     Vec4 pro(const Vec4 &vector);		  // Projection
+
+public:
+    void set(float (&array)[4]);
+    void setX(float x);
+    void setY(float y);
+    void setZ(float z);
+    void setW(float w);
  
 public:
     float x();

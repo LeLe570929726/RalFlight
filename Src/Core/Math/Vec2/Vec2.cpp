@@ -12,6 +12,10 @@
 Vec2::Vec2(float x, float y) : 
     mX(x), mY(y) {
 }
+
+Vec2::Vec2(float (&array)[2]) :
+    mX(array[0]), mY(array[1]) {
+}
  
 Vec2::Vec2(const Vec2 &other) : 
     mX(other.mX), mY(other.mY) {
@@ -23,7 +27,7 @@ Vec2 &Vec2::operator=(const Vec2 &other) {
     return *this;
 }
  
-Vec2 Vec2::operator+(const Vec2 &vector) {
+Vec2 Vec2::operator+(const Vec2 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -64,7 +68,7 @@ Vec2 &Vec2::operator+=(const Vec2 &vector) {
     return *this;
 }
  
-Vec2 Vec2::operator-(const Vec2 &vector) {
+Vec2 Vec2::operator-(const Vec2 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -105,7 +109,7 @@ Vec2 &Vec2::operator-=(const Vec2 &vector) {
     return *this;
 }
  
-Vec2 Vec2::operator*(float scalar) {
+Vec2 Vec2::operator*(float scalar) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorB[4] = {scalar, scalar, 0.0f, 0.0f};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -146,7 +150,7 @@ Vec2 &Vec2::operator*=(float scalar) {
     return *this;
 }
  
-Vec2 Vec2::operator/(float scalar) {
+Vec2 Vec2::operator/(float scalar) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorB[4] = {scalar, scalar, 0.0f, 0.0f};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -188,7 +192,7 @@ Vec2 &Vec2::operator/=(float scalar) {
 }
  
 // Module
-float Vec2::mod() {
+float Vec2::mod() const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorB[4] = {this->mX, this->mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorC[4] = {0.0f};
@@ -220,7 +224,7 @@ float Vec2::mod() {
 }
  
 // Module's reciprocal
-float Vec2::rmod() {
+float Vec2::rmod() const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorB[4] = {this->mX, this->mY, 0.0f, 0.0f};
     __declspec(align(16)) float vectorC[4] = {0.0f};
@@ -276,7 +280,7 @@ Vec2 &Vec2::nor() {
 }
  
 // Dot Product
-float Vec2::dot(const Vec2 &vector) {
+float Vec2::dot(const Vec2 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, 0.0f, 0.0f};
 	__declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, 0.0f, 0.0f};
 	__declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -296,7 +300,7 @@ float Vec2::dot(const Vec2 &vector) {
 }
  
 // Projection
-Vec2 Vec2::pro(const Vec2 &vector) {
+Vec2 Vec2::pro(const Vec2 &vector) const {
 	float module = vector.rmod();
 	float scalar = this->dot(vector) * (module * module);	// u' = ((u · v) / |v|^2) * v
 	__declspec(align(16)) float vectorA[4] = {vector.mX, vector.mY, 0.0f, 0.0f};
@@ -314,13 +318,26 @@ Vec2 Vec2::pro(const Vec2 &vector) {
  
     _mm_store_ps(vectorResult, sseResult);
  
-    return Vec2(vectroResult[0], vectroResult[1]);
+    return Vec2(vectorResult[0], vectorResult[1]);
+}
+
+void Vec2::set(float (&array)[2]) {
+    this->mX = array[0];
+    this->mY = array[1];
+}
+
+void Vec2::setX(float x) {
+    this->mX = x;
+}
+
+void Vec2::setY(float y) {
+    this->mY = y;
 }
  
-float Vec2::x() {
+float Vec2::x() const {
     return this->mX;
 }
  
-float Vec2::y() {
+float Vec2::y() const {
     return this->mY;
 }
