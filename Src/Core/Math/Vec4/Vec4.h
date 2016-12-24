@@ -21,23 +21,23 @@ public:
     ~Vec4() = default;
  
 public:
-    Vec4 operator+(const Vec4 &vector);
+    Vec4 operator+(const Vec4 &vector) const;
     Vec4 &operator+=(const Vec4 &vector);
-    Vec4 operator-(const Vec4 &vector);
+    Vec4 operator-(const Vec4 &vector) const;
     Vec4 &operator-=(const Vec4 &vector);
-    Vec4 operator*(float scalar);
+    Vec4 operator*(float scalar) const;
     Vec4 &operator*=(float scalar);
-    Vec4 operator/(float scalar);
+    Vec4 operator/(float scalar) const;
     Vec4 &operator/=(float scalar);
  
 public:
-    float mod();      // Module
-    float rmod();     // Module's reciprocal
+    float mod() const;      // Module
+    float rmod() const;     // Module's reciprocal
     Vec4 &nor();      // Normalization
  
 public:
-    float dot(const Vec4 &vector);        // Dot Product
-    Vec4 pro(const Vec4 &vector);		  // Projection
+    float dot(const Vec4 &vector) const;        // Dot Product
+    Vec4 pro(const Vec4 &vector) const;		  // Projection
 
 public:
     void set(float (&array)[4]);
@@ -47,10 +47,10 @@ public:
     void setW(float w);
  
 public:
-    float x();
-    float y();
-    float z();
-    float w();
+    float x() const;
+    float y() const;
+    float z() const;
+    float w() const;
  
 private:
     float mX;

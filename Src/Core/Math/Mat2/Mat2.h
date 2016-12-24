@@ -36,6 +36,17 @@ public:
 
 public:
 	Mat2 &tra();		// Transpose
+
+public:
+	float get(int col, int row) const;
+	Vec2 row(int row) const;
+	Vec2 col(int col) const;
+
+public:
+	bool set(int col, int row, float scalar);
+	void set(float (&array)[4]);
+	bool setRow(int row, const Vec2 &vector);
+	bool setCol(int col, const Vec2 &vector);
  
 private:
 	float mMatrix[4];

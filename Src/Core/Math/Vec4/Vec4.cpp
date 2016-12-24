@@ -17,18 +17,18 @@ Vec4::Vec4(float (&array)[4]) :
     mX(array[0]), mY(array[1]), mZ(array[2]), mW(array[3]) {
 }
  
-Vec4(const Vec4 &other) :
-     mX(other.mX), mY(pther.mY), mZ(other.mZ), mW(other.mW){
+Vec4::Vec4(const Vec4 &other) :
+     mX(other.mX), mY(other.mY), mZ(other.mZ), mW(other.mW){
 }
  
-Vec4 &operator=(const Vec4 &other) {
+Vec4 &Vec4::operator=(const Vec4 &other) {
     this->mX = other.mX;
     this->mY = other.mY;
     this->mZ = other.mZ;
     this->mW = other.mW;
 }
  
-Vec4 Vec4::operator+(const Vec4 &vector) {
+Vec4 Vec4::operator+(const Vec4 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, this->mW};
     __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, vector.mW};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -71,7 +71,7 @@ Vec4 &Vec4::operator+=(const Vec4 &vector) {
     return *this;
 }
  
-Vec4 Vec4::operator-(const Vec4 &vector) {
+Vec4 Vec4::operator-(const Vec4 &vector) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, this->mW};
     __declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, vector.mW};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -114,7 +114,7 @@ Vec4 &Vec4::operator-=(const Vec4 &vector) {
     return *this;
 }
  
-Vec4 Vec4::operator*(float scalar) {
+Vec4 Vec4::operator*(float scalar) const {
     __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, this->mW};
     __declspec(align(16)) float vectorB[4] = {scalar, scalar, scalar, scalar};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -130,7 +130,7 @@ Vec4 Vec4::operator*(float scalar) {
  
     _mm_store_ps(vectorResult, sseResult);
  
-    return Vec2(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
+    return Vec4(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
 }
  
 Vec4 &Vec4::operator*=(float scalar) {
@@ -157,7 +157,7 @@ Vec4 &Vec4::operator*=(float scalar) {
     return *this;
 }
  
-Vec4 Vec4::operator/(float scalar) {
+Vec4 Vec4::operator/(float scalar) const {
      __declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, this->mW};
     __declspec(align(16)) float vectorB[4] = {scalar, scalar, scalar, scalar};
     __declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -173,7 +173,7 @@ Vec4 Vec4::operator/(float scalar) {
  
     _mm_store_ps(vectorResult, sseResult);
  
-    return Vec2(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
+    return Vec4(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
 }
  
 Vec4 &Vec4::operator/=(float scalar) {
@@ -201,7 +201,7 @@ Vec4 &Vec4::operator/=(float scalar) {
 }
  
 // Module
-float Vec4::mod() {
+float Vec4::mod() const {
 	__declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, this->mW};
     __declspec(align(16)) float vectorB[4] = {this->mX, this->mY, this->mZ, this->mW};
     __declspec(align(16)) float vectorC[4] = {0.0f};
@@ -233,7 +233,7 @@ float Vec4::mod() {
 }    
  
 // Module's reciprocal
-float Vec4::rmod() {
+float Vec4::rmod() const {
 	__declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, this->mW};
     __declspec(align(16)) float vectorB[4] = {this->mX, this->mY, this->mZ, this->mW};
     __declspec(align(16)) float vectorC[4] = {0.0f};
@@ -291,7 +291,7 @@ Vec4 &Vec4::nor() {
 }
  
 // Dot Product
-float Vec4::dot(const Vec4 &vector) {
+float Vec4::dot(const Vec4 &vector) const {
 	__declspec(align(16)) float vectorA[4] = {this->mX, this->mY, this->mZ, this->mW};
 	__declspec(align(16)) float vectorB[4] = {vector.mX, vector.mY, vector.mZ, vector.mW};
 	__declspec(align(16)) float vectorResult[4] = {0.0f};
@@ -311,7 +311,7 @@ float Vec4::dot(const Vec4 &vector) {
 }
  
 // Projection
-Vec4 Vec4::pro(const Vec4 &vector) {
+Vec4 Vec4::pro(const Vec4 &vector) const {
 	float module = vector.rmod();
 	float scalar = this->dot(vector) * (module * module);		// u' = ((u · v) / |v|^2) * v
 	__declspec(align(16)) float vectorA[4] = {vector.mX, vector.mY, vector.mZ, vector.mW};
@@ -329,7 +329,7 @@ Vec4 Vec4::pro(const Vec4 &vector) {
  
     _mm_store_ps(vectorResult, sseResult);
  
-    return Vec4(vectroResult[0], vectroResult[1], vectroResult[2], vectroResult[3]);
+    return Vec4(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
 }
 
 void Vec4::set(float (&array)[4]) {
@@ -355,18 +355,18 @@ void Vec4::setW(float w) {
     this->mW = w;
 }
  
-float Vec4::x() {
+float Vec4::x() const {
 	return this->mX;
 }
  
-float Vec4::y() {
+float Vec4::y() const {
 	return this->mY;
 }
  
-float Vec4::z() {
+float Vec4::z() const {
 	return this->mZ;
 }
  
-float Vec4::w() {
+float Vec4::w() const {
 	return this->mW;
 }

@@ -11,6 +11,7 @@
 #define RALFLIGHT_SRC_CORE_MATH_SCALAR_H
 
 #include <stdint.h>
+#include <math.h>
 
 using int8 = int8_t;
 using int16 = int16_t;
@@ -21,5 +22,41 @@ using uint8 = uint8_t;
 using uint16 = uint16_t;
 using uint32 = uint32_t;
 using uint64 = uint64_t;
+
+template <typename T>
+class Scalar {
+public:
+    Scalar() = delete;
+    ~Scalar() = delete;
+
+public:
+    static T cos(T scalar) {
+        return static_cast<T>(cos(static_cast<double>(scalar)));
+    }
+    static T sin(T scalar) {
+        return static_cast<T>(sin(static_cast<double>(scalar)));
+    }
+    static T tan(T scalar) {
+        return static_cast<T>(tan(static_cast<double>(scalar)));
+    }
+    static T acos(T scalar) {
+        return static_cast<T>(acos(static_cast<double>(scalar)));
+    }
+    static T asin(T scalar) {
+        return static_cast<T>(asin(static_cast<double>(scalar)));
+    }
+    static T atan(T scalar) {
+        return static_cast<T>(atan(static_cast<double>(scalar)));
+    }
+    static T pow(T scalarBase, T scalarExp) {
+        return static_cast<T>(pow(static_cast<double>(scalarBase), static_cast<double>(scalarExp)));
+    }
+    static T sqrt(T scalar) {
+        return static_cast<T>(sqrt(static_cast<double>(scalar)));
+    }
+    static T log(T scalar) {
+        return static_cast<T>(log(static_cast<double>(scalar)));
+    }
+};
 
 #endif        // RALFLIGHT_SRC_CORE_MATH_SCALAR_H
