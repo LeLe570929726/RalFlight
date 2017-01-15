@@ -5,14 +5,10 @@
 # @License: Licensed under GNU General Public License v3.
 # @Description: A free and open-source flight simulator.
 #
-# @Craete: 2016/12/3 by LeLe570929726
+# @Craete: 2017/1/3 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
-include("${PROJECT_SOURCE_DIR}/Cmake/MinBuildVersion.cmake")
-
-cmake_minimum_required(VERSION ${MIN_VERSION_CMAKE})
-
-project(RalFlight)
-set(RalFlight_VERSION_MAJOR 0)
-set(RalFlight_VERSION_MINOR 1)
-
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src")
+set(MIN_VERSION_CMAKE 3.4)
+set(MIN_VERSION_DIRECTX 0.0.0)      # TODO
+set(MIN_VERSION_VULKAN 0.0.0)      # TODO
+set(MIN_VERSION_METAL 0.0.0)          # TODO
+set(MIN_VERSION_OPENAL 0.0.0)       # TODO
