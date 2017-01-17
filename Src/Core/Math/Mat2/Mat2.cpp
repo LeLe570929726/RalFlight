@@ -288,6 +288,7 @@ Mat2 &Mat2::tra() {
     float tempScalar = this->mMatrix[1];
     this->mMatrix[1] = this->mMatrix[2];
     this->mMatrix[2] = tempScalar;
+	return *this;
 }
 
 float Mat2::get(int col, int row) const {

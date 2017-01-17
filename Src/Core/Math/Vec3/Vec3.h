@@ -10,9 +10,10 @@
 #ifndef RALFLIGHT_SRC_CORE_MATH_VEC3_H
 #define RALFLIGHT_SRC_CORE_MATH_VEC3_H
  
+#include "../../Global/Macro.h"
 #include <intrin.h>
  
-class Vec3 {
+class RALPLIGHT_API Vec3 {
 public:
     Vec3(float x, float y, float z);
     Vec3(float (&array)[3]);

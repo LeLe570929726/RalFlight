@@ -9,10 +9,11 @@
 // ----------------------------------------------------------------------------------------------------
 #ifndef RALFLIGHT_SRC_CORE_MATH_VEC4_H
 #define RALFLIGHT_SRC_CORE_MATH_VEC4_H
- 
+
+#include "../../Global/Macro.h"
 #include <intrin.h>
  
-class Vec4 {
+class RALPLIGHT_API Vec4 {
 public:
     Vec4(float x, float y, float z, float w);
     Vec4(float (&array)[4]);

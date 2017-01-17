@@ -8,6 +8,10 @@
 # @Craete: 2016/12/10 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
 
+# Build
+configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h.in" "${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h")
+set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h")
+
 # Math
 set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Math/Scalar/Scalar.h")
 set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Math/Scalar/Scalar.cpp")

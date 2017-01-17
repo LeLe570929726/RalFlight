@@ -30,6 +30,10 @@
 
 # Test files
 Test/
+Build/
 
 # Vs code setting files
 .vscode/
+
+# Temp files
+Src/Core/Build/Macro.h

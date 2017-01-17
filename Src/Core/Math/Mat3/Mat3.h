@@ -10,10 +10,11 @@
 #ifndef RALFLIGHT_SRC_CORE_MATH_MAT3_H
 #define RALFLIGHT_SRC_CORE_MATH_MAT3_H
  
+#include "../../Global/Macro.h"
 #include "../Vec3/Vec3.h"
 #include <intrin.h>
  
-class Mat3 {
+class RALPLIGHT_API Mat3 {
 public:
 	Mat3(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33);
 	Mat3(float (&array)[9]);

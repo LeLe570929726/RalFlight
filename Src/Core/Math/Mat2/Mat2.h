@@ -10,10 +10,11 @@
 #ifndef RALFLIGHT_SRC_CORE_MATH_MAT2_H
 #define RALFLIGHT_SRC_CORE_MATH_MAT2_H
 
+#include "../../Global/Macro.h"
 #include "../Vec2/Vec2.h"
 #include <intrin.h>
  
-class Mat2 {
+class RALPLIGHT_API Mat2 {
 public:
 	Mat2(float m11, float m12, float m21, float m22);
 	Mat2(float (&array)[4]);

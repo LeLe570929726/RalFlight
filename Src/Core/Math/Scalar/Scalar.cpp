@@ -11,90 +11,90 @@
 
 template <>
 float Scalar<float>::cos(float scalar) {
-    return cos(scalar);
+    return std::cosf(scalar);
 }
 
 template <>
 float Scalar<float>::sin(float scalar) {
-    return sin(scalar);
+    return std::sinf(scalar);
 }
 
 template <>
 float Scalar<float>::tan(float scalar) {
-    return tan(scalar);
+    return std::tanf(scalar);
 }
 
 template <>
 float Scalar<float>::acos(float scalar) {
-    return acos(scalar);
+    return std::acosf(scalar);
 }
 
 template <>
 float Scalar<float>::asin(float scalar) {
-    return asin(scalar);
+    return std::asinf(scalar);
 }
 
 template <>
 float Scalar<float>::atan(float scalar) {
-    return atan(scalar);
+    return std::atanf(scalar);
 }
 
 template <>
 float Scalar<float>::pow(float scalarBase, float scalarExp) {
-    return pow(scalarBase, scalarExp);
+    return std::powf(scalarBase, scalarExp);
 }
 
 template <>
 float Scalar<float>::sqrt(float scalar) {
-    return sqrt(scalar);
+    return std::sqrtf(scalar);
 }
 
 template <>
 float Scalar<float>::log(float scalar) {
-    return log(scalar);
+    return std::logf(scalar);
 }
 
 template <>
 double Scalar<double>::cos(double scalar) {
-    return cos(scalar);
+    return std::cos(scalar);
 }
 
 template <>
 double Scalar<double>::sin(double scalar) {
-    return sin(scalar);
+    return std::sin(scalar);
 }
 
 template <>
 double Scalar<double>::tan(double scalar) {
-    return tan(scalar);
+    return std::tan(scalar);
 }
 
 template <>
 double Scalar<double>::acos(double scalar) {
-    return acos(scalar);
+    return std::acos(scalar);
 }
 
 template <>
 double Scalar<double>::asin(double scalar) {
-    return asin(scalar);
+    return std::asin(scalar);
 }
 
 template <>
 double Scalar<double>::atan(double scalar) {
-    return atan(scalar);
+    return std::atan(scalar);
 }
 
 template <>
 double Scalar<double>::pow(double scalarBase, double scalarExp) {
-    return pow(scalarBase, scalarExp);
+    return std::pow(scalarBase, scalarExp);
 }
 
 template <>
 double Scalar<double>::sqrt(double scalar) {
-    return sqrt(scalar);
+    return std::sqrt(scalar);
 }
 
 template <>
 double Scalar<double>::log(double scalar) {
-    return log(scalar);
+    return std::log(scalar);
 }

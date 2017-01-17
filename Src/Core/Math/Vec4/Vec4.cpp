@@ -26,6 +26,7 @@ Vec4 &Vec4::operator=(const Vec4 &other) {
     this->mY = other.mY;
     this->mZ = other.mZ;
     this->mW = other.mW;
+	return *this;
 }
  
 Vec4 Vec4::operator+(const Vec4 &vector) const {
