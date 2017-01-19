@@ -14,23 +14,23 @@
 #define PROJECT_NAME "RalFlight"
 
 // Project version
-#define PROJECT_VERSION_MAJOR @RalFlight_VERSION_MAJOR@
-#define PROJECT_VERSION_MINOR @RalFlight_VERSION_MINOR@
+#define PROJECT_VERSION_MAJOR 0
+#define PROJECT_VERSION_MINOR 1
 
 // Project version release
-#define PROJECT_VERSION_RELEASE @RALFLIGHT_VERSION_RELEASE@
+#define PROJECT_VERSION_RELEASE "0.1 Alpha1"
 
 // System token
-#define @RALFLIGHT_SYSTEM@
+#define RALFLIGHT_SYSTEM_WINDOWS
 
 // Build token
-#cmakedefine RALFLIGHT_BUILD
+#define RALFLIGHT_BUILD
 
 // Export token
 #ifdef RALFLIGHT_BUILD
-    #define RALPLIGHT_API __declspec(dllexport)
+    #define RALFLIGHT_API __declspec(dllexport)
 #else
-    #define RALPLIGHT_API __declspec(dllimport)
+    #define RALFLIGHT_API __declspec(dllimport)
 #endif
 
 #endif          // RALFLIGHT_SRC_CORE_GLOBAL_MACRO_H

@@ -10,11 +10,11 @@
 #ifndef RALFLIGHT_SRC_CORE_MATH_MAT4_H
 #define RALFLIGHT_SRC_CORE_MATH_MAT4_H
  
-#include "../../Global/Macro.h"
+#include "../../Global/Macro/Macro.h"
 #include "../Vec4/Vec4.h"
 #include <intrin.h>
  
-class RALPLIGHT_API Mat4 {
+class RALFLIGHT_API Mat4 {
 public:
 	Mat4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, 
 		float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44);

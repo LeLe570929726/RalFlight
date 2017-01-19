@@ -8,9 +8,13 @@
 # @Craete: 2016/12/10 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
 
-# Build
-configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h.in" "${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h")
-set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h")
+# Global
+configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro/Macro.h.in" "${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro/Macro.h")
+set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro/Macro.h")
+set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Global/FunctionPointer/FunctionPointer.h")
+
+# STD
+set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/STD/String/String.h")
 
 # Math
 set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Math/Scalar/Scalar.h")
@@ -29,5 +33,9 @@ set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/
 set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Math/Mat4/Mat4.cpp")
 
 # Plugin
+set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/LibraryLoader/LibraryLoader.h")
+set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/LibraryLoader/LibraryLoader.cpp")
+set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/PluginLoader/PluginLoader.h")
+set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/PluginLoader/PluginLoader.cpp")
 
 add_library(RalFlightCore SHARED ${RALFILGHT_SRC_CORE_SOURCE})

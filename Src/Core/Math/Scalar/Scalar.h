@@ -10,7 +10,7 @@
 #ifndef RALFLIGHT_SRC_CORE_MATH_SCALAR_H
 #define RALFLIGHT_SRC_CORE_MATH_SCALAR_H
 
-#include "../../Global/Macro.h"
+#include "../../Global/Macro/Macro.h"
 #include <stdint.h>
 namespace std {
 #include <math.h>
@@ -27,7 +27,7 @@ using uint32 = uint32_t;
 using uint64 = uint64_t;
 
 template <typename T>
-class RALPLIGHT_API Scalar {
+class RALFLIGHT_API Scalar {
 public:
     Scalar() = delete;
     ~Scalar() = delete;
