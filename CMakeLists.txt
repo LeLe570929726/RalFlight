@@ -1,4 +1,4 @@
-# ----------------------------------------------------------------------------------------------------
+﻿# ----------------------------------------------------------------------------------------------------
 # Copyright © 2016-2017 LeLe570929726. All rights reserved.
 # 
 # @Project: RalFlight
@@ -15,6 +15,9 @@ project(RalFlight)
 set(RalFlight_VERSION_MAJOR 0)
 set(RalFlight_VERSION_MINOR 1)
 set(RALFLIGHT_VERSION_RELEASE "\"0.1 Alpha1\"")
+
+set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
+set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
 
 # Check system and set system token
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")

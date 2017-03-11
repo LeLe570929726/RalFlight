@@ -31,9 +31,14 @@
 # Test files
 Test/
 Build/
+Bin/
+Win32/
+Debug/
 
-# Vs code setting files
+# Vs setting files
 .vscode/
+.vs/
+CMakeSettings.json
 
 # Temp files
 Src/Core/Build/Macro.h

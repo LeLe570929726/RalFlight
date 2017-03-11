@@ -10,11 +10,23 @@
 #ifndef RALFLIGHT_SRC_CORE_STD_STRING_H
 #define RALFLIGHT_SRC_CORE_STD_STRING_H
 
-// TODO: This is a temp class. In the future, this class will be rewrited.
-
 #include "../../Global/Macro/Macro.h"
 #include <string>
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	#include<Windows.h> 
+#endif
 
-using String = std::wstring;
+class RALFLIGHT_API String {
+public:
+	String() = default;
+	String(const char *text);
+	String(const wchar_t *text);
+	String(const String &other);
+	String &operator=(const String &other);
+	~String() = default;
+
+private:
+	std::wstring mTextBuffer;
+};
 
 #endif          // RALFLIGHT_SRC_CORE_STD_STRING_H
