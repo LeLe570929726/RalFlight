@@ -16,14 +16,56 @@
 	#include<Windows.h> 
 #endif
 
+enum TextCodeFormat {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	UTF16 = 1200,				// This value is according to MSDN: https://msdn.microsoft.com/library/windows/desktop/dd317756(v=vs.85).aspx
+	UTF8 = CP_UTF8
+#endif
+};
+
 class RALFLIGHT_API String {
 public:
 	String() = default;
 	String(const char *text);
 	String(const wchar_t *text);
+	String(const String &other, int begin, int lenght);
+	String(char text, int lenght);
+	String(wchar_t text, int lenght);
 	String(const String &other);
 	String &operator=(const String &other);
 	~String() = default;
+
+public:
+	String &operator=(const char *text);
+	String &operator=(const wchar_t *text);
+	String &operator=(char text);
+	String &operator=(wchar_t text);
+	wchar_t &operator[](int position);
+	const wchar_t &operator[](int position) const;
+	String &operator+=(const String &other);
+	String &operator+=(const char *text);
+	String &operator+=(const wchar_t *text);
+	String &operator+=(char text);
+	String &operator+=(wchar_t text);
+
+public:
+	wchar_t &at(int position);
+	const wchar_t &at(int position) const;
+	wchar_t &back();
+	const wchar_t &back() const;
+	wchar_t &front();
+	const wchar_t &front() const;
+
+public:
+	int lenght() const;
+	int maxLenght() const;
+	void resize(int size);
+	void resize(int size, char text);
+	void resize(int size, wchar_t text);
+	int capacity() const;
+	void reserve(int size);
+	void clear();
+	bool empty() const;
 
 private:
 	std::wstring mTextBuffer;

@@ -8,6 +8,20 @@
 # @Craete: 2016/12/31 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
 
+# Use this script to check DirectX 12 supprot
+# DIRECTX_12_FAILD: 
+#		0: Successful 
+#		1: Can't find include path
+#		2: Can't find lib(x86) path 
+#		3: Can't find lib(x64) path
+#		4: The system is not Windows 10
+# DIRECTX_12_PATH_INCLUDE:
+#		If check successful, use this variable to store include path
+# DIRECTX_12_PATH_LIB_X86:
+#		If check successful, use this variable to store lib(x86) path
+# DIRECTX_12_PATH_LIB_X64:
+#		If check successful, use this variable to store lib(x64) path
+
 # Include macro
 include("CMake/Macro.cmake")
 
