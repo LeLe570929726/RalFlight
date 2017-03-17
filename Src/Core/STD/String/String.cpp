@@ -23,8 +23,8 @@ String::String(const wchar_t *text) {
 }
 
 String::String(const String &other, int begin, int lenght) {
-	std::wstring tempBuffer(other.mTextBuffer, begin, lenght);
-	this->mTextBuffer = tempBuffer;
+	this->mTextBuffer.clear();
+	this->mTextBuffer.append(other.mTextBuffer, begin, lenght);
 }
 
 String::String(const String &other) {
@@ -41,8 +41,8 @@ String::String(char text, int lenght) {
 }
 
 String::String(wchar_t text, int lenght) {
-	std::wstring tempBuffer(lenght, text);
-	this->mTextBuffer = tempBuffer;
+	this->mTextBuffer.clear();
+	this->mTextBuffer.append(lenght, text);
 }
 
 String & String::operator=(const String &other) {
@@ -93,9 +93,10 @@ String &String::operator+=(const String &other) {
 
 String &String::operator+=(const char *text) {
 	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
-	std::wstring tempBuffer(lenght, L' ');
-	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, &tempBuffer.front(), lenght);
+	wchar_t *tempBuffer = new wchar_t[lenght];
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
 	this->mTextBuffer += tempBuffer;
+	delete[]tempBuffer;
 	return *this;
 }
 
@@ -178,4 +179,126 @@ void String::clear() {
 
 bool String::empty() const {
 	return this->mTextBuffer.empty();
+}
+
+String &String::append(const String &other) {
+	this->mTextBuffer.append(other.mTextBuffer);
+	return *this;
+}
+
+String &String::append(const String &other, int begin, int lenght) {
+	this->mTextBuffer.append(other.mTextBuffer, begin, lenght);
+	return *this;
+}
+
+String &String::append(const char *text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
+	wchar_t *tempBuffer = new wchar_t[lenght];
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
+	this->mTextBuffer.append(tempBuffer);
+#endif
+	return *this;
+}
+
+String &String::append(const wchar_t *text) {
+	this->mTextBuffer.append(text);
+	return *this;
+}
+
+String &String::append(char text, int lenght) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	wchar_t tempText = L' ';
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, &text, 1, &tempText, 1);
+	this->mTextBuffer.append(lenght, tempText);
+#endif
+	return *this;
+}
+
+String &String::append(wchar_t text, int lenght) {
+	this->mTextBuffer.append(lenght, text);
+	return *this;
+}
+
+void String::pushBack(char text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	wchar_t tempText = L' ';
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, &text, 1, &tempText, 1);
+	this->mTextBuffer.push_back(tempText);
+#endif
+}
+
+void String::pushBack(wchar_t text) {
+	this->mTextBuffer.push_back(text);
+}
+
+String &String::assign(const String &other) {
+	this->mTextBuffer.assign(other.mTextBuffer);
+	return *this;
+}
+
+String &String::assign(const String &other, int begin, int lenght) {
+	this->mTextBuffer.assign(other.mTextBuffer, begin, lenght);
+	return *this;
+}
+
+String &String::assign(const char *text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
+	wchar_t *tempBuffer = new wchar_t[lenght];
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
+	this->mTextBuffer.assign(tempBuffer);
+#endif
+	return *this;
+}
+
+String &String::assign(const wchar_t *text) {
+	this->mTextBuffer.assign(text);
+	return *this;
+}
+
+String &String::assign(char text, int lenght) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	wchar_t tempText = L' ';
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, &text, 1, &tempText, 1);
+	this->mTextBuffer.assign(lenght, tempText);
+#endif
+	return *this;
+}
+
+String &String::assign(wchar_t text, int lenght) {
+	this->mTextBuffer.assgin(lenght, text);
+	return *this;
+}
+
+String &String::insert(const String &other, int position) {
+	return *this;
+}
+
+String &String::insert(const String &other, int begin, int lenght, int position) {
+	return *this;
+}
+
+String &String::insert(const char *text, int position) {
+	return *this;
+}
+
+String &String::insert(const wchar_t *text, int position) {
+	return *this;
+}
+
+String &String::insert(char text, int position) {
+	return *this;
+}
+
+String &String::insert(wchar_t text, int position) {
+	return *this;
+}
+
+String &String::insert(char text, int lenght, int position) {
+	return *this;
+}
+
+String &String::insert(wchar_t text, int lenght, int position) {
+	return *this;
 }

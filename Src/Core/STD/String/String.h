@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016-2017 LeLe570929726. All rights reserved.
+// Copyright Â© 2016-2017 LeLe570929726. All rights reserved.
 // 
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -10,10 +10,13 @@
 #ifndef RALFLIGHT_SRC_CORE_STD_STRING_H
 #define RALFLIGHT_SRC_CORE_STD_STRING_H
 
+// TODO: Function: insert
+// TODO: Class iterator
+
 #include "../../Global/Macro/Macro.h"
 #include <string>
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
-	#include<Windows.h> 
+#include<Windows.h> 
 #endif
 
 enum TextCodeFormat {
@@ -66,6 +69,36 @@ public:
 	void reserve(int size);
 	void clear();
 	bool empty() const;
+
+public:
+	String &append(const String &other);
+	String &append(const String &other, int begin, int lenght);
+	String &append(const char *text);
+	String &append(const wchar_t *text);
+	String &append(char text, int lenght);
+	String &append(wchar_t text, int lenght);
+
+public:
+	String &assign(const String &other);
+	String &assign(const String &other, int begin, int lenght);
+	String &assign(const char *text);
+	String &assign(const wchar_t *text);
+	String &assign(char text, int lenght);
+	String &assign(wchar_t text, int lenght);
+
+public:
+	String &insert(const String &other, int position);
+	String &insert(const String &other, int begin, int lenght, int position);
+	String &insert(const char *text, int position);
+	String &insert(const wchar_t *text, int position);
+	String &insert(char text, int position);
+	String &insert(wchar_t text, int position);
+	String &insert(char text, int lenght, int position);
+	String &insert(wchar_t text, int lenght, int position);
+
+public:
+	void pushBack(char text);
+	void pushBack(wchar_t text);
 
 private:
 	std::wstring mTextBuffer;
