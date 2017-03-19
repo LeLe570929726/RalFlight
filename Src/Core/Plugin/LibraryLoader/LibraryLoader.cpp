@@ -71,7 +71,7 @@ bool LibraryLoader::load() {
 	if (this->mIsLoad == false) {
 		if (this->mFileName.empty() == false) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
-			HMODULE tempHandle = LoadLibraryW(this->mFileName.c_str());
+			HMODULE tempHandle;// = LoadLibraryW(this->mFileName.c_str());
 			if (tempHandle != NULL) {
 				this->mHandle = tempHandle;
 				this->mCount = new int(1);
