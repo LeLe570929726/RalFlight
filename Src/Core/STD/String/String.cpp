@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------------------------------------
-// Copyright © 2016-2017 LeLe570929726. All rights reserved.
+// Copyright Â© 2016-2017 LeLe570929726. All rights reserved.
 // 
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -95,12 +95,12 @@ String &String::operator+=(const String &other) {
 String &String::operator+=(const char *text) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
-	wchar_t *tempBuffer = new wchar_t[lenght];
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
 	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
 	this->mTextBuffer += tempBuffer;
-	delete[] tempBuffer;
+	free(tempBuffer);
 #endif
-	return *this;
+		return *this;
 }
 
 String &String::operator+=(const wchar_t *text) {
@@ -209,10 +209,10 @@ String &String::append(const String &other, int begin, int lenght) {
 String &String::append(const char *text) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
-	wchar_t *tempBuffer = new wchar_t[lenght];
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
 	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
 	this->mTextBuffer.append(tempBuffer);
-	delete[] tempBuffer;
+	free(tempBuffer);
 #endif
 	return *this;
 }
@@ -254,10 +254,10 @@ String &String::assign(const String &other, int begin, int lenght) {
 String &String::assign(const char *text) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
-	wchar_t *tempBuffer = new wchar_t[lenght];
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
 	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
 	this->mTextBuffer.assign(tempBuffer);
-	delete[] tempBuffer;
+	free(tempBuffer);
 #endif
 	return *this;
 }
@@ -281,6 +281,11 @@ String &String::assign(wchar_t text, int lenght) {
 	return *this;
 }
 
+String &String::assign(StringIterator begin, StringIterator end) {
+	this->mTextBuffer.assign(begin.get(), end.get());
+	return *this;
+}
+
 String &String::insert(const String &other, int position) {
 	this->mTextBuffer.insert(position, other.mTextBuffer);
 	return *this;
@@ -294,10 +299,10 @@ String &String::insert(const String &other, int begin, int position, int lenght)
 String &String::insert(const char *text, int position) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
-	wchar_t *tempBuffer = new wchar_t[lenght];
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
 	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
 	this->mTextBuffer.insert(position, tempBuffer);
-	delete[] tempBuffer;
+	free(tempBuffer);
 #endif
 	return *this;
 }
@@ -316,8 +321,22 @@ String &String::insert(char text, int position) {
 	return *this;
 }
 
+String &String::insert(char text, StringIterator position) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	wchar_t tempText = L' ';
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, &text, 1, &tempText, 1);
+	this->mTextBuffer.insert(position.get(), 1, tempText);
+#endif
+	return *this;
+}
+
 String &String::insert(wchar_t text, int position) {
 	this->mTextBuffer.insert(position, 1, text);
+	return *this;
+}
+
+String &String::insert(wchar_t text, StringIterator position) {
+	this->mTextBuffer.insert(position.get(), 1, text);
 	return *this;
 }
 
@@ -330,8 +349,27 @@ String &String::insert(char text, int position, int lenght) {
 	return *this;
 }
 
+String &String::insert(char text, StringIterator position, int lenght) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	wchar_t tempText = L' ';
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, &text, 1, &tempText, 1);
+	this->mTextBuffer.insert(position.get(), lenght, tempText);
+#endif
+	return *this;
+}
+
 String &String::insert(wchar_t text, int position, int lenght) {
-	this->mTextBuffer.insert(position, lenght, position);
+	this->mTextBuffer.insert(position, lenght, text);
+	return *this;
+}
+
+String &String::insert(wchar_t text, StringIterator position, int lenght) {
+	this->mTextBuffer.insert(position.get(), lenght, text);
+	return *this;
+}
+
+String &String::insert(StringIterator position, StringIterator begin, StringIterator end) {
+	this->mTextBuffer.insert(position.get(), begin.get(), end.get());
 	return *this;
 }
 
@@ -347,13 +385,28 @@ void String::pushBack(wchar_t text) {
 	this->mTextBuffer.push_back(text);
 }
 
-String &String::erase(int position, int lenght) {
+String &String::remove(int position, int lenght) {
 	this->mTextBuffer.erase(position, lenght);
 	return *this;
 }
 
+StringIterator String::remove(StringIterator position) {
+	StringIterator tempIterator(this->mTextBuffer.erase(position.get()));
+	return tempIterator;
+}
+
+StringIterator String::remove(StringIterator begin, StringIterator end) {
+	StringIterator tempIterator(this->mTextBuffer.erase(begin.get(), end.get()));
+	return tempIterator;
+}
+
 String &String::replace(const String &other, int position, int lenght) {
 	this->mTextBuffer.replace(position, lenght, other.mTextBuffer);
+	return *this;
+}
+
+String &String::replace(const String &other, StringIterator begin, StringIterator end) {
+	this->mTextBuffer.replace(begin.get(), end.get(), other.mTextBuffer);
 	return *this;
 }
 
@@ -365,16 +418,32 @@ String &String::replace(const String &other, int position, int lenght, int subPo
 String &String::replace(const char *text, int position, int lenght) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int tempLenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
-	wchar_t *tempBuffer = new wchar_t[tempLenght];
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
 	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, tempLenght);
 	this->mTextBuffer.replace(position, lenght, tempBuffer);
-	delete[] tempBuffer;
+	free(tempBuffer);
+#endif
+	return *this;
+}
+
+String &String::replace(const char *text, StringIterator begin, StringIterator end) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
+	this->mTextBuffer.replace(begin.get(), end.get(), tempBuffer);
+	free(tempBuffer);
 #endif
 	return *this;
 }
 
 String &String::replace(const wchar_t *text, int position, int lenght) {
 	this->mTextBuffer.replace(position, lenght, text);
+	return *this;
+}
+
+String &String::replace(const wchar_t *text, StringIterator begin, StringIterator end) {
+	this->mTextBuffer.replace(begin.get(), end.get(), text);
 	return *this;
 }
 
@@ -387,9 +456,126 @@ String &String::replace(char text, int position, int lenght, int subLenght) {
 	return *this;
 }
 
+String &String::replace(char text, StringIterator begin, StringIterator end, int subLenght) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	wchar_t tempText = L' ';
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, &text, 1, &tempText, 1);
+	this->mTextBuffer.replace(begin.get(), end.get(), subLenght, tempText);
+#endif
+	return *this;
+}
+
 String &String::replace(wchar_t text, int position, int lenght, int subLenght) {
 	this->mTextBuffer.replace(position, lenght, subLenght, text);
-	std::wstring::iterator test;
-	test += 2;
 	return *this;
+}
+
+String &String::replace(wchar_t text, StringIterator begin, StringIterator end, int subLenght) {
+	this->mTextBuffer.replace(begin.get(), end.get(), subLenght, text);
+	return *this;
+}
+
+String &String::replace(StringIterator begin, StringIterator end, StringIterator subBegin, StringIterator subEnd) {
+	this->mTextBuffer.replace(begin.get(), end.get(), subBegin.get(), subEnd.get());
+	return *this;
+}
+
+std::string String::toStdString() {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = WideCharToMultiByte(TextCodeFormat::UTF8, NULL, this->mTextBuffer.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	std::string tempString(lenght, ' ');
+	WideCharToMultiByte(TextCodeFormat::UTF8, NULL, this->mTextBuffer.c_str(), -1, &tempString.front(), 0, nullptr, nullptr);
+#endif
+	return tempString;
+}
+
+std::wstring String::toStdWString() {
+	return this->mTextBuffer;
+}
+
+std::string String::toUtf8() {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = WideCharToMultiByte(TextCodeFormat::UTF8, NULL, this->mTextBuffer.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	std::string tempString(lenght, ' ');
+	WideCharToMultiByte(TextCodeFormat::UTF8, NULL, this->mTextBuffer.c_str(), -1, &tempString.front(), 0, nullptr, nullptr);
+#endif
+	return tempString;
+}
+
+std::string String::toLatin1() {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = WideCharToMultiByte(TextCodeFormat::Latin1, NULL, this->mTextBuffer.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	std::string tempString(lenght, ' ');
+	WideCharToMultiByte(TextCodeFormat::Latin1, NULL, this->mTextBuffer.c_str(), -1, &tempString.front(), 0, nullptr, nullptr);
+#endif
+	return tempString;
+}
+
+std::wstring String::toUtf16() {
+	return this->mTextBuffer;
+}
+
+String String::fromStdString(const std::string &text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text.c_str(), -1, nullptr, 0);
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text.c_str(), -1, tempBuffer, lenght);
+	String tempString(tempBuffer);
+#endif
+	return tempString;
+}
+
+String String::fromStdWString(const std::wstring &text) {
+	String tempString(text.c_str());
+	return tempString;
+}
+
+String String::fromLatin1(const std::string &text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text.c_str(), -1, nullptr, 0);
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text.c_str(), -1, tempBuffer, lenght);
+	String tempString(tempBuffer);
+#endif
+	return tempString;
+}
+
+String String::fromLatin1(const char *text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
+	String tempString(tempBuffer);
+#endif
+	return tempString;
+}
+
+String String::fromUtf8(const std::string &text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text.c_str(), -1, nullptr, 0);
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text.c_str(), -1, tempBuffer, lenght);
+	String tempString(tempBuffer);
+#endif
+	return tempString;
+}
+
+String String::fromUtf8(const char *text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
+	String tempString(tempBuffer);
+#endif
+	return tempString;
+}
+
+String String::fromUtf16(const std::wstring &text) {
+	String tempString(text.c_str());
+	return tempString;
+}
+
+String String::fromUtf16(const wchar_t *text) {
+	String tempString(text);
+	return tempString;
 }

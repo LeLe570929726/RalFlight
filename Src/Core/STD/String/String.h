@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016-2017 LeLe570929726. All rights reserved.
+// Copyright Â© 2016-2017 LeLe570929726. All rights reserved.
 // 
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -10,12 +10,13 @@
 #ifndef RALFLIGHT_SRC_CORE_STD_STRING_H
 #define RALFLIGHT_SRC_CORE_STD_STRING_H
 
-// TODO: Finish all function about iterator
-// TODO: change some place use new to the malloc
+// TODO: Process the exception of malloc if don't have enough memory to get
+// TODO: Write the function set of encode and uncode
 
 #include "../../Global/Macro/Macro.h"
 #include "../Iterator/Iteartor.h"
 #include <string>
+#include <malloc.h>
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	#include<Windows.h> 
 #endif
@@ -25,7 +26,8 @@ using StringIterator = Iterator<std::wstring::iterator>;
 enum RALFLIGHT_API TextCodeFormat {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	UTF16 = 1200,				// This value is according to MSDN: https://msdn.microsoft.com/library/windows/desktop/dd317756(v=vs.85).aspx
-	UTF8 = CP_UTF8
+	UTF8 = CP_UTF8,
+	Latin1 = 28591,			// This value is according to MSDN: https://msdn.microsoft.com/library/windows/desktop/dd317756(v=vs.85).aspx
 #endif
 };
 
@@ -93,6 +95,7 @@ public:
 	String &assign(const wchar_t *text);
 	String &assign(char text, int lenght);
 	String &assign(wchar_t text, int lenght);
+	String &assign(StringIterator begin, StringIterator end);
 
 public:
 	String &insert(const String &other, int position);
@@ -100,22 +103,52 @@ public:
 	String &insert(const char *text, int position);
 	String &insert(const wchar_t *text, int position);
 	String &insert(char text, int position);
+	String &insert(char text, StringIterator position);
 	String &insert(wchar_t text, int position);
+	String &insert(wchar_t text, StringIterator position);
 	String &insert(char text, int position, int lenght);
+	String &insert(char text, StringIterator position, int lenght);
 	String &insert(wchar_t text, int position, int lenght);
+	String &insert(wchar_t text, StringIterator position, int lenght);
+	String &insert(StringIterator position, StringIterator begin, StringIterator end);
 
 public:
 	void pushBack(char text);
 	void pushBack(wchar_t text);
-	String &erase(int position, int lenght);
+	String &remove(int position, int lenght);
+	StringIterator remove(StringIterator position);
+	StringIterator remove(StringIterator begin, StringIterator end);
 
 public:
 	String &replace(const String &other, int position, int lenght);
+	String &replace(const String &other, StringIterator begin, StringIterator end);
 	String &replace(const String &other, int position, int lenght, int subPosition, int subLenght);
 	String &replace(const char *text, int position, int lenght);
+	String &replace(const char *text, StringIterator begin, StringIterator end);
 	String &replace(const wchar_t *text, int position, int lenght);
+	String &replace(const wchar_t *text, StringIterator begin, StringIterator end);
 	String &replace(char text, int position, int lenght, int subLenght);
+	String &replace(char text, StringIterator begin, StringIterator end, int subLenght);
 	String &replace(wchar_t text, int position, int lenght, int subLenght);
+	String &replace(wchar_t text, StringIterator begin, StringIterator end, int subLenght);
+	String &replace(StringIterator begin, StringIterator end, StringIterator subBegin, StringIterator subEnd);
+
+public:
+	std::string toStdString();
+	std::wstring toStdWString();
+	std::string toUtf8();
+	std::string toLatin1();
+	std::wstring toUtf16();
+
+public:
+	static String fromStdString(const std::string &text);
+	static String fromStdWString(const std::wstring &text);
+	static String fromLatin1(const std::string &text);
+	static String fromLatin1(const char *text);
+	static String fromUtf8(const std::string &text);
+	static String fromUtf8(const char *text);
+	static String fromUtf16(const std::wstring &text);
+	static String fromUtf16(const wchar_t *text);
 
 private:
 	std::wstring mTextBuffer;
