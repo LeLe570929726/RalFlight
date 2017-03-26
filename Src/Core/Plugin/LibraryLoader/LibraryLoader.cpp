@@ -115,10 +115,10 @@ bool LibraryLoader::isLoaded() {
 	return this->mIsLoad;
 }
 
-FunctionPointer LibraryLoader::reslove(const char *functionName) {
+FunctionPointer LibraryLoader::reslove(const String &functionName) {
 	if (this->mIsLoad == true) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
-		FARPROC tempPointer = GetProcAddress(this->mHandle, functionName);
+		FARPROC tempPointer = GetProcAddress(this->mHandle, functionName.toLatin1().c_str());
 		if (tempPointer != NULL) {
 			return reinterpret_cast<FunctionPointer>(tempPointer);
 		} else {

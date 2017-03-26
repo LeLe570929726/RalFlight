@@ -480,7 +480,7 @@ String &String::replace(StringIterator begin, StringIterator end, StringIterator
 	return *this;
 }
 
-std::string String::toStdString() {
+std::string String::toStdString() const {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int lenght = WideCharToMultiByte(TextCodeFormat::UTF8, NULL, this->mTextBuffer.c_str(), -1, nullptr, 0, nullptr, nullptr);
 	std::string tempString(lenght, ' ');
@@ -489,11 +489,11 @@ std::string String::toStdString() {
 	return tempString;
 }
 
-std::wstring String::toStdWString() {
+std::wstring String::toStdWString() const {
 	return this->mTextBuffer;
 }
 
-std::string String::toUtf8() {
+std::string String::toUtf8() const {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int lenght = WideCharToMultiByte(TextCodeFormat::UTF8, NULL, this->mTextBuffer.c_str(), -1, nullptr, 0, nullptr, nullptr);
 	std::string tempString(lenght, ' ');
@@ -502,7 +502,7 @@ std::string String::toUtf8() {
 	return tempString;
 }
 
-std::string String::toLatin1() {
+std::string String::toLatin1() const {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int lenght = WideCharToMultiByte(TextCodeFormat::Latin1, NULL, this->mTextBuffer.c_str(), -1, nullptr, 0, nullptr, nullptr);
 	std::string tempString(lenght, ' ');
@@ -511,7 +511,7 @@ std::string String::toLatin1() {
 	return tempString;
 }
 
-std::wstring String::toUtf16() {
+std::wstring String::toUtf16() const {
 	return this->mTextBuffer;
 }
 

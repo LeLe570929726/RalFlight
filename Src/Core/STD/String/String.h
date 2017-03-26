@@ -134,11 +134,11 @@ public:
 	String &replace(StringIterator begin, StringIterator end, StringIterator subBegin, StringIterator subEnd);
 
 public:
-	std::string toStdString();
-	std::wstring toStdWString();
-	std::string toUtf8();
-	std::string toLatin1();
-	std::wstring toUtf16();
+	std::string toStdString() const;
+	std::wstring toStdWString() const;
+	std::string toUtf8() const;
+	std::string toLatin1() const;
+	std::wstring toUtf16() const;
 
 public:
 	static String fromStdString(const std::string &text);

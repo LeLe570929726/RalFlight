@@ -17,8 +17,14 @@
 
 class RALFLIGHT_API PluginLoader {
 public:
-    PluginLoader();
-    ~PluginLoader();
+    PluginLoader() = default;
+	PluginLoader(const String &path);
+	PluginLoader(const PluginLoader &other) = delete;
+	PluginLoader &operator=(const PluginLoader &other) = delete;
+    ~PluginLoader() = default;
+
+private:
+	LibraryLoader libLoader;
 };
 
 #endif          // RALFLIGHT_SRC_CORE_PLUGIN_PLUGINLOADER_H

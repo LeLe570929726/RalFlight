@@ -15,8 +15,6 @@
 #include "../../STD/String/String.h"
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
     #include <Windows.h>
-#elif defined(RALFLIGHT_SYSTEM_LINUX)
-#elif defined(RALFLIGHT_SYSTEM_MAC)
 #endif
 
 class RALFLIGHT_API LibraryLoader {
@@ -37,7 +35,7 @@ public:
     bool isLoaded();
 
 public:
-	FunctionPointer reslove(const char *functionName);
+	FunctionPointer reslove(const String &functionName);
 
 private:
     int *mCount;
@@ -45,8 +43,6 @@ private:
     bool mIsLoad;
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
     HMODULE mHandle;
-#elif defined(RALFLIGHT_SYSTEM_LINUX)
-#elif defined(RALFLIGHT_SYSTEM_MAC)
 #endif
 };
 

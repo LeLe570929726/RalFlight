@@ -7,3 +7,8 @@
 //
 // @Craete: 2017/1/19 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
+#include "PluginLoader.h"
+
+PluginLoader::PluginLoader(const String &path) {
+
+}
