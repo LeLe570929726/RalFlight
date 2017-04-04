@@ -10,9 +10,6 @@
 #ifndef RALFLIGHT_SRC_CORE_STD_STRING_H
 #define RALFLIGHT_SRC_CORE_STD_STRING_H
 
-// TODO: Process the exception of malloc if don't have enough memory to get
-// TODO: Write the function set of encode and uncode
-
 #include "../../Global/Macro/Macro.h"
 #include "../Iterator/Iteartor.h"
 #include <string>
@@ -22,6 +19,7 @@
 #endif
 
 using StringIterator = Iterator<std::wstring::iterator>;
+using StringConstIterator = Iterator<std::wstring::const_iterator>;
 
 enum RALFLIGHT_API TextCodeFormat {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
@@ -44,6 +42,9 @@ public:
 	~String() = default;
 
 public:
+	String operator+(const char *text);
+	String operator+(const wchar_t *text);
+	String operator+(const String & text);
 	String &operator=(const char *text);
 	String &operator=(const wchar_t *text);
 	String &operator=(char text);
@@ -58,7 +59,9 @@ public:
 
 public:
 	StringIterator begin();
+	StringConstIterator begin() const;
 	StringIterator end();
+	StringConstIterator end() const;
 
 public:
 	wchar_t &at(int position);

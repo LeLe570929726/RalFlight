@@ -50,6 +50,30 @@ String & String::operator=(const String &other) {
 	return *this;
 }
 
+String String::operator+(const char *text) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
+	wchar_t *tempBuffer = reinterpret_cast<wchar_t *>(malloc(lenght * sizeof(wchar_t)));
+	MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, tempBuffer, lenght);
+	String tempString(*this);
+	tempString += tempBuffer;
+	free(tempBuffer);
+#endif
+	return tempString;
+}
+
+String String::operator+(const wchar_t *text) {
+	String tempString(*this);
+	tempString += text;
+	return tempString;
+}
+
+String String::operator+(const String & text) {
+	String tempString(*this);
+	tempString += text;
+	return tempString;
+}
+
 String &String::operator=(const char *text) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	int lenght = MultiByteToWideChar(TextCodeFormat::UTF16, NULL, text, -1, nullptr, 0);
@@ -127,8 +151,18 @@ StringIterator String::begin() {
 	return tempIterator;
 }
 
+StringConstIterator String::begin() const {
+	StringConstIterator tempIteraotr(this->mTextBuffer.begin());
+	return tempIteraotr;
+}
+
 StringIterator String::end() {
 	StringIterator tempIterator(this->mTextBuffer.end());
+	return tempIterator;
+}
+
+StringConstIterator String::end() const {
+	StringConstIterator tempIterator(this->mTextBuffer.end());
 	return tempIterator;
 }
 
