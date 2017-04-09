@@ -69,7 +69,7 @@ String LibraryLoader::getFileName() {
 
 bool LibraryLoader::load() {
 	if (this->mIsLoad == false) {
-		if (this->mFileName.empty() == false) {
+		if (this->mFileName.isEmpty() == false) {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 			HMODULE tempHandle;// = LoadLibraryW(this->mFileName.c_str());
 			if (tempHandle != NULL) {

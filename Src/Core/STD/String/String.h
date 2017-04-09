@@ -23,9 +23,10 @@ using StringConstIterator = Iterator<std::wstring::const_iterator>;
 
 enum RALFLIGHT_API TextCodeFormat {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
-	UTF16 = 1200,				// This value is according to MSDN: https://msdn.microsoft.com/library/windows/desktop/dd317756(v=vs.85).aspx
+	UTF16 = 1200,
 	UTF8 = CP_UTF8,
-	Latin1 = 28591,			// This value is according to MSDN: https://msdn.microsoft.com/library/windows/desktop/dd317756(v=vs.85).aspx
+	Latin1 = 28591,
+	ANSI = CP_ACP
 #endif
 };
 
@@ -42,9 +43,11 @@ public:
 	~String() = default;
 
 public:
-	String operator+(const char *text);
-	String operator+(const wchar_t *text);
-	String operator+(const String & text);
+	String operator+(char text) const;
+	String operator+(wchar_t text) const;
+	String operator+(const char *text) const;
+	String operator+(const wchar_t *text) const;
+	String operator+(const String & text) const;
 	String &operator=(const char *text);
 	String &operator=(const wchar_t *text);
 	String &operator=(char text);
@@ -56,6 +59,8 @@ public:
 	String &operator+=(const wchar_t *text);
 	String &operator+=(char text);
 	String &operator+=(wchar_t text);
+	bool operator==(const String &other) const;
+	bool operator!=(const String &other) const;
 
 public:
 	StringIterator begin();
@@ -80,7 +85,7 @@ public:
 	int capacity() const;
 	void reserve(int size);
 	void clear();
-	bool empty() const;
+	bool isEmpty() const;
 
 public:
 	String &append(const String &other);
