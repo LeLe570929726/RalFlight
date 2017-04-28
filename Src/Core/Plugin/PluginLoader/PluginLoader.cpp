@@ -9,6 +9,11 @@
 // ----------------------------------------------------------------------------------------------------
 #include "PluginLoader.h"
 
-PluginLoader::PluginLoader(const String &path) {
+// Core namespace
+namespace Core {
+
+	PluginLoader::PluginLoader(const String &path) {
+
+	}
 
 }

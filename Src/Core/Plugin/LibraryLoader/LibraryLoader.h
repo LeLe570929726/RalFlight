@@ -17,33 +17,38 @@
     #include <Windows.h>
 #endif
 
-class RALFLIGHT_API LibraryLoader {
-public:
-    LibraryLoader();
-	LibraryLoader(const String &fileName);
-    LibraryLoader(const LibraryLoader &other);
-    LibraryLoader &operator=(const LibraryLoader &other);
-    ~LibraryLoader();
+// Core namespace
+namespace Core {
 
-public:
-    bool setFileName(const String &fileName);
-    String getFileName();
-    
-public:
-    bool load();
-    bool unload();
-    bool isLoaded();
+	class RALFLIGHT_API LibraryLoader {
+	public:
+		LibraryLoader();
+		LibraryLoader(const String &fileName);
+		LibraryLoader(const LibraryLoader &other);
+		LibraryLoader &operator=(const LibraryLoader &other);
+		~LibraryLoader();
 
-public:
-	FunctionPointer reslove(const String &functionName);
+	public:
+		bool setFileName(const String &fileName);
+		String getFileName();
 
-private:
-    int *mCount;
-    String mFileName;
-    bool mIsLoad;
+	public:
+		bool load();
+		bool unload();
+		bool isLoaded();
+
+	public:
+		FunctionPointer reslove(const String &functionName);
+
+	private:
+		int *mCount;
+		String mFileName;
+		bool mIsLoad;
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
-    HMODULE mHandle;
+		HMODULE mHandle;
 #endif
-};
+	};
+
+}
 
 #endif          // RALFLIGHT_SRC_CORE_PLUGIN_LIBRARYLOADER_H

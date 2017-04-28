@@ -10,6 +10,11 @@
 #ifndef RALFLIGHT_SRC_CORE_GLOBAL_FUNCTIONPOINTER_H
 #define RALFLIGHT_SRC_CORE_GLOBAL_FUNCTIONPOINTER_H
 
-typedef void(*FunctionPointer)();
+// Core namespace
+namespace Core {
+
+	typedef void(*FunctionPointer)();
+
+}
 
 #endif          // RALFLIGHT_SRC_CORE_GLOBAL_FUNCTIONPOINTER_H

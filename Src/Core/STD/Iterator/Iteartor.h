@@ -12,87 +12,92 @@
 
 #include "../../Global/Macro/Macro.h"
 
-template<class T>
-class RALFLIGHT_API Iterator {
-public:
-	Iterator() = default;
-	Iterator(const T &iterator) :
-		mIterator(iterator) {
-	}
-	Iterator(const Iterator &other) :
-		mIterator(other.mIterator) {
-	}
-	Iterator &operator=(const Iterator &other) {
-		this->mIterator = other.mIterator;
-		return *this;
-	}
-	~Iterator() = default;
+// Core namespace
+namespace Core {
 
-public:
-	bool operator==(const Iterator &other) const {
-		return this->mIterator == other.mIterator;
-	}
-	bool operator!=(const Iterator &other) const {
-		return this->mIterator != other.mIterator;
-	}
-	bool operator<(const Iterator &other) const {
-		return this->mIterator < other.mIterator;
-	}
-	bool operator>(const Iterator &other) const {
-		return this->mIterator > other.mIterator;
-	}
-	bool operator<=(const Iterator &other) const {
-		return this->mIterator <= other.mIterator;
-	}
-	bool operator>=(const Iterator &other) const {
-		return this->mIterator >= other.mIterator;
-	}
+	template<class T>
+	class RALFLIGHT_API Iterator {
+	public:
+		Iterator() = default;
+		Iterator(const T &iterator) :
+			mIterator(iterator) {
+		}
+		Iterator(const Iterator &other) :
+			mIterator(other.mIterator) {
+		}
+		Iterator &operator=(const Iterator &other) {
+			this->mIterator = other.mIterator;
+			return *this;
+		}
+		~Iterator() = default;
 
-public:
-	Iterator &operator++() {
-		++this->mIterator;
-		return *this;
-	}
-	Iterator operator++(int) {
-		return this->mIterator++;
-	}
-	Iterator &operator--() {
-		--this->mIterator;
-		return *this;
-	}
-	Iterator operator--(int) {
-		return this->mIterator--;
-	}
-	Iterator operator+(int size) const {
-		return this->mIterator + size;
-	}
-	Iterator operator-(int size) const {
-		return this->mIterator + size;
-	}
-	Iterator &operator+=(int size) {
-		this->mIterator += size;
-		return *this;
-	}
-	Iterator &operator-=(int size) {
-		this->mIterator -= size;
-		return *this;
-	}
+	public:
+		bool operator==(const Iterator &other) const {
+			return this->mIterator == other.mIterator;
+		}
+		bool operator!=(const Iterator &other) const {
+			return this->mIterator != other.mIterator;
+		}
+		bool operator<(const Iterator &other) const {
+			return this->mIterator < other.mIterator;
+		}
+		bool operator>(const Iterator &other) const {
+			return this->mIterator > other.mIterator;
+		}
+		bool operator<=(const Iterator &other) const {
+			return this->mIterator <= other.mIterator;
+		}
+		bool operator>=(const Iterator &other) const {
+			return this->mIterator >= other.mIterator;
+		}
 
-public:
-	T get() const {
-		return this->mIterator;
-	}
+	public:
+		Iterator &operator++() {
+			++this->mIterator;
+			return *this;
+		}
+		Iterator operator++(int) {
+			return this->mIterator++;
+		}
+		Iterator &operator--() {
+			--this->mIterator;
+			return *this;
+		}
+		Iterator operator--(int) {
+			return this->mIterator--;
+		}
+		Iterator operator+(int size) const {
+			return this->mIterator + size;
+		}
+		Iterator operator-(int size) const {
+			return this->mIterator + size;
+		}
+		Iterator &operator+=(int size) {
+			this->mIterator += size;
+			return *this;
+		}
+		Iterator &operator-=(int size) {
+			this->mIterator -= size;
+			return *this;
+		}
 
-private:
-	T mIterator;
+	public:
+		T get() const {
+			return this->mIterator;
+		}
 
-public:
-	auto operator*() const -> decltype(*this->mIterator) {
-		return *this->mIterator;
-	}
-	auto operator->() const -> decltype(&(*this->mIterator)) {
-		return &(*this->mIterator);
-	}
-};
+	private:
+		T mIterator;
+
+	public:
+		auto operator*() const -> decltype(*this->mIterator) {
+			return *this->mIterator;
+		}
+		auto operator->() const -> decltype(&(*this->mIterator)) {
+			return &(*this->mIterator);
+		}
+	};
+
+}
 
 #endif			// RALFLIGHT_SRC_CORE_STD_ITERATOR_H
