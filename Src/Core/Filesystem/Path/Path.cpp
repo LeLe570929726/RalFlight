@@ -11,12 +11,53 @@
 
 namespace Core {
 
-	Path::Path() {
+	Path::Path() : 
+		mPath(L"") {
+	}
+
+	Path::Path(const Path &other) :
+		mPath(other.mPath) {
+	}
+
+	Path &Path::operator=(const Path &other) {
+		this->mPath = other.mPath;
+		return *this;
+	}
+
+	bool Path::operator==(const Path &other) {
+		return this->mPath == other.mPath;
+	}
+
+	bool Path::operator==(const String &path) {
+		return this->mPath == path;
+	}
+
+	bool Path::operator!=(const Path &other) {
+		return this->mPath != other.mPath;
+	}
+
+	bool Path::operator!=(const String &path) {
+		return this->mPath != path;
+	}
+
+	Path Path::fromLocal(String local) {
 
 	}
 
-	Path::Path(const Path &other) {
+	Path Path::fromCommon(String local) {
 
+	}
+
+	String Path::localToCommon(String local) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+		
+#endif
+	}
+
+	String Path::commonToLocal(String common) {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+
+#endif
 	}
 
 }
