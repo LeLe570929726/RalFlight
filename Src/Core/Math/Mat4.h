@@ -10,8 +10,8 @@
 #ifndef RALFLIGHT_SRC_CORE_MATH_MAT4_H
 #define RALFLIGHT_SRC_CORE_MATH_MAT4_H
  
-#include "../../Global/Macro/Macro.h"
-#include "../Vec4/Vec4.h"
+#include "../Global/Macro.h"
+#include "Vec4.h"
 #include <intrin.h>
 
 // Core namespace

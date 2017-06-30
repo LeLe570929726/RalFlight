@@ -10,7 +10,7 @@
 #ifndef RALFLIGHT_SRC_CORE_MATH_SCALAR_H
 #define RALFLIGHT_SRC_CORE_MATH_SCALAR_H
 
-#include "../../Global/Macro/Macro.h"
+#include "../Global/Macro.h"
 #include <stdint.h>
 namespace std {
 #include <math.h>
@@ -36,6 +36,9 @@ namespace Core {
 		~Scalar() = delete;
 
 	public:
+		static T abs(T scalar) {
+			return static_cast<T>(abs(static_cast<double>(scalar)));
+		}
 		static T cos(T scalar) {
 			return static_cast<T>(cos(static_cast<double>(scalar)));
 		}

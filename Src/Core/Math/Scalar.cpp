@@ -13,6 +13,11 @@
 namespace Core {
 
 	template <>
+	float Scalar<float>::abs(float scalar) {
+		return std::fabsf(scalar);
+	}
+
+	template <>
 	float Scalar<float>::cos(float scalar) {
 		return std::cosf(scalar);
 	}
