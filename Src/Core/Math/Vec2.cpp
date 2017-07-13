@@ -35,9 +35,7 @@ namespace Core {
 	}
 
 	Vec2 &Vec2::operator+=(const Vec2 &vector) {
-		Vec2 tempVector = Vec2::add(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::add(*this, vector);
 		return *this;
 	}
 
@@ -46,9 +44,7 @@ namespace Core {
 	}
 
 	Vec2 &Vec2::operator-=(const Vec2 &vector) {
-		Vec2 tempVector = Vec2::sub(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::sub(*this, vector);
 		return *this;
 	}
 
@@ -57,9 +53,7 @@ namespace Core {
 	}
 
 	Vec2 &Vec2::operator*=(float scalar) {
-		Vec2 tempVector = Vec2::mul(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::mul(*this, scalar);
 		return *this;
 	}
 
@@ -68,37 +62,27 @@ namespace Core {
 	}
 
 	Vec2 &Vec2::operator/=(float scalar) {
-		Vec2 tempVector = Vec2::div(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::div(*this, scalar);
 		return *this;
 	}
 
 	Vec2 &Vec2::add(const Vec2 &vector) {
-		Vec2 tempVector = Vec2::add(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::add(*this, vector);
 		return *this;
 	}
 
 	Vec2 &Vec2::sub(const Vec2 &vector) {
-		Vec2 tempVector = Vec2::sub(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::sub(*this, vector);
 		return *this;
 	}
 
 	Vec2 &Vec2::mul(float scalar) {
-		Vec2 tempVector = Vec2::mul(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::mul(*this, scalar);
 		return *this;
 	}
 
 	Vec2 &Vec2::div(float scalar) {
-		Vec2 tempVector = Vec2::div(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::div(*this, scalar);
 		return *this;
 	}
 
@@ -112,9 +96,7 @@ namespace Core {
 	}
 
 	Vec2 &Vec2::normalize() {
-		Vec2 tempVector = Vec2::normalize(*this);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
+		*this = Vec2::normalize(*this);
 		return *this;
 	}
 

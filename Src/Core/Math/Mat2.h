@@ -39,18 +39,33 @@ namespace Core {
 		Mat2 &operator/=(float scalar);
 
 	public:
-		Mat2 &tra();		// Transpose
+		Mat2 &add(const Mat2 matrix);
+		Mat2 &sub(const Mat2 matrix);
+		Mat2 &mul(float scalar);
+		Vec2 mul(const Vec2 &vector);
+		Mat2 &mul(const Mat2 matrix);
+		Mat2 div(float scalar);
+		Mat2 &transpose();
 
 	public:
-		float get(int col, int row) const;
-		Vec2 row(int row) const;
-		Vec2 col(int col) const;
+		inline float get(int col, int row) const;
+		inline Vec2 row(int row) const;
+		inline Vec2 col(int col) const;
 
 	public:
-		bool set(int col, int row, float scalar);
-		void set(float(&array)[4]);
-		bool setRow(int row, const Vec2 &vector);
-		bool setCol(int col, const Vec2 &vector);
+		inline bool set(int col, int row, float scalar);
+		inline void set(float(&array)[4]);
+		inline bool setRow(int row, const Vec2 &vector);
+		inline bool setCol(int col, const Vec2 &vector);
+
+	public:
+		static Mat2 add(const Mat2 &matrixA, const Mat2 &matrixB);
+		static Mat2 sub(const Mat2 &matrixA, const Mat2 &matrixB);
+		static Mat2 mul(const Mat2 &matrix, float scalar);
+		static Vec2 mul(const Mat2 &matrix, const Vec2 &vector);
+		static Mat2 mul(const Mat2 &matrixA, const Mat2 &matrixB);
+		static Mat2 div(const Mat2 &matrix, float scalar);
+		static Mat2 transpose(const Mat2 &matrix);
 
 	private:
 		float mMatrix[4];

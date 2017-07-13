@@ -40,18 +40,33 @@ namespace Core {
 		Mat4 &operator/=(float scalar);
 
 	public:
-		Mat4 &tra();		// Transpose
+		Mat4 &add(const Mat4 &matrix);
+		Mat4 &sub(const Mat4 &matrix);
+		Mat4 &mul(float scalar);
+		Vec4 mul(const Vec4 &vector);
+		Mat4 &mul(const Mat4 &matrix);
+		Mat4 &div(float scalar);
+		Mat4 &transpose();
 
 	public:
-		float get(int col, int row) const;
-		Vec4 row(int row) const;
-		Vec4 col(int col) const;
+		inline float get(int col, int row) const;
+		inline Vec4 row(int row) const;
+		inline Vec4 col(int col) const;
 
 	public:
-		bool set(int col, int row, float scalar);
-		void set(float(&array)[16]);
-		bool setRow(int row, const Vec4 &vector);
-		bool setCol(int col, const Vec4 &vector);
+		inline bool set(int col, int row, float scalar);
+		inline void set(float(&array)[16]);
+		inline bool setRow(int row, const Vec4 &vector);
+		inline bool setCol(int col, const Vec4 &vector);
+
+	public:
+		static Mat4 add(const Mat4 &matrixA, const Mat4 &matrixB);
+		static Mat4 sub(const Mat4 &matrixA, const Mat4 &matrixB);
+		static Mat4 mul(const Mat4 &matrix, float scalar);
+		static Vec4 mul(const Mat4 &matrix, const Vec4 &vector);
+		static Mat4 mul(const Mat4 &matrixA, const Mat4 &matrixB);
+		static Mat4 div(const Mat4 &matrix, float scalar);
+		static Mat4 transpose(const Mat4 &matrix);
 
 	private:
 		float mMatrix[16];

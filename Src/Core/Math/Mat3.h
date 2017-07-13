@@ -39,18 +39,33 @@ namespace Core {
 		Mat3 &operator/=(float scalar);
 
 	public:
-		Mat3 &tra();		// Transpose
+		Mat3 &add(const Mat3 &matrix);
+		Mat3 &sub(const Mat3 &matrix);
+		Mat3 &mul(float scalar);
+		Vec3 mul(const Vec3 &vector);
+		Mat3 &mul(const Mat3 &matrix);
+		Mat3 &div(float scalar);
+		Mat3 &transpose();
 
 	public:
-		float get(int col, int row) const;
-		Vec3 row(int row) const;
-		Vec3 col(int col) const;
+		inline float get(int col, int row) const;
+		inline Vec3 row(int row) const;
+		inline Vec3 col(int col) const;
 
 	public:
-		bool set(int col, int row, float scalar);
-		void set(float(&array)[9]);
-		bool setRow(int row, const Vec3 &vector);
-		bool setCol(int col, const Vec3 &vector);
+		inline bool set(int col, int row, float scalar);
+		inline void set(float(&array)[9]);
+		inline bool setRow(int row, const Vec3 &vector);
+		inline bool setCol(int col, const Vec3 &vector);
+
+	public:
+		static Mat3 add(const Mat3 &matrixA, const Mat3 &matrixB);
+		static Mat3 sub(const Mat3 &matrixA, const Mat3 &matrixB);
+		static Mat3 mul(const Mat3 &matrix, float scalar);
+		static Vec3 mul(const Mat3 &matrix, const Vec3 &vector);
+		static Mat3 mul(const Mat3 &matrixA, const Mat3 &matrixB);
+		static Mat3 div(const Mat3 &matrix, float scalar);
+		static Mat3 transpose(const Mat3 &matrix);
 
 	private:
 		float mMatrix[9];

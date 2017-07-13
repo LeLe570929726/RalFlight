@@ -37,11 +37,7 @@ namespace Core {
 	}
 
 	Vec4 &Vec4::operator+=(const Vec4 &vector) {
-		Vec4 tempVector = Vec4::add(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::add(*this, vector);
 		return *this;
 	}
 
@@ -50,11 +46,7 @@ namespace Core {
 	}
 
 	Vec4 &Vec4::operator-=(const Vec4 &vector) {
-		Vec4 tempVector = Vec4::sub(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::sub(*this, vector);
 		return *this;
 	}
 
@@ -63,11 +55,7 @@ namespace Core {
 	}
 
 	Vec4 &Vec4::operator*=(float scalar) {
-		Vec4 tempVector = Vec4::mul(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::mul(*this, scalar);
 		return *this;
 	}
 
@@ -76,47 +64,27 @@ namespace Core {
 	}
 
 	Vec4 &Vec4::operator/=(float scalar) {
-		Vec4 tempVector = Vec4::div(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::div(*this, scalar);
 		return *this;
 	}
 
 	Vec4 &Vec4::add(const Vec4 &vector) {
-		Vec4 tempVector = Vec4::add(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::add(*this, vector);
 		return *this;
 	}
 
 	Vec4 &Vec4::sub(const Vec4 &vector) {
-		Vec4 tempVector = Vec4::sub(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::sub(*this, vector);
 		return *this;
 	}
 
 	Vec4 &Vec4::mul(float scalar) {
-		Vec4 tempVector = Vec4::mul(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::mul(*this, scalar);
 		return *this;
 	}
 
 	Vec4 &Vec4::div(float scalar) {
-		Vec4 tempVector = Vec4::div(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::div(*this, scalar);
 		return *this;
 	}
 
@@ -129,11 +97,7 @@ namespace Core {
 	}
 
 	Vec4 &Vec4::normalize() {
-		Vec4 tempVector = Vec4::normalize(*this);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
-		this->mW = tempVector.mW;
+		*this = Vec4::normalize(*this);
 		return *this;
 	}
 

@@ -33,268 +33,89 @@ namespace Core {
 	}
 
 	Mat2 Mat2::operator+(const Mat2 &matrix) const {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_add_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		return Mat2(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
+		return Mat2::add(*this, matrix);
 	}
 
 	Mat2 &Mat2::operator+=(const Mat2 &matrix) {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_add_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		this->mMatrix[0] = vectorResult[0];
-		this->mMatrix[1] = vectorResult[1];
-		this->mMatrix[2] = vectorResult[2];
-		this->mMatrix[3] = vectorResult[3];
-
+		*this = Mat2::add(*this, matrix);
 		return *this;
 	}
 
 	Mat2 Mat2::operator-(const Mat2 &matrix) const {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_sub_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		return Mat2(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
+		return Mat2::sub(*this, matrix);
 	}
 
 	Mat2 &Mat2::operator-=(const Mat2 &matrix) {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_sub_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		this->mMatrix[0] = vectorResult[0];
-		this->mMatrix[1] = vectorResult[1];
-		this->mMatrix[2] = vectorResult[2];
-		this->mMatrix[3] = vectorResult[3];
-
+		*this = Mat2::sub(*this, matrix);
 		return *this;
 	}
 
 	Mat2 Mat2::operator*(float scalar) const {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_mul_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		return Mat2(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
+		return Mat2::mul(*this, scalar);
 	}
 
 	Mat2 &Mat2::operator*=(float scalar) {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_mul_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		this->mMatrix[0] = vectorResult[0];
-		this->mMatrix[1] = vectorResult[1];
-		this->mMatrix[2] = vectorResult[2];
-		this->mMatrix[3] = vectorResult[3];
-
+		*this = Mat2::mul(*this, scalar);
 		return *this;
 	}
 
 	Vec2 Mat2::operator*(const Vec2 &vector) const {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { vector.x(), vector.y(), vector.x(), vector.y() };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_mul_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		return Vec2(vectorResult[0] + vectorResult[1], vectorResult[2] + vectorResult[3]);
+		return Mat2::mul(*this, vector);
 	}
 
 	Mat2 Mat2::operator*(const Mat2 &matrix) const {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[0], this->mMatrix[1] };
-		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[0], matrix.mMatrix[2], matrix.mMatrix[1], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorC[4] = { this->mMatrix[2], this->mMatrix[3], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorD[4] = { matrix.mMatrix[0], matrix.mMatrix[2], matrix.mMatrix[1], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorResultA[4] = { 0.0f };
-		__declspec(align(16)) float vectorResultB[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseC;
-		__m128 sseD;
-		__m128 sseResultA;
-		__m128 sseResultB;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseC = _mm_load_ps(vectorC);
-		sseD = _mm_load_ps(vectorD);
-
-		sseResultA = _mm_mul_ps(sseA, sseB);
-		sseResultB = _mm_mul_ps(sseC, sseD);
-
-		_mm_store_ps(vectorResultA, sseResultA);
-		_mm_store_ps(vectorResultB, sseResultB);
-
-		return Mat2(vectorResultA[0] + vectorResultA[1], vectorResultA[2] + vectorResultA[3], vectorResultB[0] + vectorResultB[1], vectorResultB[2] + vectorResultB[3]);
+		return Mat2::mul(*this, matrix);
 	}
 
 	Mat2 &Mat2::operator*=(const Mat2 &matrix) {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[0], this->mMatrix[1] };
-		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[0], matrix.mMatrix[2], matrix.mMatrix[1], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorC[4] = { this->mMatrix[2], this->mMatrix[3], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorD[4] = { matrix.mMatrix[0], matrix.mMatrix[2], matrix.mMatrix[1], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorResultA[4] = { 0.0f };
-		__declspec(align(16)) float vectorResultB[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseC;
-		__m128 sseD;
-		__m128 sseResultA;
-		__m128 sseResultB;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseC = _mm_load_ps(vectorC);
-		sseD = _mm_load_ps(vectorD);
-
-		sseResultA = _mm_mul_ps(sseA, sseB);
-		sseResultB = _mm_mul_ps(sseC, sseD);
-
-		_mm_store_ps(vectorResultA, sseResultA);
-		_mm_store_ps(vectorResultB, sseResultB);
-
-		this->mMatrix[0] = vectorResultA[0] + vectorResultA[1];
-		this->mMatrix[1] = vectorResultA[2] + vectorResultA[3];
-		this->mMatrix[2] = vectorResultB[0] + vectorResultB[1];
-		this->mMatrix[3] = vectorResultB[2] + vectorResultB[3];
-
+		*this = Mat2::mul(*this, matrix);
 		return *this;
 	}
 
 	Mat2 Mat2::operator/(float scalar) const {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_div_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		return Mat2(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
+		return Mat2::div(*this, scalar);
 	}
 
 	Mat2 &Mat2::operator/=(float scalar) {
-		__declspec(align(16)) float vectorA[4] = { this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
-
-		__m128 sseA;
-		__m128 sseB;
-		__m128 sseResult;
-
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-
-		sseResult = _mm_div_ps(sseA, sseB);
-
-		_mm_store_ps(vectorResult, sseResult);
-
-		this->mMatrix[0] = vectorResult[0];
-		this->mMatrix[1] = vectorResult[1];
-		this->mMatrix[2] = vectorResult[2];
-		this->mMatrix[3] = vectorResult[3];
-
+		*this = Mat2::div(*this, scalar);
 		return *this;
 	}
 
-	// Transpose
-	Mat2 &Mat2::tra() {
-		float tempScalar = this->mMatrix[1];
-		this->mMatrix[1] = this->mMatrix[2];
-		this->mMatrix[2] = tempScalar;
+	Mat2 &Mat2::add(const Mat2 matrix) {
+		*this = Mat2::add(*this, matrix);
 		return *this;
 	}
 
-	float Mat2::get(int col, int row) const {
+	Mat2 &Mat2::sub(const Mat2 matrix) {
+		*this = Mat2::sub(*this, matrix);
+		return *this;
+	}
+
+	Mat2 &Mat2::mul(float scalar) {
+		*this = Mat2::mul(*this, scalar);
+		return *this;
+	}
+
+	Vec2 Mat2::mul(const Vec2 &vector) {
+		return Mat2::mul(*this, vector);
+	}
+
+	Mat2 &Mat2::mul(const Mat2 matrix) {
+		*this = Mat2::mul(*this, matrix);
+		return *this;
+	}
+
+	Mat2 Mat2::div(float scalar) {
+		*this = Mat2::div(*this, scalar);
+		return *this;
+	}
+
+	Mat2 &Mat2::transpose() {
+		*this = Mat2::transpose(*this);
+		return *this;
+	}
+
+	inline float Mat2::get(int col, int row) const {
 		if (col > 0 && col < 3 && row > 0 && row < 3) {
 			return this->mMatrix[(col - 1) + (2 * (row - 1))];
 		} else {
@@ -302,7 +123,7 @@ namespace Core {
 		}
 	}
 
-	Vec2 Mat2::row(int row) const {
+	inline Vec2 Mat2::row(int row) const {
 		if (row > 0 && row < 3) {
 			return Vec2(this->mMatrix[(row - 1) << 1], this->mMatrix[((row - 1) << 1) + 1]);
 		} else {
@@ -310,7 +131,7 @@ namespace Core {
 		}
 	}
 
-	Vec2 Mat2::col(int col) const {
+	inline Vec2 Mat2::col(int col) const {
 		if (col > 0 && col < 3) {
 			return Vec2(this->mMatrix[col - 1], this->mMatrix[col - 1 + 2]);
 		} else {
@@ -318,7 +139,7 @@ namespace Core {
 		}
 	}
 
-	bool Mat2::set(int col, int row, float scalar) {
+	inline bool Mat2::set(int col, int row, float scalar) {
 		if (col > 0 && col < 3 && row > 0 && row < 3) {
 			this->mMatrix[(col - 1) + (2 * (row - 1))] = scalar;
 			return true;
@@ -327,14 +148,14 @@ namespace Core {
 		}
 	}
 
-	void Mat2::set(float(&array)[4]) {
+	inline void Mat2::set(float(&array)[4]) {
 		this->mMatrix[0] = array[0];
 		this->mMatrix[1] = array[1];
 		this->mMatrix[2] = array[2];
 		this->mMatrix[3] = array[3];
 	}
 
-	bool Mat2::setRow(int row, const Vec2 &vector) {
+	inline bool Mat2::setRow(int row, const Vec2 &vector) {
 		if (row > 0 && row < 3) {
 			this->mMatrix[(row - 1) << 1] = vector.x();
 			this->mMatrix[((row - 1) << 1) + 1] = vector.y();
@@ -344,7 +165,7 @@ namespace Core {
 		}
 	}
 
-	bool Mat2::setCol(int col, const Vec2 &vector) {
+	inline bool Mat2::setCol(int col, const Vec2 &vector) {
 		if (col > 0 && col < 3) {
 			this->mMatrix[col - 1] = vector.x();
 			this->mMatrix[col - 1 + 2] = vector.y();
@@ -352,6 +173,95 @@ namespace Core {
 		} else {
 			return false;
 		}
+	}
+
+	Mat2 Mat2::add(const Mat2 &matrixA, const Mat2 &matrixB) {
+		__declspec(align(16)) float vectorAA[4] = { matrixA.mMatrix[0], matrixA.mMatrix[1], matrixA.mMatrix[2], matrixA.mMatrix[3] };
+		__declspec(align(16)) float vectorAB[4] = { matrixB.mMatrix[0], matrixB.mMatrix[1], matrixB.mMatrix[2], matrixB.mMatrix[3] };
+		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		__m128 sseA, sseB, sseResult;
+		sseA = _mm_load_ps(vectorAA);
+		sseB = _mm_load_ps(vectorAB);
+		sseResult = _mm_add_ps(sseA, sseB);
+		_mm_store_ps(vectorAResult, sseResult);
+		return Mat2(vectorAResult[0], vectorAResult[1], vectorAResult[2], vectorAResult[3]);
+	}
+
+	Mat2 Mat2::sub(const Mat2 &matrixA, const Mat2 &matrixB) {
+		__declspec(align(16)) float vectorAA[4] = { matrixA.mMatrix[0], matrixA.mMatrix[1], matrixA.mMatrix[2], matrixA.mMatrix[3] };
+		__declspec(align(16)) float vectorAB[4] = { matrixB.mMatrix[0], matrixB.mMatrix[1], matrixB.mMatrix[2], matrixB.mMatrix[3] };
+		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		__m128 sseA, sseB, sseResult;
+		sseA = _mm_load_ps(vectorAA);
+		sseB = _mm_load_ps(vectorAB);
+		sseResult = _mm_sub_ps(sseA, sseB);
+		_mm_store_ps(vectorAResult, sseResult);
+		return Mat2(vectorAResult[0], vectorAResult[1], vectorAResult[2], vectorAResult[3]);
+	}
+
+	Mat2 Mat2::mul(const Mat2 &matrix, float scalar) {
+		__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
+		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
+		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		__m128 sseA, sseB, sseResult;
+		sseA = _mm_load_ps(vectorA);
+		sseB = _mm_load_ps(vectorB);
+		sseResult = _mm_mul_ps(sseA, sseB);
+		_mm_store_ps(vectorResult, sseResult);
+		return Mat2(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
+	}
+
+	Vec2 Mat2::mul(const Mat2 &matrix, const Vec2 &vector) {
+		__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
+		__declspec(align(16)) float vectorB[4] = { vector.x(), vector.y(), vector.x(), vector.y() };
+		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		__m128 sseA, sseB, sseResult;
+		sseA = _mm_load_ps(vectorA);
+		sseB = _mm_load_ps(vectorB);
+		sseResult = _mm_mul_ps(sseA, sseB);
+		_mm_store_ps(vectorResult, sseResult);
+		return Vec2(vectorResult[0] + vectorResult[1], vectorResult[2] + vectorResult[3]);
+	}
+
+	Mat2 Mat2::mul(const Mat2 &matrixA, const Mat2 &matrixB) {
+		__declspec(align(16)) float vectorAA[4] = { matrixA.mMatrix[0], matrixA.mMatrix[1], matrixA.mMatrix[0], matrixA.mMatrix[1] };
+		__declspec(align(16)) float vectorAB[4] = { matrixB.mMatrix[0], matrixB.mMatrix[2], matrixB.mMatrix[1], matrixB.mMatrix[3] };
+		__declspec(align(16)) float vectorAC[4] = { matrixA.mMatrix[2], matrixA.mMatrix[3], matrixA.mMatrix[2], matrixA.mMatrix[3] };
+		__declspec(align(16)) float vectorAD[4] = { matrixB.mMatrix[0], matrixB.mMatrix[2], matrixB.mMatrix[1], matrixB.mMatrix[3] };
+		__declspec(align(16)) float vectorAResultA[4] = { 0.0f };
+		__declspec(align(16)) float vectorAResultB[4] = { 0.0f };
+		__m128 sseA, sseB, sseC, sseD, sseResultA, sseResultB;
+		sseA = _mm_load_ps(vectorAA);
+		sseB = _mm_load_ps(vectorAB);
+		sseC = _mm_load_ps(vectorAC);
+		sseD = _mm_load_ps(vectorAD);
+		sseResultA = _mm_mul_ps(sseA, sseB);
+		sseResultB = _mm_mul_ps(sseC, sseD);
+		_mm_store_ps(vectorAResultA, sseResultA);
+		_mm_store_ps(vectorAResultB, sseResultB);
+
+		return Mat2(vectorAResultA[0] + vectorAResultA[1], vectorAResultA[2] + vectorAResultA[3], 
+					vectorAResultB[0] + vectorAResultB[1], vectorAResultB[2] + vectorAResultB[3]);
+	}
+
+	Mat2 Mat2::div(const Mat2 &matrix, float scalar) {
+		__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
+		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
+		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		__m128 sseA, sseB, sseResult;
+		sseA = _mm_load_ps(vectorA);
+		sseB = _mm_load_ps(vectorB);
+		sseResult = _mm_div_ps(sseA, sseB);
+		_mm_store_ps(vectorResult, sseResult);
+		return Mat2(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
+	}
+
+	Mat2 Mat2::transpose(const Mat2 &matrix) {
+		Mat2 tempMatrix = matrix;
+		float tempScalar = tempMatrix.mMatrix[1];
+		tempMatrix.mMatrix[1] = tempMatrix.mMatrix[2];
+		tempMatrix.mMatrix[2] = tempScalar;
+		return tempMatrix;
 	}
 
 }

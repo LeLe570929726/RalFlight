@@ -35,10 +35,7 @@ namespace Core {
 	}
 
 	Vec3 &Vec3::operator+=(const Vec3 &vector) {
-		Vec3 tempVector = Vec3::add(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::add(*this, vector);
 		return *this;
 	}
 
@@ -47,10 +44,7 @@ namespace Core {
 	}
 
 	Vec3 &Vec3::operator-=(const Vec3 &vector) {
-		Vec3 tempVector = Vec3::sub(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::sub(*this, vector);
 		return *this;
 	}
 
@@ -59,10 +53,7 @@ namespace Core {
 	}
 
 	Vec3 &Vec3::operator*=(float scalar) {
-		Vec3 tempVector = Vec3::mul(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::mul(*this, scalar);
 		return *this;
 	}
 
@@ -71,42 +62,27 @@ namespace Core {
 	}
 
 	Vec3 &Vec3::operator/=(float scalar) {
-		Vec3 tempVector = Vec3::div(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::div(*this, scalar);
 		return *this;
 	}
 
 	Vec3 &Vec3::add(const Vec3 &vector) {
-		Vec3 tempVector = Vec3::add(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::add(*this, vector);
 		return *this;
 	}
 
 	Vec3 &Vec3::sub(const Vec3 &vector) {
-		Vec3 tempVector = Vec3::sub(*this, vector);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::sub(*this, vector);
 		return *this;
 	}
 
 	Vec3 &Vec3::mul(float scalar) {
-		Vec3 tempVector = Vec3::mul(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::mul(*this, scalar);
 		return *this;
 	}
 
 	Vec3 &Vec3::div(float scalar) {
-		Vec3 tempVector = Vec3::div(*this, scalar);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::div(*this, scalar);
 		return *this;
 	}
 
@@ -120,10 +96,7 @@ namespace Core {
 	}
 
 	Vec3 &Vec3::normalize() {
-		Vec3 tempVector = Vec3::add(*this);
-		this->mX = tempVector.mX;
-		this->mY = tempVector.mY;
-		this->mZ = tempVector.mZ;
+		*this = Vec3::add(*this);
 		return *this;
 	}
 
