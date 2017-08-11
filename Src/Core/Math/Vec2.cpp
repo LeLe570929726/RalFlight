@@ -25,124 +25,10 @@ namespace Core {
 	}
 
 	Vec2 &Vec2::operator=(const Vec2 &other) {
+		*this = Vec2(other);
 		this->mX = other.mX;
 		this->mY = other.mY;
 		return *this;
-	}
-
-	Vec2 Vec2::operator+(const Vec2 &vector) const {
-		return Vec2::add(*this, vector);
-	}
-
-	Vec2 &Vec2::operator+=(const Vec2 &vector) {
-		*this = Vec2::add(*this, vector);
-		return *this;
-	}
-
-	Vec2 Vec2::operator-(const Vec2 &vector) const {
-		return Vec2::sub(*this, vector);
-	}
-
-	Vec2 &Vec2::operator-=(const Vec2 &vector) {
-		*this = Vec2::sub(*this, vector);
-		return *this;
-	}
-
-	Vec2 Vec2::operator*(float scalar) const {
-		return Vec2::mul(*this, scalar);
-	}
-
-	Vec2 &Vec2::operator*=(float scalar) {
-		*this = Vec2::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec2 Vec2::operator/(float scalar) const {
-		return Vec2::div(*this, scalar);
-	}
-
-	Vec2 &Vec2::operator/=(float scalar) {
-		*this = Vec2::div(*this, scalar);
-		return *this;
-	}
-
-	Vec2 &Vec2::add(const Vec2 &vector) {
-		*this = Vec2::add(*this, vector);
-		return *this;
-	}
-
-	Vec2 &Vec2::sub(const Vec2 &vector) {
-		*this = Vec2::sub(*this, vector);
-		return *this;
-	}
-
-	Vec2 &Vec2::mul(float scalar) {
-		*this = Vec2::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec2 &Vec2::div(float scalar) {
-		*this = Vec2::div(*this, scalar);
-		return *this;
-	}
-
-	float Vec2::module() const {
-		return Vec2::module(*this);
-	}
-
-	// Module's reciprocal
-	float Vec2::rmodule() const {
-		return Vec2::rmodule(*this);
-	}
-
-	Vec2 &Vec2::normalize() {
-		*this = Vec2::normalize(*this);
-		return *this;
-	}
-
-	float Vec2::dot(const Vec2 &vector) const {
-		return Vec2::dot(*this, vector);
-	}
-
-	float Vec2::cross(const Vec2 & vector) const {
-		return Vec2::cross(*this, vector);
-	}
-
-	float Vec2::angle(const Vec2 &vector) const {
-		return Vec2::angle(*this, vector);
-	}
-
-	Vec2 Vec2::project(const Vec2 &vector) const {
-		return Vec2::project(*this, vector);
-	}
-
-	inline void Vec2::set(float(&array)[2]) {
-		this->mX = array[0];
-		this->mY = array[1];
-	}
-
-	inline void Vec2::setX(float x) {
-		this->mX = x;
-	}
-
-	inline void Vec2::setY(float y) {
-		this->mY = y;
-	}
-
-	inline bool Vec2::isZero() const {
-		return this->mX == 0 && this->mY == 0;
-	}
-
-	inline bool Vec2::isOne() const {
-		return this->mX == 1 && this->mY == 1;
-	}
-
-	inline float Vec2::x() const {
-		return this->mX;
-	}
-
-	inline float Vec2::y() const {
-		return this->mY;
 	}
 
 	Vec2 Vec2::add(const Vec2 &vectorA, const Vec2 &vectorB) {
@@ -182,6 +68,7 @@ namespace Core {
 	}
 
 	Vec2 Vec2::div(const Vec2 &vector, float scalar) {
+		assert(scalar);
 		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
 		__declspec(align(16)) float vectorB[4] = { scalar, scalar, 0.0f, 0.0f };
 		__declspec(align(16)) float vectorResult[4] = { 0.0f };
@@ -221,6 +108,7 @@ namespace Core {
 
 	Vec2 Vec2::normalize(const Vec2 &vector) {
 		float module = Vec2::rmodule(vector);
+		assert(module);
 		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
 		__declspec(align(16)) float vectorB[4] = { module, module, 0.0f, 0.0f };
 		__declspec(align(16)) float vectorResult[4] = { 0.0f };
@@ -287,6 +175,34 @@ namespace Core {
 		sseResult = _mm_mul_ps(sseA, sseB);
 		_mm_store_ps(vectorAResult, sseResult);
 		return Vec2(vectorAResult[0], vectorAResult[1]);
+	}
+
+	float Vec2::getX(const Vec2 &vector) {
+		return vector.mX;
+	}
+
+	float Vec2::getY(const Vec2 &vector) {
+		return vector.mY;
+	}
+
+	void Vec2::set(Vec2 &vector, float(&array)[2]) {
+		vector = Vec2(array);
+	}
+
+	void Vec2::setX(Vec2 &vector, float x) {
+		vector.mX = x;
+	}
+
+	void Vec2::setY(Vec2 &vector, float y) {
+		vector.mY = y;
+	}
+
+	bool Vec2::isZero(const Vec2 &vector) {
+		return vector.mX == 0 && vector.mY == 0;
+	}
+
+	bool Vec2::isOne(const Vec2 &vector) {
+		return vector.mX == 1 && vector.mY == 1;
 	}
 
 }

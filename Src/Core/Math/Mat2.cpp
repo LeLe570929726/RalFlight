@@ -12,6 +12,9 @@
 // Core namespace
 namespace Core {
 
+	const Mat2 Mat2::zero(0.0f, 0.0f, 0.0f, 0.0f);
+	const Mat2 Mat2::identity(1.0f, 0.0f, 0.0f, 1.0f);
+
 	Mat2::Mat2(float m11, float m12, float m21, float m22) :
 		mMatrix{ m11, m12, m21, m22 } {
 	}
@@ -30,149 +33,6 @@ namespace Core {
 		this->mMatrix[2] = other.mMatrix[2];
 		this->mMatrix[3] = other.mMatrix[3];
 		return *this;
-	}
-
-	Mat2 Mat2::operator+(const Mat2 &matrix) const {
-		return Mat2::add(*this, matrix);
-	}
-
-	Mat2 &Mat2::operator+=(const Mat2 &matrix) {
-		*this = Mat2::add(*this, matrix);
-		return *this;
-	}
-
-	Mat2 Mat2::operator-(const Mat2 &matrix) const {
-		return Mat2::sub(*this, matrix);
-	}
-
-	Mat2 &Mat2::operator-=(const Mat2 &matrix) {
-		*this = Mat2::sub(*this, matrix);
-		return *this;
-	}
-
-	Mat2 Mat2::operator*(float scalar) const {
-		return Mat2::mul(*this, scalar);
-	}
-
-	Mat2 &Mat2::operator*=(float scalar) {
-		*this = Mat2::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec2 Mat2::operator*(const Vec2 &vector) const {
-		return Mat2::mul(*this, vector);
-	}
-
-	Mat2 Mat2::operator*(const Mat2 &matrix) const {
-		return Mat2::mul(*this, matrix);
-	}
-
-	Mat2 &Mat2::operator*=(const Mat2 &matrix) {
-		*this = Mat2::mul(*this, matrix);
-		return *this;
-	}
-
-	Mat2 Mat2::operator/(float scalar) const {
-		return Mat2::div(*this, scalar);
-	}
-
-	Mat2 &Mat2::operator/=(float scalar) {
-		*this = Mat2::div(*this, scalar);
-		return *this;
-	}
-
-	Mat2 &Mat2::add(const Mat2 matrix) {
-		*this = Mat2::add(*this, matrix);
-		return *this;
-	}
-
-	Mat2 &Mat2::sub(const Mat2 matrix) {
-		*this = Mat2::sub(*this, matrix);
-		return *this;
-	}
-
-	Mat2 &Mat2::mul(float scalar) {
-		*this = Mat2::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec2 Mat2::mul(const Vec2 &vector) {
-		return Mat2::mul(*this, vector);
-	}
-
-	Mat2 &Mat2::mul(const Mat2 matrix) {
-		*this = Mat2::mul(*this, matrix);
-		return *this;
-	}
-
-	Mat2 Mat2::div(float scalar) {
-		*this = Mat2::div(*this, scalar);
-		return *this;
-	}
-
-	Mat2 &Mat2::transpose() {
-		*this = Mat2::transpose(*this);
-		return *this;
-	}
-
-	inline float Mat2::get(int col, int row) const {
-		if (col > 0 && col < 3 && row > 0 && row < 3) {
-			return this->mMatrix[(col - 1) + (2 * (row - 1))];
-		} else {
-			return 0.0f;
-		}
-	}
-
-	inline Vec2 Mat2::row(int row) const {
-		if (row > 0 && row < 3) {
-			return Vec2(this->mMatrix[(row - 1) << 1], this->mMatrix[((row - 1) << 1) + 1]);
-		} else {
-			return Vec2(0.0f, 0.0f);
-		}
-	}
-
-	inline Vec2 Mat2::col(int col) const {
-		if (col > 0 && col < 3) {
-			return Vec2(this->mMatrix[col - 1], this->mMatrix[col - 1 + 2]);
-		} else {
-			return Vec2(0.0f, 0.0f);
-		}
-	}
-
-	inline bool Mat2::set(int col, int row, float scalar) {
-		if (col > 0 && col < 3 && row > 0 && row < 3) {
-			this->mMatrix[(col - 1) + (2 * (row - 1))] = scalar;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	inline void Mat2::set(float(&array)[4]) {
-		this->mMatrix[0] = array[0];
-		this->mMatrix[1] = array[1];
-		this->mMatrix[2] = array[2];
-		this->mMatrix[3] = array[3];
-	}
-
-	inline bool Mat2::setRow(int row, const Vec2 &vector) {
-		if (row > 0 && row < 3) {
-			this->mMatrix[(row - 1) << 1] = vector.x();
-			this->mMatrix[((row - 1) << 1) + 1] = vector.y();
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	inline bool Mat2::setCol(int col, const Vec2 &vector) {
-		if (col > 0 && col < 3) {
-			this->mMatrix[col - 1] = vector.x();
-			this->mMatrix[col - 1 + 2] = vector.y();
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	Mat2 Mat2::add(const Mat2 &matrixA, const Mat2 &matrixB) {
@@ -213,7 +73,7 @@ namespace Core {
 
 	Vec2 Mat2::mul(const Mat2 &matrix, const Vec2 &vector) {
 		__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
-		__declspec(align(16)) float vectorB[4] = { vector.x(), vector.y(), vector.x(), vector.y() };
+		__declspec(align(16)) float vectorB[4] = { vector.getX(), vector.getY(), vector.getX(), vector.getY() };
 		__declspec(align(16)) float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
@@ -245,6 +105,7 @@ namespace Core {
 	}
 
 	Mat2 Mat2::div(const Mat2 &matrix, float scalar) {
+		assert(scalar);
 		__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
 		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
 		__declspec(align(16)) float vectorResult[4] = { 0.0f };
@@ -262,6 +123,44 @@ namespace Core {
 		tempMatrix.mMatrix[1] = tempMatrix.mMatrix[2];
 		tempMatrix.mMatrix[2] = tempScalar;
 		return tempMatrix;
+	}
+
+	float Mat2::get(const Mat2 &matrix, int col, int row) {
+		assert(col > 0 && col < 3);
+		assert(row > 0 && row < 3);
+		return matrix.mMatrix[(col - 1) + (2 * (row - 1))];
+	}
+
+	Vec2 Mat2::getRow(const Mat2 &matrix, int row) {
+		assert(row > 0 && row < 3);
+		return Vec2(matrix.mMatrix[(row - 1) << 1], matrix.mMatrix[((row - 1) << 1) + 1]);
+	}
+
+	Vec2 Mat2::getCol(const Mat2 &matrix, int col) {
+		assert(col > 0 && col < 3);
+		return Vec2(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 2]);
+	}
+
+	void Mat2::set(Mat2 &matrix, int col, int row, float scalar) {
+		assert(col > 0 && col < 3);
+		assert(row > 0 && row < 3);
+		matrix.mMatrix[(col - 1) + (2 * (row - 1))] = scalar;
+	}
+
+	void Mat2::set(Mat2 &matrix, float(&array)[4]) {
+		matrix = Mat2(array);
+	}
+
+	void Mat2::setRow(Mat2 &matrix, int row, const Vec2 &vector) {
+		assert(row > 0 && row < 3);
+		matrix.mMatrix[(row - 1) << 1] = vector.getX();
+		matrix.mMatrix[((row - 1) << 1) + 1] = vector.getY();
+	}
+
+	void Mat2::setCol(Mat2 &matrix, int col, const Vec2 &vector) {
+		assert(col > 0 && col < 3);
+		matrix.mMatrix[col - 1] = vector.getX();
+		matrix.mMatrix[col - 1 + 2] = vector.getY();
 	}
 
 }

@@ -13,6 +13,7 @@
 #include "../Global/Macro.h"
 #include "Vec4.h"
 #include <intrin.h>
+#include <assert.h>
 
 // Core namespace
 namespace Core {
@@ -27,37 +28,96 @@ namespace Core {
 		~Mat4() = default;
 
 	public:
-		Mat4 operator+(const Mat4 &matrix) const;
-		Mat4 &operator+=(const Mat4 &matrix);
-		Mat4 operator-(const Mat4 &matrix) const;
-		Mat4 &operator-=(const Mat4 &matrix);
-		Mat4 operator*(float scalar) const;
-		Mat4 &operator*=(float scalar);
-		Vec4 operator*(const Vec4 &vector) const;
-		Mat4 operator*(const Mat4 &matrix) const;
-		Mat4 &operator*=(const Mat4 &matrix);
-		Mat4 operator/(float scalar) const;
-		Mat4 &operator/=(float scalar);
+		inline Mat4 operator+(const Mat4 &matrix) const {
+			return Mat4::add(*this, matrix);
+		}
+		inline Mat4 &operator+=(const Mat4 &matrix) {
+			*this = Mat4::add(*this, matrix);
+			return *this;
+		}
+		inline Mat4 operator-(const Mat4 &matrix) const {
+			return Mat4::sub(*this, matrix);
+		}
+		inline Mat4 &operator-=(const Mat4 &matrix) {
+			*this = Mat4::sub(*this, matrix);
+			return *this;
+		}
+		inline Mat4 operator*(float scalar) const {
+			return Mat4::mul(*this, scalar);
+		}
+		inline Mat4 &operator*=(float scalar) {
+			*this = Mat4::mul(*this, scalar);
+			return *this;
+		}
+		inline Vec4 operator*(const Vec4 &vector) const {
+			return Mat4::mul(*this, vector);
+		}
+		inline Mat4 operator*(const Mat4 &matrix) const {
+			return Mat4::mul(*this, matrix);
+		}
+		inline Mat4 &operator*=(const Mat4 &matrix) {
+			*this = Mat4::mul(*this, matrix);
+			return *this;
+		}
+		inline Mat4 operator/(float scalar) const {
+			return Mat4::div(*this, scalar);
+		}
+		inline Mat4 &operator/=(float scalar) {
+			*this = Mat4::div(*this, scalar);
+			return *this;
+		}
 
 	public:
-		Mat4 &add(const Mat4 &matrix);
-		Mat4 &sub(const Mat4 &matrix);
-		Mat4 &mul(float scalar);
-		Vec4 mul(const Vec4 &vector);
-		Mat4 &mul(const Mat4 &matrix);
-		Mat4 &div(float scalar);
-		Mat4 &transpose();
+		inline Mat4 &add(const Mat4 &matrix) {
+			*this = Mat4::add(*this, matrix);
+			return *this;
+		}
+		inline Mat4 &sub(const Mat4 &matrix) {
+			*this = Mat4::sub(*this, matrix);
+			return *this;
+		}
+		inline Mat4 &mul(float scalar) {
+			*this = Mat4::mul(*this, scalar);
+			return *this;
+		}
+		inline Vec4 mul(const Vec4 &vector) {
+			return Mat4::mul(*this, vector);
+		}
+		inline Mat4 &mul(const Mat4 &matrix) {
+			*this = Mat4::mul(*this, matrix);
+			return *this;
+		}
+		inline Mat4 &div(float scalar) {
+			*this = Mat4::div(*this, scalar);
+			return *this;
+		}
+		inline Mat4 &transpose() {
+			*this = Mat4::transpose(*this);
+			return *this;
+		}
 
 	public:
-		inline float get(int col, int row) const;
-		inline Vec4 row(int row) const;
-		inline Vec4 col(int col) const;
-
-	public:
-		inline bool set(int col, int row, float scalar);
-		inline void set(float(&array)[16]);
-		inline bool setRow(int row, const Vec4 &vector);
-		inline bool setCol(int col, const Vec4 &vector);
+		inline float get(int col, int row) const {
+			return Mat4::get(*this, col, row);
+		}
+		inline Vec4 getRow(int row) const {
+			return Mat4::getRow(*this, row);
+		}
+		inline Vec4 getCol(int col) const {
+			Mat4::getCol(*this, col);
+		}
+		inline void set(int col, int row, float scalar) {
+			Mat4::set(*this, col, row, scalar);
+		}
+		inline void set(float(&array)[16]) {
+			Mat4::set(*this, array);
+		}
+		inline void setRow(int row, const Vec4 &vector) {
+			Mat4::setRow(*this, row, vector);
+		}
+		inline void setCol(int col, const Vec4 &vector) {
+			Mat4::setCol(*this, col, vector);
+		}
 
 	public:
 		static Mat4 add(const Mat4 &matrixA, const Mat4 &matrixB);
@@ -67,6 +127,19 @@ namespace Core {
 		static Mat4 mul(const Mat4 &matrixA, const Mat4 &matrixB);
 		static Mat4 div(const Mat4 &matrix, float scalar);
 		static Mat4 transpose(const Mat4 &matrix);
+
+	public:
+		static float get(const Mat4 &matrix, int col, int row);
+		static Vec4 getRow(const Mat4 &matrix, int row);
+		static Vec4 getCol(const Mat4 &matrix, int col);
+		static void set(Mat4 &matrix, int col, int row, float scalar);
+		static void set(Mat4 &matrix, float(&array)[16]);
+		static void setRow(Mat4 &matrix, int row, const Vec4 &vector);
+		static void setCol(Mat4 &matrix, int col, const Vec4 &vector);
+
+	public:
+		static const Mat4 zero;
+		static const Mat4 identity;
 
 	private:
 		float mMatrix[16];

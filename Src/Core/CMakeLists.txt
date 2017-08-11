@@ -12,9 +12,7 @@
 add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Math")
 
 # STD
-set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/STD/Iterator/Iterator.h")
-set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/STD/String/String.h")
-set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/STD/String/String.cpp")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/STL")
 
 # Math
 add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Math")

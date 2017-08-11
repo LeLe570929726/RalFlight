@@ -38,7 +38,7 @@ Debug/
 # Vs setting files
 .vscode/
 .vs/
-CMakeSettings.json
+3rdPart/
 
 # Temp files
 Src/Core/Build/Macro.h

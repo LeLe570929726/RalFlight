@@ -33,7 +33,9 @@ namespace Core {
 	class RALFLIGHT_API Scalar {
 	public:
 		Scalar() = delete;
+		Scalar(const Scalar &other) = delete;
 		~Scalar() = delete;
+		Scalar &operator=(const Scalar &other) = delete;
 
 	public:
 		static T abs(T scalar) {

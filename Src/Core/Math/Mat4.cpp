@@ -12,6 +12,9 @@
 // Core namespace
 namespace Core {
 
+	const Mat4 Mat4::zero(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	const Mat4 Mat4::identity(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+
 	Mat4::Mat4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
 		float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44) :
 		mMatrix{ m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44 } {
@@ -33,152 +36,6 @@ namespace Core {
 			this->mMatrix[i] = other.mMatrix[i];
 		}
 		return *this;
-	}
-
-	Mat4 Mat4::operator+(const Mat4 &matrix) const {
-		return Mat4::add(*this, matrix);
-	}
-
-	Mat4 &Mat4::operator+=(const Mat4 &matrix) {
-		*this = Mat4::add(*this, matrix);
-		return *this;
-	}
-
-	Mat4 Mat4::operator-(const Mat4 &matrix) const {
-		return Mat4::sub(*this, matrix);
-	}
-
-	Mat4 &Mat4::operator-=(const Mat4 &matrix) {
-		*this = Mat4::sub(*this, matrix);
-		return *this;
-	}
-
-	Mat4 Mat4::operator*(float scalar) const {
-		return Mat4::mul(*this, scalar);
-	}
-
-	Mat4 &Mat4::operator*=(float scalar) {
-		*this = Mat4::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec4 Mat4::operator*(const Vec4 &vector) const {
-		return Mat4::mul(*this, vector);
-	}
-
-	Mat4 Mat4::operator*(const Mat4 &matrix) const {
-		return Mat4::mul(*this, matrix);
-	}
-
-	Mat4 &Mat4::operator*=(const Mat4 &matrix) {
-		*this = Mat4::mul(*this, matrix);
-		return *this;
-	}
-
-	Mat4 Mat4::operator/(float scalar) const {
-		return Mat4::div(*this, scalar);
-	}
-
-	Mat4 &Mat4::operator/=(float scalar) {
-		*this = Mat4::div(*this, scalar);
-		return *this;
-	}
-
-	Mat4 &Mat4::add(const Mat4 &matrix) {
-		*this = Mat4::add(*this, matrix);
-		return *this;
-	}
-
-	Mat4 &Mat4::sub(const Mat4 &matrix) {
-		*this = Mat4::sub(*this, matrix);
-		return *this;
-	}
-
-	Mat4 &Mat4::mul(float scalar) {
-		*this = Mat4::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec4 Mat4::mul(const Vec4 &vector) {
-		return Mat4::mul(*this, vector);
-	}
-
-	Mat4 &Mat4::mul(const Mat4 &matrix) {
-		*this = Mat4::mul(*this, matrix);
-		return *this;
-	}
-
-	Mat4 &Mat4::div(float scalar) {
-		*this = Mat4::div(*this, scalar);
-		return *this;
-	}
-
-	Mat4 &Mat4::transpose() {
-		*this = Mat4::transpose(*this);
-		return *this;
-	}
-
-	inline float Mat4::get(int col, int row) const {
-		if (col > 0 && col < 5 && row > 0 && row < 5) {
-			return this->mMatrix[(col - 1) + ((row - 1) << 4)];
-		} else {
-			return 0.0f;
-		}
-	}
-
-	inline Vec4 Mat4::row(int row) const {
-		if (row > 0 && row < 5) {
-			return Vec4(this->mMatrix[(row - 1) << 2], this->mMatrix[((row - 1) << 2) + 1], this->mMatrix[((row - 1) << 2) + 2], this->mMatrix[((row - 1) << 2) + 3]);
-		} else {
-			return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
-		}
-	}
-
-	inline Vec4 Mat4::col(int col) const {
-		if (col > 0 && col < 5) {
-			return Vec4(this->mMatrix[col - 1], this->mMatrix[col - 1 + 4], this->mMatrix[col - 1 + 8], this->mMatrix[col - 1 + 12]);
-		} else {
-			return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
-		}
-	}
-
-	inline bool Mat4::set(int col, int row, float scalar) {
-		if (col > 0 && col < 5 && row > 0 && row < 5) {
-			this->mMatrix[(col - 1) + ((row - 1) << 4)] = scalar;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	inline void Mat4::set(float(&array)[16]) {
-		for (int i = 0; i < 16; ++i) {
-			this->mMatrix[i] = array[i];
-		}
-	}
-
-	inline bool Mat4::setRow(int row, const Vec4 &vector) {
-		if (row > 0 && row < 5) {
-			this->mMatrix[(row - 1) << 2] = vector.x();
-			this->mMatrix[((row - 1) << 2) + 1] = vector.y();
-			this->mMatrix[((row - 1) << 2) + 2] = vector.z();
-			this->mMatrix[((row - 1) << 2) + 3] = vector.w();
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	inline bool Mat4::setCol(int col, const Vec4 &vector) {
-		if (col > 0 && col < 5) {
-			this->mMatrix[col - 1] = vector.x();
-			this->mMatrix[col - 1 + 4] = vector.y();
-			this->mMatrix[col - 1 + 8] = vector.z();
-			this->mMatrix[col - 1 + 12] = vector.w();
-			return false;
-		} else {
-			return false;
-		}
 	}
 
 	Mat4 Mat4::add(const Mat4 &matrixA, const Mat4 &matrixB) {
@@ -245,7 +102,7 @@ namespace Core {
 
 	Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) {
 		float tempArray[4] = { 0.0f };
-		__declspec(align(16)) float vectorA[4] = { vector.x(), vector.y(), vector.z(), vector.w() };
+		__declspec(align(16)) float vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), vector.getW() };
 		__m128 sseA;
 		sseA = _mm_load_ps(vectorA);
 		for (int i = 0; i <= 12; i += 12) {
@@ -280,6 +137,7 @@ namespace Core {
 	}
 
 	Mat4 Mat4::div(const Mat4 &matrix, float scalar) {
+		assert(scalar);
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
 			__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
@@ -321,6 +179,50 @@ namespace Core {
 		tempMatrix.mMatrix[6] = tempMatrix.mMatrix[9];
 		tempMatrix.mMatrix[9] = tempScalar;
 		return tempMatrix;
+	}
+
+	float Mat4::get(const Mat4 &matrix, int col, int row) {
+		assert(col > 0 && col < 5);
+		assert(row > 0 && row < 5);
+		return matrix.mMatrix[(col - 1) + ((row - 1) << 2)];
+	}
+
+	Vec4 Mat4::getRow(const Mat4 &matrix, int row) {
+		assert(row > 0 && row < 5);
+		return Vec4(matrix.mMatrix[(row - 1) << 2], matrix.mMatrix[((row - 1) << 2) + 1], matrix.mMatrix[((row - 1) << 2) + 2], matrix.mMatrix[((row - 1) << 2) + 3]);
+	}
+
+	Vec4 Mat4::getCol(const Mat4 &matrix, int col) {
+		assert(col > 0 && col < 5);
+		return Vec4(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 4], matrix.mMatrix[col - 1 + 8], matrix.mMatrix[col - 1 + 12]);
+	}
+
+	void Mat4::set(Mat4 &matrix, int col, int row, float scalar) {
+		assert(col > 0 && col < 5);
+		assert(row > 0 && row < 5);
+		matrix.mMatrix[(col - 1) + ((row - 1) << 2)] = scalar;
+	}
+
+	void Mat4::set(Mat4 &matrix, float(&array)[16]) {
+		for (int i = 0; i < 16; ++i) {
+			matrix.mMatrix[i] = array[i];
+		}
+	}
+
+	void Mat4::setRow(Mat4 &matrix, int row, const Vec4 &vector) {
+		assert(row > 0 && row < 5);
+		matrix.mMatrix[(row - 1) << 2] = vector.getX();
+		matrix.mMatrix[((row - 1) << 2) + 1] = vector.getY();
+		matrix.mMatrix[((row - 1) << 2) + 2] = vector.getZ();
+		matrix.mMatrix[((row - 1) << 2) + 3] = vector.getW();
+	}
+
+	void Mat4::setCol(Mat4 &matrix, int col, const Vec4 &vector) {
+		assert(col > 0 && col < 5);
+		matrix.mMatrix[col - 1] = vector.getX();
+		matrix.mMatrix[col - 1 + 4] = vector.getY();
+		matrix.mMatrix[col - 1 + 8] = vector.getZ();
+		matrix.mMatrix[col - 1 + 12] = vector.getW();
 	}
 
 }

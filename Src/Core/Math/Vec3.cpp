@@ -30,130 +30,6 @@ namespace Core {
 		return *this;
 	}
 
-	Vec3 Vec3::operator+(const Vec3 &vector) const {
-		return Vec3::add(*this, vector);
-	}
-
-	Vec3 &Vec3::operator+=(const Vec3 &vector) {
-		*this = Vec3::add(*this, vector);
-		return *this;
-	}
-
-	Vec3 Vec3::operator-(const Vec3 &vector) const {
-		return Vec3::sub(*this, vector);
-	}
-
-	Vec3 &Vec3::operator-=(const Vec3 &vector) {
-		*this = Vec3::sub(*this, vector);
-		return *this;
-	}
-
-	Vec3 Vec3::operator*(float scalar) const {
-		return Vec3::mul(*this, scalar);
-	}
-
-	Vec3 &Vec3::operator*=(float scalar) {
-		*this = Vec3::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec3 Vec3::operator/(float scalar) const {
-		return Vec3::mul(*this, scalar);
-	}
-
-	Vec3 &Vec3::operator/=(float scalar) {
-		*this = Vec3::div(*this, scalar);
-		return *this;
-	}
-
-	Vec3 &Vec3::add(const Vec3 &vector) {
-		*this = Vec3::add(*this, vector);
-		return *this;
-	}
-
-	Vec3 &Vec3::sub(const Vec3 &vector) {
-		*this = Vec3::sub(*this, vector);
-		return *this;
-	}
-
-	Vec3 &Vec3::mul(float scalar) {
-		*this = Vec3::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec3 &Vec3::div(float scalar) {
-		*this = Vec3::div(*this, scalar);
-		return *this;
-	}
-
-	float Vec3::module() const {
-		return Vec3::module(*this);
-	}
-
-	// Module's reciprocal
-	float Vec3::rmodule() const {
-		return Vec3::rmodule(*this);
-	}
-
-	Vec3 &Vec3::normalize() {
-		*this = Vec3::add(*this);
-		return *this;
-	}
-
-	float Vec3::dot(const Vec3 &vector) const {
-		return Vec3::dot(*this, vector);
-	}
-
-	Vec3 Vec3::cross(const Vec3 &vector) const {
-		return Vec3::cross(*this, vector);
-	}
-
-	float Vec3::angle(const Vec3 &vector) const {
-		return Vec3::angle(*this, vector);
-	}
-
-	Vec3 Vec3::project(const Vec3 &vector) const {
-		return Vec3::project(*this, vector);
-	}
-
-	inline void Vec3::set(float(&array)[3]) {
-		this->mX = array[0];
-		this->mY = array[2];
-		this->mZ = array[2];
-	}
-
-	inline void Vec3::setX(float x) {
-		this->mX = x;
-	}
-
-	inline void Vec3::setY(float y) {
-		this->mY = y;
-	}
-
-	inline void Vec3::setZ(float z) {
-		this->mZ = z;
-	}
-
-	inline bool Vec3::isZero() const {
-		return this->mX == 0 && this->mY == 0 && this->mZ == 0;
-	}
-
-	inline bool Vec3::isOne() const {
-		return this->mX == 1 && this->mY == 1 && this->mZ == 1;
-	}
-
-	inline float Vec3::x() const {
-		return this->mX;
-	}
-
-	inline float Vec3::y() const {
-		return this->mY;
-	}
-
-	inline float Vec3::z() const {
-		return this->mZ;
-	}
-
 	Vec3 Vec3::add(const Vec3 &vectorA, const Vec3 &vectorB) {
 		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, 0.0f };
 		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, 0.0f };
@@ -191,6 +67,7 @@ namespace Core {
 	}
 
 	Vec3 Vec3::div(const Vec3 &vector, float scalar) {
+		assert(scalar);
 		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, 0.0f };
 		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, 0.0f };
 		__declspec(align(16)) float vectorResult[4] = { 0.0f };
@@ -230,6 +107,7 @@ namespace Core {
 
 	Vec3 Vec3::normalize(const Vec3 &vector) {
 		float module = Vec3::rmodule(vector);
+		assert(module);
 		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, 0.0f };
 		__declspec(align(16)) float vectorB[4] = { module, module, module, 0.0f };
 		__declspec(align(16)) float vectorResult[4] = { 0.0f };
@@ -287,6 +165,42 @@ namespace Core {
 		sseResult = _mm_mul_ps(sseA, sseB);
 		_mm_store_ps(vectorAResult, sseResult);
 		return Vec3(vectorAResult[0], vectorAResult[1], vectorAResult[2]);
+	}
+
+	float Vec3::getX(const Vec3 &vector) {
+		return vector.mX;
+	}
+
+	float Vec3::getY(const Vec3 &vector) {
+		return vector.mY;
+	}
+
+	float Vec3::getZ(const Vec3 &vector) {
+		return vector.mZ;
+	}
+
+	void Vec3::set(Vec3 &vector, float(&array)[3]) {
+		vector = Vec3(array);
+	}
+
+	void Vec3::setX(Vec3 &vector, float x) {
+		vector.mX = x;
+	}
+
+	void Vec3::setY(Vec3 &vector, float y) {
+		vector.mY = y;
+	}
+
+	void Vec3::setZ(Vec3 &vector, float z) {
+		vector.mZ = z;
+	}
+
+	bool Vec3::isZero(const Vec3 &vector) {
+		return vector.mX == 0 && vector.mY == 0 && vector.mZ == 0;
+	}
+
+	bool Vec3::isOne(const Vec3 &vector) {
+		return vector.mX == 1 && vector.mY == 1 && vector.mZ == 1;
 	}
 
 }

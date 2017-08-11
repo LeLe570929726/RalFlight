@@ -12,6 +12,9 @@
 // Core namespace
 namespace Core {
 
+	const Mat3 Mat3::zero(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	const Mat3 Mat3::identity(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+
 	Mat3::Mat3(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33) :
 		mMatrix{ m11, m12, m13, m21, m22, m23, m31, m32, m33 } {
 	}
@@ -30,150 +33,6 @@ namespace Core {
 			this->mMatrix[i] = other.mMatrix[i];
 		}
 		return *this;
-	}
-
-	Mat3 Mat3::operator+(const Mat3 &matrix) const {
-		return Mat3::add(*this, matrix);
-	}
-
-	Mat3 &Mat3::operator+=(const Mat3 &matrix) {
-		*this = Mat3::add(*this, matrix);
-		return *this;
-	}
-
-	Mat3 Mat3::operator-(const Mat3 &matrix) const {
-		return Mat3::sub(*this, matrix);
-	}
-
-	Mat3 &Mat3::operator-=(const Mat3 &matrix) {
-		*this = Mat3::sub(*this, matrix);
-		return *this;
-	}
-
-	Mat3 Mat3::operator*(float scalar) const {
-		return Mat3::mul(*this, scalar);
-	}
-
-	Mat3 &Mat3::operator*=(float scalar) {
-		*this = Mat3::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec3 Mat3::operator*(const Vec3 &vector) const {
-		return Mat3::mul(*this, vector);
-	}
-
-	Mat3 Mat3::operator*(const Mat3 &matrix) const {
-		return Mat3::mul(*this, matrix);
-	}
-
-	Mat3 &Mat3::operator*=(const Mat3 &matrix) {
-		*this = Mat3::mul(*this, matrix);
-		return *this;
-	}
-
-	Mat3 Mat3::operator/(float scalar) const {
-		return Mat3::div(*this, scalar);
-	}
-
-	Mat3 &Mat3::operator/=(float scalar) {
-		*this = Mat3::div(*this, scalar);
-		return *this;
-	}
-
-	Mat3 &Mat3::add(const Mat3 &matrix) {
-		*this = Mat3::add(*this, matrix);
-		return *this;
-	}
-
-	Mat3 &Mat3::sub(const Mat3 &matrix) {
-		*this = Mat3::sub(*this, matrix);
-		return *this;
-	}
-
-	Mat3 &Mat3::mul(float scalar) {
-		*this = Mat3::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec3 Mat3::mul(const Vec3 &vector) {
-		return Mat3::mul(*this, vector);
-	}
-
-	Mat3 &Mat3::mul(const Mat3 &matrix) {
-		*this = Mat3::mul(*this, matrix);
-		return *this;
-	}
-
-	Mat3 &Mat3::div(float scalar) {
-		*this = Mat3::div(*this, scalar);
-		return *this;
-	}
-
-	Mat3 &Mat3::transpose() {
-		*this = Mat3::transpose(*this);
-		return *this;
-	}
-
-	inline float Mat3::get(int col, int row) const {
-		if (col > 0 && col < 4 && row > 0 && row < 4) {
-			return this->mMatrix[(col - 1) + ((row - 1) * 3)];
-		} else {
-			return 0.0f;
-		}
-	}
-
-	inline Vec3 Mat3::row(int row) const {
-		if (row > 0 && row < 4) {
-			return Vec3(this->mMatrix[(row - 1) * 3], this->mMatrix[((row - 1) * 3) + 1], this->mMatrix[((row - 1) * 3) + 2]);
-		} else {
-			return Vec3(0.0f, 0.0f, 0.0f);
-		}
-	}
-
-	inline Vec3 Mat3::col(int col) const {
-		if (col > 0 && col < 4) {
-			return Vec3(this->mMatrix[col - 1], this->mMatrix[col - 1 + 3], this->mMatrix[col - 1 + 6]);
-		} else {
-			return Vec3(0.0f, 0.0f, 0.0f);
-		}
-	}
-
-	inline bool Mat3::set(int col, int row, float scalar) {
-		if (col > 0 && col < 4 && row > 0 && row < 4) {
-			this->mMatrix[(col - 1) + ((row - 1) * 3)] = scalar;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	inline void Mat3::set(float(&array)[9]) {
-		for (int i = 0; i < 9; ++i) {
-			this->mMatrix[i] = array[i];
-		}
-	}
-
-	inline bool Mat3::setRow(int row, const Vec3 &vector) {
-		if (row > 0 && row < 4) {
-			this->mMatrix[(row - 1) * 3] = vector.x();
-			this->mMatrix[((row - 1) * 3) + 1] = vector.y();
-			this->mMatrix[((row - 1) * 3) + 2] = vector.z();
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	inline bool Mat3::setCol(int col, const Vec3 &vector) {
-		if (col > 0 && col < 4) {
-			this->mMatrix[col - 1] = vector.x();
-			this->mMatrix[col - 1 + 3] = vector.y();
-			this->mMatrix[col - 1 + 6] = vector.z();
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	Mat3 Mat3::add(const Mat3 &matrixA, const Mat3 &matrixB) {
@@ -232,7 +91,7 @@ namespace Core {
 
 	Vec3 Mat3::mul(const Mat3 &matrix, const Vec3 &vector) {
 		float tempArray[3] = { 0.0f };
-		__declspec(align(16)) float vectorA[4] = { vector.x(), vector.y(), vector.z(), 0.0f };
+		__declspec(align(16)) float vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), 0.0f };
 		__m128 sseA;
 		sseA = _mm_load_ps(vectorA);
 		for (int i = 0; i <= 6; i += 3) {
@@ -266,6 +125,7 @@ namespace Core {
 	}
 
 	Mat3 Mat3::div(const Mat3 &matrix, float scalar) {
+		assert(scalar);
 		float tempArray[9] = { 0.0f };
 		for (int i = 0; i <= 6; i += 3) {
 			__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
@@ -296,6 +156,48 @@ namespace Core {
 		tempMatrix.mMatrix[5] = tempMatrix.mMatrix[7];
 		tempMatrix.mMatrix[7] = tempScalar;
 		return tempMatrix;
+	}
+
+	float Mat3::get(const Mat3 &matrix, int col, int row) {
+		assert(col > 0 && col < 4);
+		assert(row > 0 && row < 4);
+		return matrix.mMatrix[(col - 1) + ((row - 1) * 3)];
+	}
+
+	Vec3 Mat3::getRow(const Mat3 &matrix, int row) {
+		assert(row > 0 && row < 4);
+		return Vec3(matrix.mMatrix[(row - 1) * 3], matrix.mMatrix[((row - 1) * 3) + 1], matrix.mMatrix[((row - 1) * 3) + 2]);
+	}
+
+	Vec3 Mat3::getCol(const Mat3 &matrix, int col) {
+		assert(col > 0 && col < 4);
+		return Vec3(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 3], matrix.mMatrix[col - 1 + 6]);
+	}
+
+	void Mat3::set(Mat3 &matrix, int col, int row, float scalar) {
+		assert(col > 0 && col < 4);
+		assert(row > 0 && row < 4);
+		matrix.mMatrix[(col - 1) + ((row - 1) * 3)] = scalar;
+	}
+
+	void Mat3::set(Mat3 &matrix, float(&array)[9]) {
+		for (int i = 0; i < 9; ++i) {
+			matrix.mMatrix[i] = array[i];
+		}
+	}
+
+	void Mat3::setRow(Mat3 &matrix, int row, const Vec3 &vector) {
+		assert(row > 0 && row < 4);
+		matrix.mMatrix[(row - 1) * 3] = vector.getX();
+		matrix.mMatrix[((row - 1) * 3) + 1] = vector.getY();
+		matrix.mMatrix[((row - 1) * 3) + 2] = vector.getZ();
+	}
+
+	void Mat3::setCol(Mat3 &matrix, int col, const Vec3 &vector) {
+		assert(col > 0 && col < 4);
+		matrix.mMatrix[col - 1] = vector.getX();
+		matrix.mMatrix[col - 1 + 3] = vector.getY();
+		matrix.mMatrix[col - 1 + 6] = vector.getZ();
 	}
 
 }

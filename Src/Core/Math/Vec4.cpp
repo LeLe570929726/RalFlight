@@ -32,134 +32,6 @@ namespace Core {
 		return *this;
 	}
 
-	Vec4 Vec4::operator+(const Vec4 &vector) const {
-		return Vec4::add(*this, vector);
-	}
-
-	Vec4 &Vec4::operator+=(const Vec4 &vector) {
-		*this = Vec4::add(*this, vector);
-		return *this;
-	}
-
-	Vec4 Vec4::operator-(const Vec4 &vector) const {
-		return Vec4::sub(*this, vector);
-	}
-
-	Vec4 &Vec4::operator-=(const Vec4 &vector) {
-		*this = Vec4::sub(*this, vector);
-		return *this;
-	}
-
-	Vec4 Vec4::operator*(float scalar) const {
-		return Vec4::mul(*this, scalar);
-	}
-
-	Vec4 &Vec4::operator*=(float scalar) {
-		*this = Vec4::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec4 Vec4::operator/(float scalar) const {
-		return Vec4::div(*this, scalar);
-	}
-
-	Vec4 &Vec4::operator/=(float scalar) {
-		*this = Vec4::div(*this, scalar);
-		return *this;
-	}
-
-	Vec4 &Vec4::add(const Vec4 &vector) {
-		*this = Vec4::add(*this, vector);
-		return *this;
-	}
-
-	Vec4 &Vec4::sub(const Vec4 &vector) {
-		*this = Vec4::sub(*this, vector);
-		return *this;
-	}
-
-	Vec4 &Vec4::mul(float scalar) {
-		*this = Vec4::mul(*this, scalar);
-		return *this;
-	}
-
-	Vec4 &Vec4::div(float scalar) {
-		*this = Vec4::div(*this, scalar);
-		return *this;
-	}
-
-	float Vec4::module() const {
-		return Vec4::module(*this);
-	}
-
-	float Vec4::rmodule() const {
-		return Vec4::rmodule(*this);
-	}
-
-	Vec4 &Vec4::normalize() {
-		*this = Vec4::normalize(*this);
-		return *this;
-	}
-
-	float Vec4::dot(const Vec4 &vector) const {
-		return Vec4::dot(*this);
-	}
-
-	float Vec4::angle(const Vec4 &vector) const {
-		return Vec4::angle(vector);
-	}
-
-	Vec4 Vec4::project(const Vec4 &vector) const {
-		return Vec4::project(*this, vector);
-	}
-
-	inline void Vec4::set(float(&array)[4]) {
-		this->mX = array[0];
-		this->mY = array[1];
-		this->mZ = array[2];
-		this->mW = array[3];
-	}
-
-	inline void Vec4::setX(float x) {
-		this->mX = x;
-	}
-
-	inline void Vec4::setY(float y) {
-		this->mY = y;
-	}
-
-	inline void Vec4::setZ(float z) {
-		this->mZ = z;
-	}
-
-	inline void Vec4::setW(float w) {
-		this->mW = w;
-	}
-
-	inline bool Vec4::isZero() const {
-		return this->mX == 0 && this->mY == 0 && this->mZ == 0 && this->mW == 0;
-	}
-
-	inline bool Vec4::isOne() const {
-		return this->mX == 1 && this->mY == 1 && this->mZ == 1 && this->mW == 1;
-	}
-
-	inline float Vec4::x() const {
-		return this->mX;
-	}
-
-	inline float Vec4::y() const {
-		return this->mY;
-	}
-
-	inline float Vec4::z() const {
-		return this->mZ;
-	}
-
-	inline float Vec4::w() const {
-		return this->mW;
-	}
-
 	Vec4 Vec4::add(const Vec4 &vectorA, const Vec4 &vectorB) {
 		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
 		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
@@ -197,6 +69,7 @@ namespace Core {
 	}
 
 	Vec4 Vec4::div(const Vec4 &vector, float scalar) {
+		assert(scalar);
 		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
 		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
 		__declspec(align(16)) float vectorResult[4] = { 0.0f };
@@ -239,6 +112,7 @@ namespace Core {
 
 	Vec4 Vec4::normalize(const Vec4 &vector) {
 		float module = vector.rmodule();
+		assert(module);
 		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
 		__declspec(align(16)) float vectorB[4] = { module, module, module, module };
 		__declspec(align(16)) float vectorResult[4] = { 0.0f };
@@ -302,6 +176,50 @@ namespace Core {
 		sseResult = _mm_mul_ps(sseA, sseB);
 		_mm_store_ps(vectoraResult, sseResult);
 		return Vec4(vectoraResult[0], vectoraResult[1], vectoraResult[2], vectoraResult[3]);
+	}
+
+	float Vec4::getX(const Vec4 &vector) {
+		return vector.mX;
+	}
+
+	float Vec4::getY(const Vec4 &vector) {
+		return vector.mY;
+	}
+
+	float Vec4::getZ(const Vec4 &vector) {
+		return vector.mZ;
+	}
+
+	float Vec4::getW(const Vec4 &vector) {
+		return vector.mW;
+	}
+
+	void Vec4::set(Vec4 &vector, float(&array)[4]) {
+		vector = Vec4(array);
+	}
+
+	void Vec4::setX(Vec4 &vector, float x) {
+		vector.mX = x;
+	}
+
+	void Vec4::setY(Vec4 &vector, float y) {
+		vector.mY = y;
+	}
+
+	void Vec4::setZ(Vec4 &vector, float z) {
+		vector.mZ = z;
+	}
+
+	void Vec4::setW(Vec4 &vector, float w) {
+		vector.mW = w;
+	}
+
+	bool Vec4::isZero(const Vec4 &vector) {
+		return vector.mX == 0 && vector.mY == 0 && vector.mZ == 0 && vector.mW == 0;
+	}
+
+	bool Vec4::isOne(const Vec4 &vector) {
+		return vector.mX == 1 && vector.mY == 1 && vector.mZ == 1 && vector.mW == 1;
 	}
 
 }
