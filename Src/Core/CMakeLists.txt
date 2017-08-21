@@ -9,9 +9,9 @@
 # ----------------------------------------------------------------------------------------------------
 
 # Global
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Math")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Global")
 
-# STD
+# STL
 add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/STL")
 
 # Math

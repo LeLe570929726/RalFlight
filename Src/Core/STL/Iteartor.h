@@ -10,7 +10,7 @@
 #ifndef RALFLIGHT_SRC_CORE_STD_ITERATOR_H
 #define RALFLIGHT_SRC_CORE_STD_ITERATOR_H
 
-#include "../../Global/Macro/Macro.h"
+#include "../Global/Macro.h"
 
 // Core namespace
 namespace Core {
