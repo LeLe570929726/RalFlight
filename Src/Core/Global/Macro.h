@@ -21,7 +21,7 @@
 #define PROJECT_VERSION_RELEASE "0.1 Alpha1"
 
 // System token
-#define RALFLIGHT_SYSTEM_WINDOWS
+#define RALFLIGHT_SYSTEM_LINUX
 
 // Build token
 #define RALFLIGHT_BUILD

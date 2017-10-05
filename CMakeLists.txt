@@ -7,7 +7,7 @@
 #
 # @Craete: 2016/12/3 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
-include("Cmake/MinBuildVersion.cmake")
+include("CMake/MinBuildVersion.cmake")
 
 cmake_minimum_required(VERSION ${MIN_VERSION_CMAKE})
 

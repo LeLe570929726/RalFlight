@@ -12,11 +12,14 @@
 
 #include "../Global/Macro.h"
 #include <string>
+#include <cuchar>
 #include <assert.h>
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	#include <Windows.h>
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
 	#include <iconv.h>
+	#include <malloc.h>
+	#include <string.h>
 #endif
 
 // Core namespace
@@ -31,6 +34,11 @@ namespace Core {
 		GB2312 = 20936,
 		GBK = 936,
 		GB18030 = 54936
+#elif defined(RALFLIGHT_SYSTEM_LINUX)
+		UCS4 = "UCS-4",
+		UTF16 = "UTF-16",
+		UTF8 = "UTF-8",
+		GBK = "CP936"
 #endif
 	};
 
@@ -46,7 +54,16 @@ namespace Core {
 		static unsigned int convertToUTF16(const std::string &source, std::wstring &contain, unsigned int codepage);
 		static unsigned int convertFromUTF16(const std::wstring &source, std::string &contain, unsigned int codepage);
 		static unsigned int convert(const std::string &source, std::string &contain, unsigned int sourceCP, unsigned int targetCP);
-		static unsigned int getLocalCodePage();
+		static unsigned int getLocalCP();
+#elif defined(RALFLIGHT_SYSTEM_LINUX)
+		static unsigned int convertToUTF16(const std::string &source, std::u16string &contain, const std::string &codepage);
+		static unsigned int convertFromUTF16(const std::u16string &source, std::string &contain, const std::String &codepage);
+		static unsigned int convertToUCS4(const std::string &source, std::u32string &contain, const std::string &codepage);
+		static unsigned int convertFromUCS4(const std::u32string &source, std::string &contain, const std::string &codepage);
+		static unsigned int convertToWString(const std::string &source, std::wstring &contain, const std::string &codepage);
+		static unsigned int convertFromWString(const std::wstring &source, std::string &contain, const std::string &codepage);
+		static unsigned int convert(const std::string &source, std::string &contain, const std::string &sourceCP, const std::string &targetCP);
+		static std::string getLocalCP();
 #endif
 
 	public:
