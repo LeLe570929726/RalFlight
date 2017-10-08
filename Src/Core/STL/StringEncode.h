@@ -14,11 +14,11 @@
 #include <string>
 #include <cuchar>
 #include <assert.h>
+#include <malloc.h>
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	#include <Windows.h>
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
 	#include <iconv.h>
-	#include <malloc.h>
 	#include <string.h>
 #endif
 
@@ -28,6 +28,7 @@ namespace Core {
 	enum CodePage {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 		// Code page in windows reference from [MSDN](https://msdn.microsoft.com/library/windows/desktop/dd317756.aspx)
+		UCS4 = 12000,
 		UTF16 = 1200,
 		UTF8 = CP_UTF8,
 		Latin1 = 28591,
@@ -51,8 +52,12 @@ namespace Core {
 
 	public:
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
-		static unsigned int convertToUTF16(const std::string &source, std::wstring &contain, unsigned int codepage);
-		static unsigned int convertFromUTF16(const std::wstring &source, std::string &contain, unsigned int codepage);
+		static unsigned int convertToUTF16(const std::string &source, std::u16string &contain, unsigned int codepage);
+		static unsigned int convertFromUTF16(const std::u16string &source, std::string &contain, unsigned int codepage);
+		static unsigned int convertToUCS4(const std::string &source, std::u32string &contain, unsigned int codepage);
+		static unsigned int convertFromUCS4(const std::u32string &source, std::string &contain, unsigned int codepage);
+		static unsigned int convertToWString(const std::string &source, std::wstring &contain, unsigned int codepage);
+		static unsigned int convertFromWString(const std::wstring &source, std::string &contain, unsigned int codepage);
 		static unsigned int convert(const std::string &source, std::string &contain, unsigned int sourceCP, unsigned int targetCP);
 		static unsigned int getLocalCP();
 #elif defined(RALFLIGHT_SYSTEM_LINUX)

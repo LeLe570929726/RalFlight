@@ -1,3 +1,5 @@
+#include "StringEncode.h"
+#include "StringEncode.h"
 // ----------------------------------------------------------------------------------------------------
 // Copyright © 2016-2017 LeLe570929726. All rights reserved.
 // 
@@ -14,69 +16,231 @@ namespace Core {
 
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 
-	unsigned int StringEncode::convertToUTF16(const std::string &source, std::wstring &contain, unsigned int codepage) {
-		assert(codepage == CodePage::UTF16);
-		if (source.size() == 0) {
+	unsigned int StringEncode::convertToUTF16(const std::string &source, std::u16string &contain, unsigned int codepage) {
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
+		if(source.size() == 0) {
 			contain.resize(0);
 			return ErrorCode::Success;
 		}
-		int size = MultiByteToWideChar(codepage, NULL, source.c_str(), -1, NULL, 0);
-		if (size == 0) {
-			switch (GetLastError()) {
+		int size = MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), NULL, 0);
+		if(size == 0) {
+			switch(GetLastError()) {
 			case ERROR_INVALID_PARAMETER:
 				return ErrorCode::InvalidCodePage;
 			case ERROR_NO_UNICODE_TRANSLATION:
 				return ErrorCode::InvalidString;
 			}
 		}
-		contain.resize(size);
-		MultiByteToWideChar(codepage, NULL, source.c_str(), -1, &contain.front(), size);
+		std::u16string tempString(size, NULL);
+		MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), reinterpret_cast<LPWSTR>(&tempString.front()), size);
+		contain = tempString;
 		return ErrorCode::Success;
 	}
 
-	unsigned int StringEncode::convertFromUTF16(const std::wstring &source, std::string &contain, unsigned int codepage) {
-		assert(codepage == CodePage::UTF16);
-		if (source.size() == 0) {
+	unsigned int StringEncode::convertFromUTF16(const std::u16string &source, std::string &contain, unsigned int codepage) {
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
+		if(source.size() == 0) {
 			contain.resize(0);
 			return ErrorCode::Success;
 		}
-		int size = WideCharToMultiByte(codepage, NULL, source.c_str(), -1, NULL, 0, NULL, NULL);
-		if (size == 0) {
-			switch (GetLastError()) {
+		int size = WideCharToMultiByte(codepage, NULL, reinterpret_cast<LPCWCH>(source.c_str()), source.size(), NULL, 0, NULL, NULL);
+		if(size == 0) {
+			switch(GetLastError()) {
 			case ERROR_INVALID_PARAMETER:
 				return ErrorCode::InvalidCodePage;
 			case ERROR_NO_UNICODE_TRANSLATION:
 				return ErrorCode::InvalidString;
 			}
 		}
-		contain.resize(size);
-		WideCharToMultiByte(codepage, NULL, source.c_str(), -1, &contain.front(), 0, NULL, NULL);
+		std::string tempString(size, NULL);
+		WideCharToMultiByte(codepage, NULL, reinterpret_cast<LPCWCH>(source.c_str()), source.size(), &tempString.front(), size, NULL, NULL);
+		contain = tempString;
 		return ErrorCode::Success;
 	}
 
+	unsigned int StringEncode::convertToUCS4(const std::string &source, std::u32string &contain, unsigned int codepage) {
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
+		if(source.size() == 0) {
+			contain.resize(0);
+			return ErrorCode::Success;
+		}
+		int utf16Size = MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), NULL, 0);
+		if(utf16Size == 0) {
+			switch(GetLastError()) {
+			case ERROR_INVALID_PARAMETER:
+				return ErrorCode::InvalidCodePage;
+			case ERROR_NO_UNICODE_TRANSLATION:
+				return ErrorCode::InvalidString;
+			}
+		}
+		wchar_t *utf16Buffer = static_cast<wchar_t *>(malloc(utf16Size << 1));
+		MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), utf16Buffer, utf16Size);
+		// Accoding to [MSDN](https://msdn.microsoft.com/library/windows/desktop/dd317756.aspx)
+		// UTF-32 available only to managed applications.
+		// So we should implement the function of UTF-16 to UTF-32.
+		// Accoding to [Wiki](https://en.wikipedia.org/wiki/UTF-16)
+		std::u32string tempString;
+		tempString.reserve(utf16Size << 2);
+		wchar_t proBuffer = 0;
+		wchar_t *tempPtr = utf16Buffer;
+		for(int i = 0; i < utf16Size; ++i) {
+			if(*tempPtr < 0xD800 || *tempPtr > 0xDFFF) {
+				tempString.push_back(static_cast<char32_t>(*tempPtr));
+			} else {
+				if(proBuffer != 0) {
+					int high = proBuffer - 0xD800;
+					int low = *tempPtr - 0xDC00;
+					tempString.push_back((high << 10) + low + 0x10000);
+					proBuffer = 0;
+				} else {
+					proBuffer = *tempPtr;
+				}
+			}
+			++tempPtr;
+		}
+		contain = tempString;
+		free(utf16Buffer);
+		return ErrorCode::Success;
+	}
+
+	unsigned int StringEncode::convertFromUCS4(const std::u32string &source, std::string &contain, unsigned int codepage) {
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
+		if(source.size() == 0) {
+			contain.resize(0);
+			return ErrorCode::Success;
+		}
+		// Accoding to [MSDN](https://msdn.microsoft.com/library/windows/desktop/dd317756.aspx)
+		// UTF-32 available only to managed applications.
+		// So we should implement the function of UTF-32 to UTF-16.
+		// Accoding to [Wiki](https://en.wikipedia.org/wiki/UTF-16)
+		wchar_t *utf16Buffer = static_cast<wchar_t *>(malloc(source.size() << 1));
+		wchar_t *tempPtr = utf16Buffer;
+		int utf16Size = 0;
+		for(auto nowChar : source) {
+			if(nowChar < 0x10000) {
+				*tempPtr = static_cast<wchar_t>(nowChar);
+				++tempPtr;
+				++utf16Size;
+			} else {
+				*tempPtr = static_cast<wchar_t>(((nowChar - 0x10000) >> 10) + 0xD800);
+				++tempPtr;
+				*tempPtr = static_cast<wchar_t>((((nowChar - 0x10000) << 22) >> 22) + 0xDC00);
+				++tempPtr;
+				utf16Size += 2;
+			}
+		}
+		int containSize = WideCharToMultiByte(codepage, NULL, utf16Buffer, utf16Size, NULL, 0, NULL, NULL);
+		if(utf16Size == 0) {
+			switch(GetLastError()) {
+			case ERROR_INVALID_PARAMETER:
+				return ErrorCode::InvalidCodePage;
+			case ERROR_NO_UNICODE_TRANSLATION:
+				return ErrorCode::InvalidString;
+			}
+		}
+		std::string tempString(containSize, NULL);
+		WideCharToMultiByte(codepage, NULL, utf16Buffer, utf16Size, &tempString.front(), containSize, NULL, NULL);
+		contain = tempString;
+		free(utf16Buffer);
+		return ErrorCode::Success;
+	}
+
+	unsigned int StringEncode::convertToWString(const std::string &source, std::wstring &contain, unsigned int codepage) {
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
+		if(source.size() == 0) {
+			contain.resize(0);
+			return ErrorCode::Success;
+		}
+		int size = MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), NULL, 0);
+		if(size == 0) {
+			switch(GetLastError()) {
+			case ERROR_INVALID_PARAMETER:
+				return ErrorCode::InvalidCodePage;
+			case ERROR_NO_UNICODE_TRANSLATION:
+				return ErrorCode::InvalidString;
+			}
+		}
+		std::wstring tempString(size, NULL);
+		MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), &tempString.front(), size);
+		contain = tempString;
+		return ErrorCode::Success;
+	}
+
+	unsigned int StringEncode::convertFromWString(const std::wstring & source, std::string & contain, unsigned int codepage) {
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
+		if(source.size() == 0) {
+			contain.resize(0);
+			return ErrorCode::Success;
+		}
+		int size = WideCharToMultiByte(codepage, NULL, source.c_str(), source.size(), NULL, 0, NULL, NULL);
+		if(size == 0) {
+			switch(GetLastError()) {
+			case ERROR_INVALID_PARAMETER:
+				return ErrorCode::InvalidCodePage;
+			case ERROR_NO_UNICODE_TRANSLATION:
+				return ErrorCode::InvalidString;
+			}
+		}
+		std::string tempString(size, NULL);
+		WideCharToMultiByte(codepage, NULL, source.c_str(), source.size(), &tempString.front(), size, NULL, NULL);
+		contain = tempString;
+		return ErrorCode::Success;
+	}
+	
 	unsigned int StringEncode::convert(const std::string &source, std::string &contain, unsigned int sourceCP, unsigned int targetCP) {
-		assert(sourceCP == CodePage::UTF16);
-		assert(targetCP == CodePage::UTF16);
-		if (sourceCP == targetCP) {
+		assert(sourceCP != CodePage::UCS4);
+		assert(sourceCP != CodePage::UTF16);
+		assert(targetCP != CodePage::UCS4);
+		assert(targetCP != CodePage::UTF16);
+		if(sourceCP == targetCP) {
 			contain = source;
+			return ErrorCode::Success;
 		}
-		std::wstring tempWString;
-		unsigned int result = convertToUTF16(source, tempWString, sourceCP);
-		if (result != ErrorCode::Success) {
-			return result;
+		if(source.size() == 0) {
+			contain.resize(0);
+			return ErrorCode::Success;
 		}
-		result = convertFromUTF16(tempWString, contain, targetCP);
-		return result;
+		int utf16Size = MultiByteToWideChar(sourceCP, NULL, source.c_str(), source.size(), NULL, 0);
+		if(utf16Size == 0) {
+			switch(GetLastError()) {
+			case ERROR_INVALID_PARAMETER:
+				return ErrorCode::InvalidCodePage;
+			case ERROR_NO_UNICODE_TRANSLATION:
+				return ErrorCode::InvalidString;
+			}
+		}
+		wchar_t *utf16Buffer = static_cast<wchar_t *>(malloc(utf16Size << 1));
+		MultiByteToWideChar(sourceCP, NULL, source.c_str(), source.size(), utf16Buffer, utf16Size);
+		int containSize = WideCharToMultiByte(targetCP, NULL, utf16Buffer, utf16Size, NULL, 0, NULL, NULL);
+		if(containSize == 0) {
+			switch(GetLastError()) {
+			case ERROR_INVALID_PARAMETER:
+				return ErrorCode::InvalidCodePage;
+			case ERROR_NO_UNICODE_TRANSLATION:
+				return ErrorCode::InvalidString;
+			}
+		}
+		std::string tempString(containSize, NULL);
+		WideCharToMultiByte(targetCP, NULL, utf16Buffer, utf16Size, &tempString.front(), containSize, NULL, NULL);
+		contain = tempString;
+		return ErrorCode::Success;
 	}
 
-	unsigned int StringEncode::getLocalCodePage() {
+	unsigned int StringEncode::getLocalCP() {
 		return GetACP();
 	}
 
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
 
 	unsigned int StringEncode::convertToUTF16(const std::string &source, std::u16string &contain, const std::string &codepage) {
-		assert(codepage == CodePage::UTF16);
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {
 			contain.resize(0);
 			return ErrorCode::Success;
@@ -123,8 +287,9 @@ namespace Core {
 		return ErrorCode::Success;
 	}
 
-	unsigned int StringEncode::convertFromUTF16(const std::wstring &source, std::string &contain, const std::string &codepage) {
-		assert(codepage == CodePage::UTF16);
+	unsigned int StringEncode::convertFromUTF16(const std::u16string &source, std::string &contain, const std::String &codepage) {
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {
 			contain.resize(0);
 			return ErrorCode::Success;
@@ -172,7 +337,8 @@ namespace Core {
 	}
 
 	unsigned int StringEncode::convertToUCS4(const std::string &source, std::u32string &contain, const std::string &codepage) {
-		assert(codepage == CodePage::UCS4);
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {
 			contain.resize(0);
 			return ErrorCode::Success;
@@ -220,7 +386,8 @@ namespace Core {
 	}
 
 	unsigned int StringEncode::convertFromUCS4(const std::u32string &source, std::string &contain, const std::string &codepage) {
-		assert(codepage) == CodePage::UCS4);
+		assert(codepage) != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {
 			contain.resize(0);
 			return ErrorCode::Success;
@@ -268,7 +435,8 @@ namespace Core {
 	}
 
 	unsigned int StringEncode::convertToWString(const std::string &source, std::wstring &contain, const std::string &codepage) {
-		assert(codepage == CodePage::UCS4);
+		assert(codepage != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {
 			contain.resize(0);
 			return ErrorCode::Success;
@@ -316,7 +484,8 @@ namespace Core {
 	}
 
 	unsigned int StringEncode::convertFromWString(const std::wstring &source, std::string &contain, const std::string &codepage) {
-		assert(codepage) == CodePage::UCS4);
+		assert(codepage) != CodePage::UCS4);
+		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {
 			contain.resize(0);
 			return ErrorCode::Success;
@@ -364,8 +533,10 @@ namespace Core {
 	}
 
 	unsigned int StringEncode::convert(const std::string &source, std::string &contain, const std::string &sourceCP, const std::string &targetCP) {
-		assert(sourceCP == CodePage::UTF16);
-		assert(targetCP == CodePage::UTF16);
+		assert(sourceCP != CodePage::UCS4);
+		assert(sourceCP != CodePage::UTF16);
+		assert(targetCP != CodePage::UCS4);
+		assert(targetCP != CodePage::UTF16);
 		if(sourceCP == targetCP) {
 			contain = source;
 			return ErrorCode::Success;
