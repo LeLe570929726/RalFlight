@@ -94,6 +94,9 @@ namespace Core {
 			*this = Mat3::transpose(*this);
 			return *this;
 		}
+		inline float determinant() {
+			return Mat3::determinant(*this);
+		}
 
 	public:
 		inline float get(int col, int row) const {
@@ -126,6 +129,7 @@ namespace Core {
 		static Mat3 mul(const Mat3 &matrixA, const Mat3 &matrixB);
 		static Mat3 div(const Mat3 &matrix, float scalar);
 		static Mat3 transpose(const Mat3 &matrix);
+		static float determinant(const Mat3 &matrix);
 
 	public:
 		static float get(const Mat3 &matrix, int col, int row);

@@ -127,6 +127,7 @@ namespace Core {
 		static Mat4 mul(const Mat4 &matrixA, const Mat4 &matrixB);
 		static Mat4 div(const Mat4 &matrix, float scalar);
 		static Mat4 transpose(const Mat4 &matrix);
+		static float determinant(const Mat4 &matrix);
 
 	public:
 		static float get(const Mat4 &matrix, int col, int row);

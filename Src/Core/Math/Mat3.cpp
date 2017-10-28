@@ -158,6 +158,31 @@ namespace Core {
 		return tempMatrix;
 	}
 
+	float Mat3::determinant(const Mat3 &matrix) {
+		__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], 0.0f };
+		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[4], matrix.mMatrix[5], matrix.mMatrix[3], 0.0f };
+		__declspec(align(16)) float vectorC[4] = { matrix.mMatrix[8], matrix.mMatrix[6], matrix.mMatrix[7], 0.0f };
+		__declspec(align(16)) float vectorD[4] = { matrix.mMatrix[2], matrix.mMatrix[0], matrix.mMatrix[1], 0.0f };
+		__declspec(align(16)) float vectorE[4] = { matrix.mMatrix[4], matrix.mMatrix[5], matrix.mMatrix[3], 0.0f };
+		__declspec(align(16)) float vectorF[4] = { matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[8], 0.0f };
+		__declspec(align(16)) float vectorResultA[4] = { 0.0f };
+		__declspec(align(16)) float vectorResultB[4] = { 0.0f };
+		__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseResultA, sseResultB;
+		sseA = _mm_load_ps(vectorA);
+		sseB = _mm_load_ps(vectorB);
+		sseC = _mm_load_ps(vectorC);
+		sseD = _mm_load_ps(vectorD);
+		sseE = _mm_load_ps(vectorE);
+		sseF = _mm_load_ps(vectorF);
+		sseB = _mm_mul_ps(sseA, sseB);
+		sseResultA = _mm_mul_ps(sseB, sseC);
+		sseE = _mm_mul_ps(sseD, sseE);
+		sseResultB = _mm_mul_ps(sseE, sseF);
+		_mm_store_ps(vectorResultA, sseResultA);
+		_mm_store_ps(vectorResultB, sseResultB);
+		return vectorResultA[0] + vectorResultA[1] + vectorResultA[2] - vectorResultB[0] - vectorResultB[1] - vectorResultB[2];
+	}
+
 	float Mat3::get(const Mat3 &matrix, int col, int row) {
 		assert(col > 0 && col < 4);
 		assert(row > 0 && row < 4);

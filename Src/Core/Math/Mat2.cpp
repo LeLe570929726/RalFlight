@@ -125,6 +125,18 @@ namespace Core {
 		return tempMatrix;
 	}
 
+	float Mat2::determinant(const Mat2 &matrix) {
+		__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], 0, 0 };
+		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[3], matrix.mMatrix[2], 0, 0 };
+		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		__m128 sseA, sseB, sseResult;
+		sseA = _mm_load_ps(vectorA);
+		sseB = _mm_load_ps(vectorB);
+		sseResult = _mm_mul_ps(sseA, sseB);
+		_mm_store_ps(vectorResult, sseResult);
+		return vectorResult[0] - vectorResult[1];
+	}
+
 	float Mat2::get(const Mat2 &matrix, int col, int row) {
 		assert(col > 0 && col < 3);
 		assert(row > 0 && row < 3);
