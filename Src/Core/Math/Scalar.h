@@ -29,7 +29,7 @@ namespace Core {
 	using uint32 = uint32_t;
 	using uint64 = uint64_t;
 
-	template <typename T>
+	template <class T>
 	class RALFLIGHT_API Scalar {
 	public:
 		Scalar() = delete;

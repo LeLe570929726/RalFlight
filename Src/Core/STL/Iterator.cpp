@@ -5,25 +5,11 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2017/5/13 by LeLe570929726
+// @Craete: 2017/3/17 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#ifndef RALFLIGHT_SRC_CORE_THREAD_THREAD_H
-#define RALFLIGHT_SRC_CORE_THREAD_THREAD_H
+#include "Iteartor.h"
 
-#include "../../Global/Macro/Macro.h"
-#if defined(RALFLIGHT_SYSTEM_WINDOWS)
-#include <Windows.h>
-#endif
-
+// Core namespace
 namespace Core {
 
-	template<typename TF, typename ...TP>
-	class RALFLIGHT_API Thread {
-	public:
-		Thread(TF &&lambda);
-		~Thread() = default;
-	};
-
 }
-
-#endif				// RALFLIGHT_SRC_CORE_THREAD_THREAD_H

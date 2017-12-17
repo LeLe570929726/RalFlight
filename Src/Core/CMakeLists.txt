@@ -17,10 +17,11 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/STL")
 # Math
 add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Math")
 
+# Thread
+add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Thread")
+
 # Plugin
 # set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/LibraryLoader/LibraryLoader.h")
 # set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/LibraryLoader/LibraryLoader.cpp")
 # set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/PluginLoader/PluginLoader.h")
 # set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/PluginLoader/PluginLoader.cpp")
-
-add_library(RalFlightCore SHARED ${RALFILGHT_SRC_CORE_SOURCE})
