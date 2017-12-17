@@ -16,3 +16,10 @@ set(RALFILGHT_SRC_CORE_THREAD_HEAD ${RALFILGHT_SRC_CORE_THREAD_HEAD} "${PROJECT_
 
 # Shared library
 add_library(RalFlightCoreThread SHARED ${RALFILGHT_SRC_CORE_THREAD_SOURCE})
+
+# Find pthread
+if(${RALFLIGHT_SYSTEM} STREQUAL "RALFLIGHT_SYSTEM_LINUX" OR ${RALFLIGHT_SYSTEM} STREQUAL "RALFLIGHT_SYSTEM_MAC")
+	set(THREADS_PREFER_PTHREAD_FLAG ON)
+	find_package(Threads REQUIRED)
+	target_link_libraries(RalFlightCoreThread Threads::Threads)
+endif()

@@ -14,6 +14,8 @@
 #include "../Global/Macro.h"
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	#include <Windows.h>
+#elif defined(RALFLIGHT_SYSTEM_LINUX) || defined(RALFLIGHT_SYSTEM_MAC)
+	#include <pthread.h>
 #endif
 
 // Core namespace
@@ -22,41 +24,28 @@ namespace Core {
 	template <class F, class... FP>
 	class RALFLIGHT_API Thread : public ThreadBase<F, FP...> {
 	public:
-		Thread(F func, FP... para) :
-			ThreadBase<F, FP...>(func, para...) {
-			createThread();
-		}
-		Thread(const Thread &other) = delete;
-		Thread &operator=(copnst Thread &other) = delete;
-		~Thread() {
-			destoryThread();
-		}
-
-	public:
-		int run() {
-			return this->resumeThread();
-		}
-		int suspend() {
-			return this->suspendThread();
-		}
-		int resume() {
-			return this->resumeThread();
-		}
-		int terminate() {
-			return this->terminateThread();
-		}
-
-	private:
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
-		void createThread() {
-			this->mHandle = CreateThread(NULL, 0, ThreadBase<F, FP...>::doRun, this, CREATE_SUSPENDED, NULL);
+		Thread(F func, FP... para) :
+			ThreadBase<F, FP...>(func, para...), mHandle(CreateThread(NULL, 0, ThreadBase<F, FP...>::doRun, this, CREATE_SUSPENDED, NULL)) {
 		}
-		void destoryThread() {
+		~Thread() {
 			if(this->mHandle != NULL) {
 				CloseHandle(this->mHandle);
 			}
 		}
-		int resumeThread() {
+#elif defined(RALFLIGHT_SYSTEM_LINUX) || defined(RALFLIGHT_SYSTEM_MAC)
+		Thread(F func, FP... para) :
+			ThreadBase<F, FP...>(func, para...), mHandle(0) {
+		}
+		~Thread() {
+		}
+#endif
+		Thread(const Thread &other) = delete;
+		Thread &operator=(copnst Thread &other) = delete;
+
+	public:
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+		int detach() {
 			if(this->mHandle != NULL) {
 				if(ResumeThread(this->mHandle) != static_cast<DWORD>(-1)) {
 					return ErrorCode::Success;
@@ -67,18 +56,19 @@ namespace Core {
 				return ErrorCode::FailToCreateThread;
 			}
 		}
-		int suspendThread() {
+		int join() {
 			if(this->mHandle != NULL) {
-				if(SuspendThread(this->mHandle) != static_cast<DWORD>(-1)) {
+				if(ResumeThread(this->mHandle) != static_cast<DWORD>(-1)) {
+					WaitForSingleObject(this->mHandle, INFINITE);
 					return ErrorCode::Success;
 				} else {
-					return ErrorCode::FailToSuspendThread;
+					return ErrorCode::FailToResumeThread;
 				}
 			} else {
 				return ErrorCode::FailToCreateThread;
 			}
 		}
-		int terminateThread() {
+		int terminate() {
 			if(this->mHandle != NULL) {
 				if(TerminateThread(this->mHandle, NULL) != FALSE) {
 					return ErrorCode::Success;
@@ -89,6 +79,32 @@ namespace Core {
 				return ErrorCode::FailToCreateThread;
 			}
 		}
+#elif defined(RALFLIGHT_SYSTEM_LINUX) || defined(RALFLIGHT_SYSTEM_MAC)
+		int detach() {
+			if(pthread_create(&this->mHandle, NULL, &ThreadBase<F, FP...>::doRun, this) == 0) {
+				if(pthread_detach(this->mHandle) == 0) {
+					return ErrorCode::Success;
+				} else {
+					return ErrorCode::FailToResumeThread;
+				}
+			} else {
+				return ErrorCode::FailToCreateThread;
+			}
+		}
+		int join() {
+			if(pthread_create(&this->mHandle, NULL, &ThreadBase<F, FP...>::doRun, this) == 0) {
+				if(pthread_join(this->mHandle, NULL) == 0) {
+					return ErrorCode::Success;
+				} else {
+					return ErrorCode::FailToResumeThread;
+				}
+			} else {
+				return ErrorCode::FailToCreateThread;
+			}
+		}
+		int terminate() {
+			// TODO
+		}
 #endif
 
 	public:
@@ -96,13 +112,14 @@ namespace Core {
 			Success = 0,
 			FailToCreateThread = 1,
 			FailToResumeThread = 2,
-			FailToSuspendThread = 3,
-			FailToTerminateThread = 4
+			FailToTerminateThread = 3
 		};
 
 	private:
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 		HANDLE mHandle;
+#elif defined(RALFLIGHT_SYSTEM_LINUX) || defined(RALFLIGHT_SYSTEM_MAC)
+		pthread_t mHandle;
 #endif
 	};
 }

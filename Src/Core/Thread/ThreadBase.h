@@ -14,6 +14,8 @@
 #include <tuple>
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	#include <Windows.h>
+#elif defined(RALFLIGHT_SYSTEM_LINUX) || defined(RALFLIGHT_SYSTEM_MAC)
+	#include <pthread.h>
 #endif
 
 // Core namespace
@@ -35,6 +37,12 @@ namespace Core {
 			auto objPara = dynamic_cast<ThreadBase<F, FP...> *>(para);
 			DoRun<std::tuple_size<decltype(objPara->mPara)>::value - 1>::run(objPara->mFunc, objPara->mPara);
 			return 0;
+		}
+#elif defined(RALFLIGHT_SYSTEM_LINUX) || defined(RALFLIGHT_SYSTEM_MAC)
+		static void *doRun(void *para) {
+			auto objPara = dynamic_cast<ThreadBase<F, FP...> *>(para);
+			DoRun<std::tuple_size<decltype(objPara->mPara)>::value - 1>::run(objPara->mFunc, objPara->mPara);
+			return nullptr;
 		}
 #endif
 
