@@ -108,16 +108,16 @@ namespace Core {
 		inline Vec3 getCol(int col) const {
 			return Mat3::getCol(*this, col);
 		}
-		inline bool set(int col, int row, float scalar) {
+		inline void set(int col, int row, float scalar) {
 			Mat3::set(*this, col, row, scalar);
 		}
 		inline void set(float(&array)[9]) {
 			Mat3::set(*this, array);
 		}
-		inline bool setRow(int row, const Vec3 &vector) {
+		inline void setRow(int row, const Vec3 &vector) {
 			Mat3::setRow(*this, row, vector);
 		}
-		inline bool setCol(int col, const Vec3 &vector) {
+		inline void setCol(int col, const Vec3 &vector) {
 			Mat3::setCol(*this, col, vector);
 		}
 

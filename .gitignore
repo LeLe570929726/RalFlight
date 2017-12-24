@@ -34,6 +34,8 @@ Build/
 Bin/
 Win32/
 Debug/
+Build32/
+Build64/
 
 # Vs setting files
 .vscode/

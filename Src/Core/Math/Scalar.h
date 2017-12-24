@@ -39,34 +39,34 @@ namespace Core {
 
 	public:
 		static T abs(T scalar) {
-			return static_cast<T>(abs(static_cast<double>(scalar)));
+			return static_cast<T>(std::abs(static_cast<double>(scalar)));
 		}
 		static T cos(T scalar) {
-			return static_cast<T>(cos(static_cast<double>(scalar)));
+			return static_cast<T>(std::cos(static_cast<double>(scalar)));
 		}
 		static T sin(T scalar) {
-			return static_cast<T>(sin(static_cast<double>(scalar)));
+			return static_cast<T>(std::sin(static_cast<double>(scalar)));
 		}
 		static T tan(T scalar) {
-			return static_cast<T>(tan(static_cast<double>(scalar)));
+			return static_cast<T>(std::tan(static_cast<double>(scalar)));
 		}
 		static T acos(T scalar) {
-			return static_cast<T>(acos(static_cast<double>(scalar)));
+			return static_cast<T>(std::acos(static_cast<double>(scalar)));
 		}
 		static T asin(T scalar) {
-			return static_cast<T>(asin(static_cast<double>(scalar)));
+			return static_cast<T>(std::asin(static_cast<double>(scalar)));
 		}
 		static T atan(T scalar) {
-			return static_cast<T>(atan(static_cast<double>(scalar)));
+			return static_cast<T>(std::atan(static_cast<double>(scalar)));
 		}
 		static T pow(T scalarBase, T scalarExp) {
-			return static_cast<T>(pow(static_cast<double>(scalarBase), static_cast<double>(scalarExp)));
+			return static_cast<T>(std::pow(static_cast<double>(scalarBase), static_cast<double>(scalarExp)));
 		}
 		static T sqrt(T scalar) {
-			return static_cast<T>(sqrt(static_cast<double>(scalar)));
+			return static_cast<T>(std::sqrt(static_cast<double>(scalar)));
 		}
 		static T log(T scalar) {
-			return static_cast<T>(log(static_cast<double>(scalar)));
+			return static_cast<T>(std::log(static_cast<double>(scalar)));
 		}
 	};
 

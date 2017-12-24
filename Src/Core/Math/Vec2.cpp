@@ -25,7 +25,6 @@ namespace Core {
 	}
 
 	Vec2 &Vec2::operator=(const Vec2 &other) {
-		*this = Vec2(other);
 		this->mX = other.mX;
 		this->mY = other.mY;
 		return *this;

@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------------------------------------
 
 # Source files
-set(RALFILGHT_SRC_CORE_STL_SOURCE ${RALFILGHT_SRC_CORE_STL_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/STL//String.cpp")
+set(RALFILGHT_SRC_CORE_STL_SOURCE ${RALFILGHT_SRC_CORE_STL_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/STL/String.cpp")
 
 # Header files
 set(RALFILGHT_SRC_CORE_STL_HEAD ${RALFILGHT_SRC_CORE_STL_HEAD} "${PROJECT_SOURCE_DIR}/Src/Core/STL/Iterator.h")

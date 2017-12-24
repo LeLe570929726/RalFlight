@@ -86,10 +86,10 @@ namespace Core {
 			return *this;
 		}
 		inline float dot(const Vec4 &vector) const {
-			return Vec4::dot(*this);
+			return Vec4::dot(*this, vector);
 		}
 		inline float angle(const Vec4 &vector) const {
-			return Vec4::angle(vector);
+			return Vec4::angle(*this, vector);
 		}
 		inline Vec4 project(const Vec4 &vector) const {
 			return Vec4::project(*this, vector);

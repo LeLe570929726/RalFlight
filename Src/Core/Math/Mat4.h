@@ -104,7 +104,7 @@ namespace Core {
 			return Mat4::getRow(*this, row);
 		}
 		inline Vec4 getCol(int col) const {
-			Mat4::getCol(*this, col);
+			return Mat4::getCol(*this, col);
 		}
 		inline void set(int col, int row, float scalar) {
 			Mat4::set(*this, col, row, scalar);
