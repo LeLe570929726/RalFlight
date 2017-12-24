@@ -7,15 +7,15 @@
 #
 # @Craete: 2016/12/3 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
-include("CMake/MinBuildVersion.cmake")
+cmake_minimum_required(VERSION 3.4)
 
-cmake_minimum_required(VERSION ${MIN_VERSION_CMAKE})
-
+# Project information
 project(RalFlight)
 set(RalFlight_VERSION_MAJOR 0)
 set(RalFlight_VERSION_MINOR 1)
 set(RALFLIGHT_VERSION_RELEASE "\"0.1 Alpha1\"")
 
+# Directory
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
 set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
 
@@ -27,6 +27,9 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     set(RALFLIGHT_SYSTEM "RALFLIGHT_SYSTEM_MAC")
 endif()
+
+# C++ standard
+set(CMAKE_CXX_STANDARD 17)
 
 # Build token
 option(RALFLIGHT_BUILD "Build token" ON)
