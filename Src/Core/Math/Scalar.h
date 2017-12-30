@@ -12,9 +12,7 @@
 
 #include "../Global/Macro.h"
 #include <stdint.h>
-namespace std {
-#include <math.h>
-}
+#include <cmath>
 
 // Core namespace
 namespace Core {

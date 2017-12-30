@@ -62,7 +62,7 @@ namespace Core {
 		static unsigned int getLocalCP();
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
 		static unsigned int convertToUTF16(const std::string &source, std::u16string &contain, const std::string &codepage);
-		static unsigned int convertFromUTF16(const std::u16string &source, std::string &contain, const std::String &codepage);
+		static unsigned int convertFromUTF16(const std::u16string &source, std::string &contain, const std::string &codepage);
 		static unsigned int convertToUCS4(const std::string &source, std::u32string &contain, const std::string &codepage);
 		static unsigned int convertFromUCS4(const std::u32string &source, std::string &contain, const std::string &codepage);
 		static unsigned int convertToWString(const std::string &source, std::wstring &contain, const std::string &codepage);

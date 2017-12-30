@@ -14,52 +14,52 @@ namespace Core {
 
 	template <>
 	float Scalar<float>::abs(float scalar) {
-		return std::fabsf(scalar);
+		return std::fabs(scalar);
 	}
 
 	template <>
 	float Scalar<float>::cos(float scalar) {
-		return std::cosf(scalar);
+		return std::cos(scalar);
 	}
 
 	template <>
 	float Scalar<float>::sin(float scalar) {
-		return std::sinf(scalar);
+		return std::sin(scalar);
 	}
 
 	template <>
 	float Scalar<float>::tan(float scalar) {
-		return std::tanf(scalar);
+		return std::tan(scalar);
 	}
 
 	template <>
 	float Scalar<float>::acos(float scalar) {
-		return std::acosf(scalar);
+		return std::acos(scalar);
 	}
 
 	template <>
 	float Scalar<float>::asin(float scalar) {
-		return std::asinf(scalar);
+		return std::asin(scalar);
 	}
 
 	template <>
 	float Scalar<float>::atan(float scalar) {
-		return std::atanf(scalar);
+		return std::atan(scalar);
 	}
 
 	template <>
 	float Scalar<float>::pow(float scalarBase, float scalarExp) {
-		return std::powf(scalarBase, scalarExp);
+		return std::pow(scalarBase, scalarExp);
 	}
 
 	template <>
 	float Scalar<float>::sqrt(float scalar) {
-		return std::sqrtf(scalar);
+		return std::sqrt(scalar);
 	}
 
 	template <>
 	float Scalar<float>::log(float scalar) {
-		return std::logf(scalar);
+		return std::log(scalar);
 	}
 
 	template <>

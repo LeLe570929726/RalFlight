@@ -31,9 +31,9 @@ namespace Core {
 	}
 
 	Vec2 Vec2::add(const Vec2 &vectorA, const Vec2 &vectorB) {
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -43,9 +43,9 @@ namespace Core {
 	}
 
 	Vec2 Vec2::sub(const Vec2 &vectorA, const Vec2 &vectorB) {
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -55,9 +55,9 @@ namespace Core {
 	}
 
 	Vec2 Vec2::mul(const Vec2 &vector, float scalar) {
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorB[4] = { scalar, scalar, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorB[4] = { scalar, scalar, 0.0f, 0.0f };
+		ALIGN16 float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -68,9 +68,9 @@ namespace Core {
 
 	Vec2 Vec2::div(const Vec2 &vector, float scalar) {
 		assert(scalar);
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorB[4] = { scalar, scalar, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorB[4] = { scalar, scalar, 0.0f, 0.0f };
+		ALIGN16 float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -80,8 +80,8 @@ namespace Core {
 	}
 
 	float Vec2::module(const Vec2 &vector) {
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorA);
@@ -91,8 +91,8 @@ namespace Core {
 	}
 
 	float Vec2::rmodule(const Vec2 &vector) {
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorB[4] = { 0.0f }, vectorC[4] = { 0.0f }, vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorB[4] = { 0.0f }, vectorC[4] = { 0.0f }, vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseC, sseD, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorA);
@@ -108,9 +108,9 @@ namespace Core {
 	Vec2 Vec2::normalize(const Vec2 &vector) {
 		float module = Vec2::rmodule(vector);
 		assert(module);
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorB[4] = { module, module, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorB[4] = { module, module, 0.0f, 0.0f };
+		ALIGN16 float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -120,9 +120,9 @@ namespace Core {
 	}
 
 	float Vec2::dot(const Vec2 &vectorA, const Vec2 &vectorB) {
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -132,9 +132,9 @@ namespace Core {
 	}
 
 	float Vec2::cross(const Vec2 &vectorA, const Vec2 &vectorB) {
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mY, vectorB.mX, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorAB[4] = { vectorB.mY, vectorB.mX, 0.0f, 0.0f };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -149,9 +149,9 @@ namespace Core {
 		// a × b = |a| * |b| * sinθ = (xa * yb) - (ya * xb)
 		// tanθ = (a × b) / (a · b)
 		// So we can use it to calculate tanθ, using this method can avoid some unnecessary calculating.
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mX, vectorA.mY };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mY, vectorB.mX, vectorB.mX, vectorB.mY };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mX, vectorA.mY };
+		ALIGN16 float vectorAB[4] = { vectorB.mY, vectorB.mX, vectorB.mX, vectorB.mY };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -163,9 +163,9 @@ namespace Core {
 	Vec2 Vec2::project(const Vec2 &vectorA, const Vec2 &vectorB) {
 		float module = Vec2::rmodule(vectorB);
 		float scalar = Vec2::dot(vectorA, vectorB) * (module * module);	// a' = ((a · b) / |b|^2) * b
-		__declspec(align(16)) float vectorAA[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAB[4] = { scalar, scalar, 0.0f, 0.0f };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
+		ALIGN16 float vectorAB[4] = { scalar, scalar, 0.0f, 0.0f };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA;
 		__m128 sseB;
 		__m128 sseResult;

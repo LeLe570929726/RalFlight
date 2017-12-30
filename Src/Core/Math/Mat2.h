@@ -12,8 +12,12 @@
 
 #include "../Global/Macro.h"
 #include "Vec2.h"
-#include <intrin.h>
 #include <assert.h>
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+	#include <intrin.h>
+#elif defined(RALFLIGHT_SYSTEM_LINUX)
+	#include <xmmintrin.h>
+#endif
 
 // Core namespace
 namespace Core {

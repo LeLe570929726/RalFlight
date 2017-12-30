@@ -287,7 +287,7 @@ namespace Core {
 		return ErrorCode::Success;
 	}
 
-	unsigned int StringEncode::convertFromUTF16(const std::u16string &source, std::string &contain, const std::String &codepage) {
+	unsigned int StringEncode::convertFromUTF16(const std::u16string &source, std::string &contain, const std::string &codepage) {
 		assert(codepage != CodePage::UCS4);
 		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {

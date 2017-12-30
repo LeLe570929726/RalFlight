@@ -33,9 +33,9 @@ namespace Core {
 	}
 
 	Vec4 Vec4::add(const Vec4 &vectorA, const Vec4 &vectorB) {
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
+		ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -45,9 +45,9 @@ namespace Core {
 	}
 
 	Vec4 Vec4::sub(const Vec4 &vectorA, const Vec4 &vectorB) {
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
+		ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -57,9 +57,9 @@ namespace Core {
 	}
 
 	Vec4 Vec4::mul(const Vec4 &vector, float scalar){
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
+		ALIGN16 float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -70,9 +70,9 @@ namespace Core {
 
 	Vec4 Vec4::div(const Vec4 &vector, float scalar) {
 		assert(scalar);
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
+		ALIGN16 float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -82,9 +82,9 @@ namespace Core {
 	}
 
 	float Vec4::module(const Vec4 &vector) {
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		__declspec(align(16)) float vectorB[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		ALIGN16 float vectorB[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		ALIGN16 float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -95,9 +95,9 @@ namespace Core {
 
 	// Module's reciprocal
 	float Vec4::rmodule(const Vec4 &vector) {
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		__declspec(align(16)) float vectorB[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		__declspec(align(16)) float vectorC[4] = { 0.0f }, vectorD[4] = { 0.0f }, vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		ALIGN16 float vectorB[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		ALIGN16 float vectorC[4] = { 0.0f }, vectorD[4] = { 0.0f }, vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseC, sseD, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -113,9 +113,9 @@ namespace Core {
 	Vec4 Vec4::normalize(const Vec4 &vector) {
 		float module = vector.rmodule();
 		assert(module);
-		__declspec(align(16)) float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		__declspec(align(16)) float vectorB[4] = { module, module, module, module };
-		__declspec(align(16)) float vectorResult[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		ALIGN16 float vectorB[4] = { module, module, module, module };
+		ALIGN16 float vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -125,9 +125,9 @@ namespace Core {
 	}
 
 	float Vec4::dot(const Vec4 &vectorA, const Vec4 &vectorB) {
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
+		ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -137,13 +137,13 @@ namespace Core {
 	}
 
 	float Vec4::angle(const Vec4 &vectorA, const Vec4 &vectorB) {
-		__declspec(align(16)) float vectorAA[4] = { vectorA.mW, vectorA.mX, vectorA.mY, vectorA.mZ };
-		__declspec(align(16)) float vectorAB[4] = { vectorB.mX, vectorB.mW, vectorB.mZ, vectorB.mY };
-		__declspec(align(16)) float vectorAC[4] = { vectorA.mW, vectorA.mY, vectorA.mZ, vectorA.mX };
-		__declspec(align(16)) float vectorAD[4] = { vectorB.mY, vectorB.mW, vectorB.mX, vectorB.mZ };
-		__declspec(align(16)) float vectorAE[4] = { vectorA.mW, vectorA.mZ, vectorA.mX, vectorA.mY };
-		__declspec(align(16)) float vectorAF[4] = { vectorB.mZ, vectorB.mW, vectorB.mY, vectorB.mX };
-		__declspec(align(16)) float vectorAResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorA.mW, vectorA.mX, vectorA.mY, vectorA.mZ };
+		ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mW, vectorB.mZ, vectorB.mY };
+		ALIGN16 float vectorAC[4] = { vectorA.mW, vectorA.mY, vectorA.mZ, vectorA.mX };
+		ALIGN16 float vectorAD[4] = { vectorB.mY, vectorB.mW, vectorB.mX, vectorB.mZ };
+		ALIGN16 float vectorAE[4] = { vectorA.mW, vectorA.mZ, vectorA.mX, vectorA.mY };
+		ALIGN16 float vectorAF[4] = { vectorB.mZ, vectorB.mW, vectorB.mY, vectorB.mX };
+		ALIGN16 float vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseResult;
 		Vec3 tempVector(0.0f ,0.0f ,0.0f);
 		sseA = _mm_load_ps(vectorAA);
@@ -167,9 +167,9 @@ namespace Core {
 	Vec4 Vec4::project(const Vec4 &vectorA, const Vec4 &vectorB) {
 		float module = vectorB.rmodule();
 		float scalar = Vec4::dot(vectorA, vectorB) * (module * module);		// u' = ((u · v) / |v|^2) * v
-		__declspec(align(16)) float vectorAA[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-		__declspec(align(16)) float vectorAB[4] = { scalar, scalar, scalar, scalar };
-		__declspec(align(16)) float vectoraResult[4] = { 0.0f };
+		ALIGN16 float vectorAA[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
+		ALIGN16 float vectorAB[4] = { scalar, scalar, scalar, scalar };
+		ALIGN16 float vectoraResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);

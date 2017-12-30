@@ -41,11 +41,11 @@ namespace Core {
 	Mat4 Mat4::add(const Mat4 &matrixA, const Mat4 &matrixB) {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
-			__declspec(align(16)) float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1],
+			ALIGN16 float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1],
 													   matrixA.mMatrix[i + 2], matrixA.mMatrix[i + 3] };
-			__declspec(align(16)) float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
+			ALIGN16 float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
 													   matrixB.mMatrix[i + 2], matrixB.mMatrix[i + 3] };
-			__declspec(align(16)) float vectorResult[4] = { 0.0f };
+			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -62,11 +62,11 @@ namespace Core {
 	Mat4 Mat4::sub(const Mat4 &matrixA, const Mat4 &matrixB) {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
-			__declspec(align(16)) float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], 
+			ALIGN16 float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], 
 													   matrixA.mMatrix[i + 2], matrixA.mMatrix[i + 3] };
-			__declspec(align(16)) float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
+			ALIGN16 float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
 													   matrixB.mMatrix[i + 2], matrixB.mMatrix[i + 3] };
-			__declspec(align(16)) float vectorResult[4] = { 0.0f };
+			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -83,10 +83,10 @@ namespace Core {
 	Mat4 Mat4::mul(const Mat4 &matrix, float scalar) {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
-			__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
+			ALIGN16 float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
 													   matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
-			__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
-			__declspec(align(16)) float vectorResult[4] = { 0.0f };
+			ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
+			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -102,13 +102,13 @@ namespace Core {
 
 	Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) {
 		float tempArray[4] = { 0.0f };
-		__declspec(align(16)) float vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), vector.getW() };
+		ALIGN16 float vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), vector.getW() };
 		__m128 sseA;
 		sseA = _mm_load_ps(vectorA);
 		for (int i = 0; i <= 12; i += 12) {
-			__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
+			ALIGN16 float vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
 													   matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
-			__declspec(align(16)) float vectorResult[4] = { 0.0f };
+			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseB, sseResult;
 			sseB = _mm_load_ps(vectorB);
 			sseResult = _mm_mul_ps(sseA, sseB);
@@ -121,11 +121,11 @@ namespace Core {
 	Mat4 Mat4::mul(const Mat4 &matrixA, const Mat4 &matrixB) {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i < 16; ++i) {
-			__declspec(align(16)) float vectorA[4] = { matrixA.mMatrix[static_cast<int>(i >> 2)], matrixA.mMatrix[static_cast<int>(i >> 2) + 1],
+			ALIGN16 float vectorA[4] = { matrixA.mMatrix[static_cast<int>(i >> 2)], matrixA.mMatrix[static_cast<int>(i >> 2) + 1],
 													   matrixA.mMatrix[static_cast<int>(i >> 2) + 2], matrixA.mMatrix[static_cast<int>(i >> 2) + 3] };
-			__declspec(align(16)) float vectorB[4] = { matrixB.mMatrix[(i % 4)], matrixB.mMatrix[(i % 4) + 4],
+			ALIGN16 float vectorB[4] = { matrixB.mMatrix[(i % 4)], matrixB.mMatrix[(i % 4) + 4],
 													   matrixB.mMatrix[(i % 4) + 8], matrixB.mMatrix[(i % 4) + 12] };
-			__declspec(align(16)) float vectorResult[4] = { 0.0f };
+			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -140,10 +140,10 @@ namespace Core {
 		assert(scalar);
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
-			__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
+			ALIGN16 float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
 													   matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
-			__declspec(align(16)) float vectorB[4] = { scalar, scalar, scalar, scalar };
-			__declspec(align(16)) float vectorResult[4] = { 0.0f };
+			ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
+			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -182,23 +182,23 @@ namespace Core {
 	}
 
 	float Mat4::determinant(const Mat4 &matrix) {
-		__declspec(align(16)) float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[1] };
-		__declspec(align(16)) float vectorB[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[6] };
-		__declspec(align(16)) float vectorC[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[8], matrix.mMatrix[8] };
-		__declspec(align(16)) float vectorD[4] = { matrix.mMatrix[7], matrix.mMatrix[7], matrix.mMatrix[13], matrix.mMatrix[14] };
-		__declspec(align(16)) float vectorE[4] = { matrix.mMatrix[8], matrix.mMatrix[9], matrix.mMatrix[9], matrix.mMatrix[10] };
-		__declspec(align(16)) float vectorF[4] = { matrix.mMatrix[15], matrix.mMatrix[14], matrix.mMatrix[15], matrix.mMatrix[15] };
-		__declspec(align(16)) float vectorG[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3], matrix.mMatrix[2] };
-		__declspec(align(16)) float vectorH[4] = { matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[5] };
-		__declspec(align(16)) float vectorI[4] = { matrix.mMatrix[3], matrix.mMatrix[3], matrix.mMatrix[9], matrix.mMatrix[10] };
-		__declspec(align(16)) float vectorJ[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[12], matrix.mMatrix[12] };
-		__declspec(align(16)) float vectorK[4] = { matrix.mMatrix[11], matrix.mMatrix[10], matrix.mMatrix[11], matrix.mMatrix[11] };
-		__declspec(align(16)) float vectorL[4] = { matrix.mMatrix[12], matrix.mMatrix[13], matrix.mMatrix[13], matrix.mMatrix[14] };
-		__declspec(align(16)) float vectorResultA[4] = { 0.0f };
-		__declspec(align(16)) float vectorResultB[4] = { 0.0f };
-		__declspec(align(16)) float vectorResultC[4] = { 0.0f };
-		__declspec(align(16)) float vectorResultD[4] = { 0.0f };
-		__declspec(align(16)) float vectorResultE[4] = { 0.0f };
+		ALIGN16 float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[1] };
+		ALIGN16 float vectorB[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[6] };
+		ALIGN16 float vectorC[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[8], matrix.mMatrix[8] };
+		ALIGN16 float vectorD[4] = { matrix.mMatrix[7], matrix.mMatrix[7], matrix.mMatrix[13], matrix.mMatrix[14] };
+		ALIGN16 float vectorE[4] = { matrix.mMatrix[8], matrix.mMatrix[9], matrix.mMatrix[9], matrix.mMatrix[10] };
+		ALIGN16 float vectorF[4] = { matrix.mMatrix[15], matrix.mMatrix[14], matrix.mMatrix[15], matrix.mMatrix[15] };
+		ALIGN16 float vectorG[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3], matrix.mMatrix[2] };
+		ALIGN16 float vectorH[4] = { matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[5] };
+		ALIGN16 float vectorI[4] = { matrix.mMatrix[3], matrix.mMatrix[3], matrix.mMatrix[9], matrix.mMatrix[10] };
+		ALIGN16 float vectorJ[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[12], matrix.mMatrix[12] };
+		ALIGN16 float vectorK[4] = { matrix.mMatrix[11], matrix.mMatrix[10], matrix.mMatrix[11], matrix.mMatrix[11] };
+		ALIGN16 float vectorL[4] = { matrix.mMatrix[12], matrix.mMatrix[13], matrix.mMatrix[13], matrix.mMatrix[14] };
+		ALIGN16 float vectorResultA[4] = { 0.0f };
+		ALIGN16 float vectorResultB[4] = { 0.0f };
+		ALIGN16 float vectorResultC[4] = { 0.0f };
+		ALIGN16 float vectorResultD[4] = { 0.0f };
+		ALIGN16 float vectorResultE[4] = { 0.0f };
 		__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseG, sseH, sseI, sseJ, sseK, sseL, sseM, sseN, sseO, sseP, sseResultA, sseResultB, sseResultC;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -224,10 +224,10 @@ namespace Core {
 		_mm_store_ps(vectorResultA, sseResultA);
 		_mm_store_ps(vectorResultB, sseResultB);
 		_mm_store_ps(vectorResultC, sseResultC);
-		__declspec(align(16)) float vectorM[4] = { vectorResultA[0], vectorResultA[1], vectorResultA[2], 0.0f };
-		__declspec(align(16)) float vectorN[4] = { vectorResultC[3], vectorResultC[2], vectorResultC[1], 0.0f };
-		__declspec(align(16)) float vectorO[4] = { vectorResultA[4], vectorResultB[0], vectorResultB[1], 0.0f };
-		__declspec(align(16)) float vectorP[4] = { vectorResultC[0], vectorResultB[3], vectorResultB[2], 0.0f };
+		ALIGN16 float vectorM[4] = { vectorResultA[0], vectorResultA[1], vectorResultA[2], 0.0f };
+		ALIGN16 float vectorN[4] = { vectorResultC[3], vectorResultC[2], vectorResultC[1], 0.0f };
+		ALIGN16 float vectorO[4] = { vectorResultA[4], vectorResultB[0], vectorResultB[1], 0.0f };
+		ALIGN16 float vectorP[4] = { vectorResultC[0], vectorResultB[3], vectorResultB[2], 0.0f };
 		sseM = _mm_load_ps(vectorM);
 		sseN = _mm_load_ps(vectorN);
 		sseO = _mm_load_ps(vectorO);
