@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016-2017 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
 // 
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -21,7 +21,7 @@
 #define PROJECT_VERSION_RELEASE "0.1 Alpha1"
 
 // System token
-#define RALFLIGHT_SYSTEM_LINUX
+#define RALFLIGHT_SYSTEM_WINDOWS
 
 // Build token
 #define RALFLIGHT_BUILD

@@ -1,5 +1,5 @@
 ﻿# ----------------------------------------------------------------------------------------------------
-# Copyright © 2016-2017 LeLe570929726. All rights reserved.
+# Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
 # 
 # @Project: RalFlight
 # @License: Licensed under GNU General Public License v3.
@@ -7,7 +7,7 @@
 #
 # @Craete: 2016/12/3 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.8.2)
 
 # Project information
 project(RalFlight)

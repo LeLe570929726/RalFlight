@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2017 LeLe570929726.All rights reserved.
+// Copyright © 2016 - 2018 LeLe570929726.All rights reserved.
 // 
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -30,7 +30,7 @@ namespace Core {
 			mFunc(std::forward<F>(other.mFunc)), mPara(std::forward<FP>(other.mPara)...) {
 		}
 		Runnable &operator=(const Runnable &other) = delete;
-		~Runnable() = default;
+		virtual ~Runnable() = default;
 
 	public:
 		virtual void run() override {

@@ -1,7 +1,7 @@
 #include "StringEncode.h"
 #include "StringEncode.h"
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016-2017 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
 // 
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
