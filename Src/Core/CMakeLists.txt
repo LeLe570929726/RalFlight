@@ -9,19 +9,18 @@
 # ----------------------------------------------------------------------------------------------------
 
 # Global
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Global")
+include("${PROJECT_SOURCE_DIR}/Src/Core/Global/CMakeLists.txt")
 
 # STL
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/STL")
+include("${PROJECT_SOURCE_DIR}/Src/Core/STL/CMakeLists.txt")
 
 # Math
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Math")
+include("${PROJECT_SOURCE_DIR}/Src/Core/Math/CMakeLists.txt")
 
 # Thread
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Thread")
+include("${PROJECT_SOURCE_DIR}/Src/Core/Thread/CMakeLists.txt")
 
-# Plugin
-# set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/LibraryLoader/LibraryLoader.h")
-# set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/LibraryLoader/LibraryLoader.cpp")
-# set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/PluginLoader/PluginLoader.h")
-# set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE} "${PROJECT_SOURCE_DIR}/Src/Core/Plugin/PluginLoader/PluginLoader.cpp")
+# Library
+add_library(RalFlightCore SHARED ${RALFILGHT_SRC_CORE_STL_SOURCE}
+								 ${RALFILGHT_SRC_CORE_MATH_SOURCE}
+								 ${RALFILGHT_SRC_CORE_THREAD_SOURCE})

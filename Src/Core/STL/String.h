@@ -21,9 +21,6 @@
 // Core namespace
 namespace Core {
 
-	using StringIterator = Iterator<std::wstring::iterator>;
-	using StringConstIterator = Iterator<std::wstring::const_iterator>;
-
 	enum RALFLIGHT_API TextCodeFormat {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 		UTF16 = 1200,
@@ -34,6 +31,10 @@ namespace Core {
 	};
 
 	class RALFLIGHT_API String {
+	private:
+		using StringIterator = Iterator<std::wstring::iterator>;
+		using StringConstIterator = Iterator<std::wstring::const_iterator>;
+
 	public:
 		String() = default;
 		String(const char *text);

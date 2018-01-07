@@ -25,7 +25,7 @@
 // Core namespace
 namespace Core {
 
-	class Thread {
+	class RALFLIGHT_API Thread {
 	public:
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 		template <class F, class... FP>

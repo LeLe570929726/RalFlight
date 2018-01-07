@@ -11,6 +11,10 @@
 #define RALFLIGHT_SRC_CORE_THREAD_THREADPOOL_H
 
 #include "../Global/Macro.h"
+#include "../STL/UniquePointer.h"
+#include "../STL/Map.h"
+#include "RunnableBase.h"
+#include "Runnable.h"
 #include <assert.h>
 #include <utility>
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
@@ -30,10 +34,35 @@ namespace Core {
 		~ThreadPool();
 
 	public:
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+		template <class F, class... FP>
+		int submit(F &&func, FP&&... para) {
+			UniquePointer<RunnableBase> runnable(dynamic_cast<RunnableBase *>(new Runnable<F, FP...>(std::forward<F>(func), std::forward<FP>(para)...)));
+			this->mWork.insert(static_cast<int>(&runnable), runnable);
+			auto work = CreateThreadpoolWork(ThreadPool::doRun, static_cast<int>(&runnable), this->mEnvironment);
+			if(work == NULL) {
+				return ErrorCode::FailToCreateWork;
+			}
+			SubmitThreadpoolWork(work);
+			return ErrorCode::Success;
+		}
+#endif
+
+	public:
 		enum ThreadNumber {
 			Maximum = 250,
 			Minimum = 5
 		};
+
+		enum ErrorCode {
+			Success = 0,
+			FailToCreateWork = 1
+		};
+
+	public:
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+		static void WINAPI doRun(PTP_CALLBACK_INSTANCE instance, PVOID context, PTP_WORK work);
+#endif
 
 	private:
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
@@ -45,6 +74,7 @@ namespace Core {
 		int mThreadMax;
 		int mThreadMin;
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
+		Map<int, UniquePointer<RunnableBase>> mWork;
 		PTP_POOL mPool;
 		PTP_CALLBACK_ENVIRON mEnvironment;
 		PTP_CLEANUP_GROUP mCleanupGroup;

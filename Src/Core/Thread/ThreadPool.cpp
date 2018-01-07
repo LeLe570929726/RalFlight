@@ -35,6 +35,11 @@ namespace Core {
 		this->destory();
 	}
 
+	void WINAPI ThreadPool::doRun(PTP_CALLBACK_INSTANCE instance, PVOID context, PTP_WORK work) {
+		int pid = *static_cast<int *>(context);
+		// TODO: Get runnable from map by pid, and run it.
+	}
+
 	void ThreadPool::initialize() {
 		if(this->mPool != NULL) {
 			// Set pool thread's number

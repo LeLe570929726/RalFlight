@@ -25,23 +25,23 @@
 // Core namespace
 namespace Core {
 
-	enum CodePage {
+	namespace CodePage {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 		// Code page in windows reference from [MSDN](https://msdn.microsoft.com/library/windows/desktop/dd317756.aspx)
-		UCS4 = 12000,
-		UTF16 = 1200,
-		UTF8 = CP_UTF8,
-		Latin1 = 28591,
-		GB2312 = 20936,
-		GBK = 936,
-		GB18030 = 54936
+		#define UCS4 12000
+		#define UTF16 1200
+		#define UTF8 CP_UTF8
+		#define Latin1 28591
+		#define GB2312 0936
+		#define GBK 936
+		#define GB18030 54936
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
-		UCS4 = "UCS-4",
-		UTF16 = "UTF-16",
-		UTF8 = "UTF-8",
-		GBK = "CP936"
+		#define UCS4 "UCS-4"
+		#define UTF16 "UTF-16"
+		#define UTF8 "UTF-8"
+		#define GBK "CP936"
 #endif
-	};
+	}
 
 	class RALFLIGHT_API StringEncode {
 	public:
