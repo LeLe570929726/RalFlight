@@ -40,6 +40,7 @@ Build64/
 # Vs setting files
 .vscode/
 .vs/
+.idea/
 3rdPart/
 
 # Temp files
