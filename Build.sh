@@ -29,3 +29,6 @@ cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DRALFLIGHT_BUILD=ON -DCXXFL
 
 # Build64
 make
+
+# Set status
+cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DRALFLIGHT_BUILD=OFF -DCXXFLAGS=-m64 -DEXECUTABLE_OUTPUT_PATH="$EXCU_DIR/Bin/x64" -DLIBRARY_OUTPUT_PATH="$EXCU_DIR/Bin/x64" ../../

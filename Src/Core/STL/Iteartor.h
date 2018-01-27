@@ -16,7 +16,7 @@
 namespace Core {
 
 	template<class T>
-	class RALFLIGHT_API Iterator {
+	class RALFLIGHT_API_TEMPLATE Iterator {
 	public:
 		Iterator() = default;
 		Iterator(const T &iterator) :

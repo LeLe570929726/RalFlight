@@ -23,7 +23,7 @@ namespace Core {
 			contain.resize(0);
 			return ErrorCode::Success;
 		}
-		int size = MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), NULL, 0);
+		int size = MultiByteToWideChar(codepage, NULL, source.c_str(), static_cast<int>(source.size()), NULL, 0);
 		if(size == 0) {
 			switch(GetLastError()) {
 			case ERROR_INVALID_PARAMETER:
@@ -33,7 +33,7 @@ namespace Core {
 			}
 		}
 		std::u16string tempString(size, NULL);
-		MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), reinterpret_cast<LPWSTR>(&tempString.front()), size);
+		MultiByteToWideChar(codepage, NULL, source.c_str(), static_cast<int>(source.size()), reinterpret_cast<LPWSTR>(&tempString.front()), size);
 		contain = tempString;
 		return ErrorCode::Success;
 	}
@@ -45,7 +45,7 @@ namespace Core {
 			contain.resize(0);
 			return ErrorCode::Success;
 		}
-		int size = WideCharToMultiByte(codepage, NULL, reinterpret_cast<LPCWCH>(source.c_str()), source.size(), NULL, 0, NULL, NULL);
+		int size = WideCharToMultiByte(codepage, NULL, reinterpret_cast<LPCWCH>(source.c_str()), static_cast<int>(source.size()), NULL, 0, NULL, NULL);
 		if(size == 0) {
 			switch(GetLastError()) {
 			case ERROR_INVALID_PARAMETER:
@@ -55,7 +55,7 @@ namespace Core {
 			}
 		}
 		std::string tempString(size, NULL);
-		WideCharToMultiByte(codepage, NULL, reinterpret_cast<LPCWCH>(source.c_str()), source.size(), &tempString.front(), size, NULL, NULL);
+		WideCharToMultiByte(codepage, NULL, reinterpret_cast<LPCWCH>(source.c_str()), static_cast<int>(source.size()), &tempString.front(), size, NULL, NULL);
 		contain = tempString;
 		return ErrorCode::Success;
 	}
@@ -67,7 +67,7 @@ namespace Core {
 			contain.resize(0);
 			return ErrorCode::Success;
 		}
-		int utf16Size = MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), NULL, 0);
+		int utf16Size = MultiByteToWideChar(codepage, NULL, source.c_str(), static_cast<int>(source.size()), NULL, 0);
 		if(utf16Size == 0) {
 			switch(GetLastError()) {
 			case ERROR_INVALID_PARAMETER:
@@ -77,7 +77,7 @@ namespace Core {
 			}
 		}
 		wchar_t *utf16Buffer = static_cast<wchar_t *>(malloc(utf16Size << 1));
-		MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), utf16Buffer, utf16Size);
+		MultiByteToWideChar(codepage, NULL, source.c_str(), static_cast<int>(source.size()), utf16Buffer, utf16Size);
 		// Accoding to [MSDN](https://msdn.microsoft.com/library/windows/desktop/dd317756.aspx)
 		// UTF-32 available only to managed applications.
 		// So we should implement the function of UTF-16 to UTF-32.
@@ -156,7 +156,7 @@ namespace Core {
 			contain.resize(0);
 			return ErrorCode::Success;
 		}
-		int size = MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), NULL, 0);
+		int size = MultiByteToWideChar(codepage, NULL, source.c_str(), static_cast<int>(source.size()), NULL, 0);
 		if(size == 0) {
 			switch(GetLastError()) {
 			case ERROR_INVALID_PARAMETER:
@@ -166,7 +166,7 @@ namespace Core {
 			}
 		}
 		std::wstring tempString(size, NULL);
-		MultiByteToWideChar(codepage, NULL, source.c_str(), source.size(), &tempString.front(), size);
+		MultiByteToWideChar(codepage, NULL, source.c_str(), static_cast<int>(source.size()), &tempString.front(), size);
 		contain = tempString;
 		return ErrorCode::Success;
 	}
@@ -178,7 +178,7 @@ namespace Core {
 			contain.resize(0);
 			return ErrorCode::Success;
 		}
-		int size = WideCharToMultiByte(codepage, NULL, source.c_str(), source.size(), NULL, 0, NULL, NULL);
+		int size = WideCharToMultiByte(codepage, NULL, source.c_str(), static_cast<int>(source.size()), NULL, 0, NULL, NULL);
 		if(size == 0) {
 			switch(GetLastError()) {
 			case ERROR_INVALID_PARAMETER:
@@ -188,7 +188,7 @@ namespace Core {
 			}
 		}
 		std::string tempString(size, NULL);
-		WideCharToMultiByte(codepage, NULL, source.c_str(), source.size(), &tempString.front(), size, NULL, NULL);
+		WideCharToMultiByte(codepage, NULL, source.c_str(), static_cast<int>(source.size()), &tempString.front(), size, NULL, NULL);
 		contain = tempString;
 		return ErrorCode::Success;
 	}
@@ -206,7 +206,7 @@ namespace Core {
 			contain.resize(0);
 			return ErrorCode::Success;
 		}
-		int utf16Size = MultiByteToWideChar(sourceCP, NULL, source.c_str(), source.size(), NULL, 0);
+		int utf16Size = MultiByteToWideChar(sourceCP, NULL, source.c_str(), static_cast<int>(source.size()), NULL, 0);
 		if(utf16Size == 0) {
 			switch(GetLastError()) {
 			case ERROR_INVALID_PARAMETER:
@@ -216,7 +216,7 @@ namespace Core {
 			}
 		}
 		wchar_t *utf16Buffer = static_cast<wchar_t *>(malloc(utf16Size << 1));
-		MultiByteToWideChar(sourceCP, NULL, source.c_str(), source.size(), utf16Buffer, utf16Size);
+		MultiByteToWideChar(sourceCP, NULL, source.c_str(), static_cast<int>(source.size()), utf16Buffer, utf16Size);
 		int containSize = WideCharToMultiByte(targetCP, NULL, utf16Buffer, utf16Size, NULL, 0, NULL, NULL);
 		if(containSize == 0) {
 			switch(GetLastError()) {

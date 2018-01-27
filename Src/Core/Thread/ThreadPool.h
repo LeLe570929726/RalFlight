@@ -17,6 +17,7 @@
 #include "Runnable.h"
 #include <assert.h>
 #include <utility>
+#include <tuple>
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	#include <Windows.h>
 #endif
@@ -39,6 +40,7 @@ namespace Core {
 		int submit(F &&func, FP&&... para) {
 			UniquePointer<RunnableBase> runnable(dynamic_cast<RunnableBase *>(new Runnable<F, FP...>(std::forward<F>(func), std::forward<FP>(para)...)));
 			this->mWork.insert(static_cast<int>(&runnable), runnable);
+			std::tuple<>
 			auto work = CreateThreadpoolWork(ThreadPool::doRun, static_cast<int>(&runnable), this->mEnvironment);
 			if(work == NULL) {
 				return ErrorCode::FailToCreateWork;

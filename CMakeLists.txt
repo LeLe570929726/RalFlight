@@ -15,10 +15,6 @@ set(RalFlight_VERSION_MAJOR 0)
 set(RalFlight_VERSION_MINOR 1)
 set(RALFLIGHT_VERSION_RELEASE "\"0.1 Alpha1\"")
 
-# Directory
-# set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
-# set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
-
 # Check system and set system token
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(RALFLIGHT_SYSTEM "RALFLIGHT_SYSTEM_WINDOWS")
@@ -35,4 +31,8 @@ set(CMAKE_CXX_STANDARD 17)
 option(RALFLIGHT_BUILD "Build token" ON)
 
 # Src
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src")
+if(${RALFLIGHT_BUILD} STREQUAL ON)
+	add_subdirectory("${PROJECT_SOURCE_DIR}/Src")
+else()
+	add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core/Global")
+endif()

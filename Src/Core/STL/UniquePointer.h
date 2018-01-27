@@ -17,7 +17,7 @@
 namespace Core {
 
 	template <class T>
-	using UniquePointer = std::unique_ptr<T>;
+	using RALFLIGHT_API_TEMPLATE UniquePointer = std::unique_ptr<T>;
 
 }
 

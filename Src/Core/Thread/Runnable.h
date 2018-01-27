@@ -20,7 +20,7 @@
 namespace Core {
 
 	template <class F, class... FP>
-	class RALFLIGHT_API Runnable : public RunnableBase {
+	class RALFLIGHT_API_TEMPLATE Runnable : public RunnableBase {
 	public:
 		Runnable(F &&func, FP&&... para) :
 			mFunc(std::forward<F>(func)), mPara(std::forward<FP>(para)...) {

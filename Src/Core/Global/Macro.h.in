@@ -37,6 +37,8 @@
     #define RALFLIGHT_API __attribute__ ((visibility("default")))
 #endif
 
+#define RALFLIGHT_API_TEMPLATE
+
 // Align
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
     #define ALIGN16 __declspec(align(16))

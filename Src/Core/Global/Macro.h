@@ -24,7 +24,7 @@
 #define RALFLIGHT_SYSTEM_WINDOWS
 
 // Build token
-#define RALFLIGHT_BUILD
+/* #undef RALFLIGHT_BUILD */
 
 // Export token
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
@@ -36,6 +36,8 @@
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
     #define RALFLIGHT_API __attribute__ ((visibility("default")))
 #endif
+
+#define RALFLIGHT_API_TEMPLATE
 
 // Align
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)

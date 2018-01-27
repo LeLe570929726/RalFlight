@@ -34,3 +34,6 @@ cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DRALFLIGHT_BUILD=ON -DEXEC
 
 :: Build64
 nmake
+
+:: Set status
+cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DRALFLIGHT_BUILD=OFF -DEXECUTABLE_OUTPUT_PATH="%cd%\..\..\Bin\x64" -DLIBRARY_OUTPUT_PATH="%cd%\..\..\Bin\x64" ..\..\
