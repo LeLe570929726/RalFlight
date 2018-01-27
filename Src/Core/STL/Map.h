@@ -112,12 +112,12 @@ namespace Core {
 			this->mMap.clear();
 		}
 		MapIterator insert(const Key &key, const Val &value) {
-			auto pair = this->mMap.insert(this->mMap::value_type(key, value));
-			MapIterator<decltype(this->mMap.end())> tempIterator(pair.first);
+			auto pair = this->mMap.insert(std::pair<const Key, Val>(key, value));
+			MapIterator tempIterator(pair.first);
 			return tempIterator;
 		}
 		MapIterator insert(MapConstIterator position, const Key &key, const Val &value) {
-			auto pair = this->mMap.insert(position.get(), this->mMap::value_type(key, value));
+			auto pair = this->mMap.insert(position.get(), std::pair<const Key, Val>(key, value));
 			MapIterator tempIterator(pair.first);
 			return tempIterator;
 		}

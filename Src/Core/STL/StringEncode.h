@@ -36,10 +36,10 @@ namespace Core {
 		#define GBK 936
 		#define GB18030 54936
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
-		#define UCS4 "UCS-4"
-		#define UTF16 "UTF-16"
-		#define UTF8 "UTF-8"
-		#define GBK "CP936"
+        const char *UCS4 = "UCS4";
+		const char *UTF16 = "UTF-16";
+		const char *UTF8 = "UTF-8";
+		const char *GBK = "CP936";
 #endif
 	}
 

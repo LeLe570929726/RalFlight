@@ -14,6 +14,7 @@
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 	#include <Windows.h>
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
+	#include <pthread.h>
 #endif
 
 // Core namespace
@@ -24,7 +25,7 @@ namespace Core {
 		ReadWriteLock();
 		ReadWriteLock(const ReadWriteLock &other) = delete;
 		ReadWriteLock &operator=(const ReadWriteLock &other) = delete;
-		~ReadWriteLock() = default;
+		~ReadWriteLock();
 
 	public:
 		void lockRead();

@@ -17,6 +17,10 @@ namespace Core {
 		InitializeSRWLock(this->mRWLock);
 	}
 
+	ReadWriteLock::~ReadWriteLock() {
+		// Do nothing
+	}
+
 	void ReadWriteLock::lockRead() {
 		AcquireSRWLockShared(this->mRWLock);
 	}
@@ -47,6 +51,46 @@ namespace Core {
 
 	void ReadWriteLock::unlockWrite() {
 		ReleaseSRWLockExclusive(this->mRWLock);
+	}
+#elif defined(RALFLIGHT_SYSTEM_LINUX)
+	ReadWriteLock::ReadWriteLock() {
+		pthread_rwlock_init(&this->mRWLock, NULL);
+	}
+
+	ReadWriteLock::~ReadWriteLock() {
+		pthread_rwlock_destroy(&this->mRWLock);
+	}
+
+	void ReadWriteLock::lockRead() {
+		pthread_rwlock_rdlock(&this->mRWLock);
+	}
+
+	void ReadWriteLock::lockWrite() {
+		pthread_rwlock_wrlock(&this->mRWLock);
+	}
+
+	bool ReadWriteLock::tryLockRead() {
+		if(pthread_rwlock_tryrdlock(&this->mRWLock) == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	bool ReadWriteLock::tryLockWrite() {
+		if(pthread_rwlock_trywrlock(&this->mRWLock) == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	void ReadWriteLock::unlockRead() {
+		pthread_rwlock_unlock(&this->mRWLock);
+	}
+
+	void ReadWriteLock::unlockWrite() {
+		pthread_rwlock_unlock(&this->mRWLock);
 	}
 #endif
 

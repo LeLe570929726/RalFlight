@@ -386,7 +386,7 @@ namespace Core {
 	}
 
 	unsigned int StringEncode::convertFromUCS4(const std::u32string &source, std::string &contain, const std::string &codepage) {
-		assert(codepage) != CodePage::UCS4);
+		assert(codepage != CodePage::UCS4);
 		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {
 			contain.resize(0);
@@ -484,7 +484,7 @@ namespace Core {
 	}
 
 	unsigned int StringEncode::convertFromWString(const std::wstring &source, std::string &contain, const std::string &codepage) {
-		assert(codepage) != CodePage::UCS4);
+		assert(codepage != CodePage::UCS4);
 		assert(codepage != CodePage::UTF16);
 		if(source.size() == 0) {
 			contain.resize(0);
@@ -542,7 +542,7 @@ namespace Core {
 			return ErrorCode::Success;
 		}
 		// Create iconv handle
-		iconv_t handle = iconv_open(sourceCP, targetCP);
+		iconv_t handle = iconv_open(sourceCP.c_str(), targetCP.c_str());
 		if(handle == reinterpret_cast<iconv_t>(-1)) {
 			return ErrorCode::InvalidCodePage;
 		}
