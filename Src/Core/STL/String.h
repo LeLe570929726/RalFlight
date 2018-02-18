@@ -7,8 +7,8 @@
 //
 // @Craete: 2017/1/18 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#ifndef RALFLIGHT_SRC_CORE_STD_STRING_H
-#define RALFLIGHT_SRC_CORE_STD_STRING_H
+#ifndef RALFLIGHT_SRC_CORE_STL_STRING_H
+#define RALFLIGHT_SRC_CORE_STL_STRING_H
 
 #include "../Global/Macro.h"
 #include "Iteartor.h"
@@ -143,4 +143,4 @@ namespace Core {
 
 }
 
-#endif          // RALFLIGHT_SRC_CORE_STD_STRING_H
+#endif          // RALFLIGHT_SRC_CORE_STL_STRING_H

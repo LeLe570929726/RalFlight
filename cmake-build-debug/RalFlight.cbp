@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="RalFlight"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\Src\;CMake Files\Src\Core\;CMake Files\Src\Core\Global\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/lele/项目/C++/RalFlight/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/lele/项目/C++/RalFlight/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/lele/项目/C++/RalFlight/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="RalFlightCore">
+				<Option output="/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/libRalFlightCore.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/6"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/6"/>
+					<Add directory="/usr/include/c++/6/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/Makefile&quot;  VERBOSE=1 RalFlightCore"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="RalFlightCore/fast">
+				<Option output="/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/libRalFlightCore.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/6"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/6"/>
+					<Add directory="/usr/include/c++/6/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/Makefile&quot;  VERBOSE=1 RalFlightCore/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/lele/项目/C++/RalFlight/cmake-build-debug/Src/Core/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Mat2.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Mat2.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Mat3.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Mat3.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Mat4.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Mat4.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/MatrixHelper.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/MatrixHelper.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Scalar.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Scalar.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Vec2.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Vec2.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Vec3.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Vec3.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Vec4.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Math/Vec4.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/STL/Char.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/STL/Char.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/STL/String.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/STL/String.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/STL/StringEncode.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/STL/StringEncode.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Thread/ReadWriteLock.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Thread/ReadWriteLock.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Thread/RunnableBase.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Thread/RunnableBase.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Thread/Thread.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Thread/Thread.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Thread/ThreadPool.cpp">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Thread/ThreadPool.h">
+			<Option target="RalFlightCore"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Src\"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Src\Core\"/>
+		</Unit>
+		<Unit filename="/home/lele/项目/C++/RalFlight/Src/Core/Global/Macro.h.in">
+			<Option virtualFolder="CMake Files\Src\Core\Global\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -14,6 +14,25 @@
 // Core namespace
 namespace Core {
 
+	namespace CodePage {
+#if defined(RALFLIGHT_SYSTEM_WINDOWS)
+		// Code page in windows reference from [MSDN](https://msdn.microsoft.com/library/windows/desktop/dd317756.aspx)
+		const int UCS4 = 12000;
+		const int UTF16 = 1200;
+		const int UTF8 = CP_UTF8;
+		const int Latin1 = 28591;
+		const int GB2312 = 936;
+		const int GBK = 936;
+		const int GB18030 = 54936;
+#elif defined(RALFLIGHT_SYSTEM_LINUX)
+		const char *UCS4 = "UCS4";
+		const char *UTF16 = "UTF-16";
+		const char *UTF8 = "UTF-8";
+		const char *Latin1 = "LATIN1";
+		const char *GBK = "CP936";
+#endif
+	}
+
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 
 	unsigned int StringEncode::convertToUTF16(const std::string &source, std::u16string &contain, unsigned int codepage) {
