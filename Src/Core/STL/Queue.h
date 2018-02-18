@@ -17,7 +17,7 @@
 namespace Core {
 
 	template <class T, class Container = std::deque<T>>
-	using Queue = std::queue<T, Container>;
+	using RALFLIGHT_API_TEMPLATE Queue = std::queue<T, Container>;
 
 }
 

@@ -14,17 +14,15 @@ configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h.in" "${PROJECT_SOU
 # STL
 # Source files
 set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE}
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Iterator.cpp"
-#		"${PROJECT_SOURCE_DIR}/Src/Core/STL/String.cpp"
+		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Char.cpp"
+		"${PROJECT_SOURCE_DIR}/Src/Core/STL/String.cpp"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/StringEncode.cpp"
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/UniquePointer.cpp"
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Map.cpp"
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Queue.cpp"
 )
 # Header files
 set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_HEAD}
+		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Char.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Iterator.h"
-#		"${PROJECT_SOURCE_DIR}/Src/Core/STL/String.h"
+		"${PROJECT_SOURCE_DIR}/Src/Core/STL/String.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/StringEncode.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/UniquePointer.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Map.h"
@@ -62,11 +60,9 @@ endif()
 # Thread
 # Source files
 set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE}
-        "${PROJECT_SOURCE_DIR}/Src/Core/Thread/Runnable.cpp"
         "${PROJECT_SOURCE_DIR}/Src/Core/Thread/RunnableBase.cpp"
         "${PROJECT_SOURCE_DIR}/Src/Core/Thread/Thread.cpp"
         "${PROJECT_SOURCE_DIR}/Src/Core/Thread/ThreadPool.cpp"
-        "${PROJECT_SOURCE_DIR}/Src/Core/Thread/Mutex.cpp"
         "${PROJECT_SOURCE_DIR}/Src/Core/Thread/ReadWriteLock.cpp"
 )
 # Header files

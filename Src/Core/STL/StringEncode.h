@@ -28,13 +28,13 @@ namespace Core {
 	namespace CodePage {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 		// Code page in windows reference from [MSDN](https://msdn.microsoft.com/library/windows/desktop/dd317756.aspx)
-		#define UCS4 12000
-		#define UTF16 1200
-		#define UTF8 CP_UTF8
-		#define Latin1 28591
-		#define GB2312 0936
-		#define GBK 936
-		#define GB18030 54936
+		const int UCS4 = 12000;
+		const int UTF16 = 1200;
+		const int UTF8 = CP_UTF8;
+		const int Latin1 = 28591;
+		const int GB2312 = 936;
+		const int GBK = 936;
+		const int GB18030 = 54936;
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
         const char *UCS4 = "UCS4";
 		const char *UTF16 = "UTF-16";
