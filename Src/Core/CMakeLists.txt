@@ -5,28 +5,48 @@
 # @License: Licensed under GNU General Public License v3.
 # @Description: A free and open-source flight simulator.
 #
-# @Craete: 2016/12/10 by LeLe570929726
+# @Create: 2016/12/10 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
 
-# Global Part
+# Global
 configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h.in" "${PROJECT_SOURCE_DIR}/Src/Core/Global/Macro.h")
 
 # STL
 # Source files
 set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE}
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Char.cpp"
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/String.cpp"
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/StringEncode.cpp"
 )
 # Header files
 set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_HEAD}
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Char.h"
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Iterator.h"
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/String.h"
-		"${PROJECT_SOURCE_DIR}/Src/Core/STL/StringEncode.h"
+		"${PROJECT_SOURCE_DIR}/Src/Core/STL/IteratorBase.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/UniquePointer.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Map.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Queue.h"
+)
+
+# String
+# Source files
+set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE}
+		"${PROJECT_SOURCE_DIR}/Src/Core/String/Char.cpp"
+		"${PROJECT_SOURCE_DIR}/Src/Core/String/String.cpp"
+		"${PROJECT_SOURCE_DIR}/Src/Core/String/StringEncode.cpp"
+		"${PROJECT_SOURCE_DIR}/Src/Core/String/RegEx.cpp"
+)
+# Header files
+set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_HEAD}
+		"${PROJECT_SOURCE_DIR}/Src/Core/String/Char.h"
+		"${PROJECT_SOURCE_DIR}/Src/Core/String/String.h"
+		"${PROJECT_SOURCE_DIR}/Src/Core/String/StringEncode.h"
+		"${PROJECT_SOURCE_DIR}/Src/Core/String/RegEx.h"
+)
+
+# FileSystem
+# Source files
+set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE}
+		"${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/Path.cpp"
+)
+# Header files
+set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_HEAD}
+		"${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/Path.h"
 )
 
 # Math

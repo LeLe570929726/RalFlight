@@ -5,10 +5,10 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2018/2/14 by LeLe570929726
+// @Create: 2018/2/14 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#ifndef RALFLIGHT_SRC_CORE_STL_CHAR_H
-#define RALFLIGHT_SRC_CORE_STL_CHAR_H
+#ifndef RALFLIGHT_SRC_CORE_STRING_CHAR_H
+#define RALFLIGHT_SRC_CORE_STRING_CHAR_H
 
 #include "../Global/Macro.h"
 #include "StringEncode.h"
@@ -23,6 +23,14 @@ namespace Core {
 		Char(wchar_t text);
 		Char(char16_t text);
 		Char(char32_t text);
+		Char(const Char &other);
+		Char(Char &&other);
+		Char &operator=(char text);
+		Char &operator=(wchar_t text);
+		Char &operator=(char16_t text);
+		Char &operator=(char32_t text);
+		Char &operator=(const Char &other);
+		Char &operator=(Char &&other);
 		~Char() = default;
 
 	public:
@@ -45,4 +53,4 @@ namespace Core {
 
 }
 
-#endif
+#endif			// RALFLIGHT_SRC_CORE_STRING_CHAR_H

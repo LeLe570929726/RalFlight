@@ -5,10 +5,10 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2017/3/17 by LeLe570929726
+// @Create: 2017/3/17 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#ifndef RALFLIGHT_SRC_CORE_STD_ITERATOR_H
-#define RALFLIGHT_SRC_CORE_STD_ITERATOR_H
+#ifndef RALFLIGHT_SRC_CORE_STL_ITERATORBASE_H
+#define RALFLIGHT_SRC_CORE_STL_ITERATORBASE_H
 
 #include "../Global/Macro.h"
 
@@ -16,67 +16,67 @@
 namespace Core {
 
 	template<class T>
-	class RALFLIGHT_API_TEMPLATE Iterator {
+	class RALFLIGHT_API_TEMPLATE IteratorBase {
 	public:
-		Iterator() = default;
-		Iterator(const T &iterator) :
+		IteratorBase() = default;
+		IteratorBase(const T &iterator) :
 			mIterator(iterator) {
 		}
-		Iterator(const Iterator &other) :
+		IteratorBase(const IteratorBase &other) :
 			mIterator(other.mIterator) {
 		}
-		Iterator &operator=(const Iterator &other) {
+		IteratorBase &operator=(const IteratorBase &other) {
 			this->mIterator = other.mIterator;
 			return *this;
 		}
-		~Iterator() = default;
+		~IteratorBase() = default;
 
 	public:
-		bool operator==(const Iterator &other) const {
+		bool operator==(const IteratorBase &other) const {
 			return this->mIterator == other.mIterator;
 		}
-		bool operator!=(const Iterator &other) const {
+		bool operator!=(const IteratorBase &other) const {
 			return this->mIterator != other.mIterator;
 		}
-		bool operator<(const Iterator &other) const {
+		bool operator<(const IteratorBase &other) const {
 			return this->mIterator < other.mIterator;
 		}
-		bool operator>(const Iterator &other) const {
+		bool operator>(const IteratorBase &other) const {
 			return this->mIterator > other.mIterator;
 		}
-		bool operator<=(const Iterator &other) const {
+		bool operator<=(const IteratorBase &other) const {
 			return this->mIterator <= other.mIterator;
 		}
-		bool operator>=(const Iterator &other) const {
+		bool operator>=(const IteratorBase &other) const {
 			return this->mIterator >= other.mIterator;
 		}
 
 	public:
-		Iterator &operator++() {
+		IteratorBase &operator++() {
 			++this->mIterator;
 			return *this;
 		}
-		Iterator operator++(int) {
+		IteratorBase operator++(int) {
 			return this->mIterator++;
 		}
-		Iterator &operator--() {
+		IteratorBase &operator--() {
 			--this->mIterator;
 			return *this;
 		}
-		Iterator operator--(int) {
+		IteratorBase operator--(int) {
 			return this->mIterator--;
 		}
-		Iterator operator+(int size) const {
+		IteratorBase operator+(int size) const {
 			return this->mIterator + size;
 		}
-		Iterator operator-(int size) const {
+		IteratorBase operator-(int size) const {
 			return this->mIterator + size;
 		}
-		Iterator &operator+=(int size) {
+		IteratorBase &operator+=(int size) {
 			this->mIterator += size;
 			return *this;
 		}
-		Iterator &operator-=(int size) {
+		IteratorBase &operator-=(int size) {
 			this->mIterator -= size;
 			return *this;
 		}
@@ -100,4 +100,4 @@ namespace Core {
 
 }
 
-#endif			// RALFLIGHT_SRC_CORE_STD_ITERATOR_H
+#endif			// RALFLIGHT_SRC_CORE_STL_ITERATORBASE_H

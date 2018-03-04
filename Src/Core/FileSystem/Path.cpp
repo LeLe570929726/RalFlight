@@ -5,20 +5,11 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Create: 2018/1/21 by LeLe570929726
+// @Create: 2018/2/19 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#ifndef RALFLIGHT_SRC_CORE_STL_QUEUE
-#define RALFLIGHT_SRC_CORE_STL_QUEUE
-
-#include "../Global/Macro.h"
-#include <queue>
+#include "Path.h"
 
 // Core namespace
 namespace Core {
 
-	template <class T, class Container = std::deque<T>>
-	using RALFLIGHT_API_TEMPLATE Queue = std::queue<T, Container>;
-
 }
-
-#endif			// RALFLIGHT_SRC_CORE_STL_QUEUE

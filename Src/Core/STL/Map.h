@@ -5,13 +5,13 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2018/01/05 by LeLe570929726
+// @Create: 2018/01/05 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #ifndef RALFLIGHT_SRC_CORE_STL_MAP_H
 #define RALFLIGHT_SRC_CORE_STL_MAP_H
 
 #include "../Global/Macro.h"
-#include "Iteartor.h"
+#include "IteratorBase.h"
 #include <map>
 #include <functional>
 #include <memory>
@@ -23,8 +23,8 @@ namespace Core {
 	template <class Key, class Val, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, Val>>>
 	class RALFLIGHT_API_TEMPLATE Map {
 	private:
-		using MapIterator = Iterator<typename std::map<Key, Val, Compare, Allocator>::iterator>;
-		using MapConstIterator = Iterator<typename std::map<Key, Val, Compare, Allocator>::const_iterator>;
+		using MapIterator = IteratorBase<typename std::map<Key, Val, Compare, Allocator>::iterator>;
+		using MapConstIterator = IteratorBase<typename std::map<Key, Val, Compare, Allocator>::const_iterator>;
 
 	public:
 		explicit Map(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) : 

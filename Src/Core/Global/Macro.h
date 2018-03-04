@@ -5,7 +5,7 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2017/1/17 by LeLe570929726
+// @Create: 2017/1/17 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #ifndef RALFLIGHT_SRC_CORE_GLOBAL_MACRO_H
 #define RALFLIGHT_SRC_CORE_GLOBAL_MACRO_H
@@ -21,7 +21,7 @@
 #define PROJECT_VERSION_RELEASE "0.1 Alpha1"
 
 // System token
-#define RALFLIGHT_SYSTEM_LINUX
+#define RALFLIGHT_SYSTEM_WINDOWS
 
 // Build token
 /* #undef RALFLIGHT_BUILD */
@@ -45,5 +45,8 @@
 #elif defined(RALFLIGHT_SYSTEM_LINUX)
     #define ALIGN16 __attribute__((aligned(16)))
 #endif
+
+// Disable
+#pragma warning(disable: 4251)
 
 #endif          // RALFLIGHT_SRC_CORE_GLOBAL_MACRO_H

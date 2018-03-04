@@ -5,7 +5,7 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2018/2/14 by LeLe570929726
+// @Create: 2018/2/14 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Char.h"
 
@@ -43,6 +43,44 @@ namespace Core {
 		StringEncode::convertFromUCS4(tmpBuf32, tmpBuf8, CodePage::UTF8);
 		StringEncode::convertToUTF16(tmpBuf8, tmpBuf16, CodePage::UTF8);
 		this->mChar = tmpBuf16[0];
+	}
+
+	Char::Char(const Char &other) :
+		mChar(other.mChar) {
+	}
+
+	Char::Char(Char &&other) :
+		mChar(other.mChar) {
+	}
+
+	Char &Char::operator=(char text) {
+		*this = Char(text);
+		return *this;
+	}
+
+	Char &Char::operator=(wchar_t text) {
+		*this = Char(text);
+		return *this;
+	}
+
+	Char &Char::operator=(char16_t text) {
+		*this = Char(text);
+		return *this;
+	}
+
+	Char &Char::operator=(char32_t text) {
+		*this = Char(text);
+		return *this;
+	}
+
+	Char &Char::operator=(const Char &other) {
+		this->mChar = other.mChar;
+		return *this;
+	}
+
+	Char &Char::operator=(Char &&other) {
+		this->mChar = other.mChar;
+		return *this;
 	}
 
 	bool Char::operator==(const Char &other) const {

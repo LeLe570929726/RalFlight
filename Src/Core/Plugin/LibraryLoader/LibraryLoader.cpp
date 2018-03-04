@@ -5,7 +5,7 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2017/1/17 by LeLe570929726
+// @Create: 2017/1/17 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "LibraryLoader.h"
 

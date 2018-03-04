@@ -5,7 +5,7 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2018/1/27 by LeLe570929726
+// @Create: 2018/1/27 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "ReadWriteLock.h"
 

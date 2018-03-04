@@ -5,7 +5,7 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2017/07/13 by LeLe570929726
+// @Create: 2017/07/13 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #ifndef RALFLIGHT_SRC_CORE_MATH_MATRIXHELPER_H
 #define RALFLIGHT_SRC_CORE_MATH_MATRIXHELPER_H

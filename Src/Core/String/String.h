@@ -5,13 +5,13 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator.
 //
-// @Craete: 2017/1/18 by LeLe570929726
+// @Create: 2017/1/18 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#ifndef RALFLIGHT_SRC_CORE_STL_STRING_H
-#define RALFLIGHT_SRC_CORE_STL_STRING_H
+#ifndef RALFLIGHT_SRC_CORE_STRING_STRING_H
+#define RALFLIGHT_SRC_CORE_STRING_STRING_H
 
 #include "../Global/Macro.h"
-#include "Iteartor.h"
+#include "../STL/IteratorBase.h"
 #include "Char.h"
 #include "StringEncode.h"
 #include <string>
@@ -20,9 +20,10 @@
 
 // Core namespace
 namespace Core {
+
 	using StringBufferType = std::basic_string<Char>;
-	using StringIterator = Iterator<StringBufferType::iterator>;
-	using StringConstIterator = Iterator<StringBufferType::const_iterator>;
+	using StringIterator = IteratorBase<StringBufferType::iterator>;
+	using StringConstIterator = IteratorBase<StringBufferType::const_iterator>;
 
 	class RALFLIGHT_API String {
 	public:
@@ -143,4 +144,4 @@ namespace Core {
 
 }
 
-#endif          // RALFLIGHT_SRC_CORE_STL_STRING_H
+#endif          // RALFLIGHT_SRC_CORE_STRING_STRING_H
