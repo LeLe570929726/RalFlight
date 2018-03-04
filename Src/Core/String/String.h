@@ -116,6 +116,7 @@ namespace Core {
 		String &replace(StringIterator begin, StringIterator end, StringIterator subBegin, StringIterator subEnd);
 
 	public:
+		const Char *constData() const;
 		std::string toStdString() const;
 		std::wstring toStdWString() const;
 		std::u16string toStdU16String() const;

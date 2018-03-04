@@ -326,6 +326,10 @@ namespace Core {
 		return *this;
 	}
 
+	const Char *String::constData() const {
+		return this->mTextBuffer.c_str();
+	}
+
 	std::string String::toStdString() const {
 		return this->toUTF8();
 	}
