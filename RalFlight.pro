@@ -3,8 +3,7 @@
 # 
 # @Project: RalFlight
 # @License: Licensed under GNU General Public License v3.
-# @Description: A free and open-source flight simulator.
+# @Description: A free and open-source flight simulator which is based on Qt.
 #
-# @Create: 2016/12/10 by LeLe570929726
+# @Create: 2018/3/23 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core")
