@@ -19,6 +19,7 @@ set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE}
 set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_HEAD}
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/IteratorBase.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/UniquePointer.h"
+		"${PROJECT_SOURCE_DIR}/Src/Core/STL/SharedPointer.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Map.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/STL/Queue.h"
 )
@@ -29,14 +30,12 @@ set(RALFILGHT_SRC_CORE_SOURCE ${RALFILGHT_SRC_CORE_SOURCE}
 		"${PROJECT_SOURCE_DIR}/Src/Core/String/Char.cpp"
 		"${PROJECT_SOURCE_DIR}/Src/Core/String/String.cpp"
 		"${PROJECT_SOURCE_DIR}/Src/Core/String/StringEncode.cpp"
-		"${PROJECT_SOURCE_DIR}/Src/Core/String/RegEx.cpp"
 )
 # Header files
 set(RALFILGHT_SRC_CORE_HEAD ${RALFILGHT_SRC_CORE_HEAD}
 		"${PROJECT_SOURCE_DIR}/Src/Core/String/Char.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/String/String.h"
 		"${PROJECT_SOURCE_DIR}/Src/Core/String/StringEncode.h"
-		"${PROJECT_SOURCE_DIR}/Src/Core/String/RegEx.h"
 )
 
 # FileSystem

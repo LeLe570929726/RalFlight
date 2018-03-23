@@ -24,7 +24,7 @@
 #define RALFLIGHT_SYSTEM_WINDOWS
 
 // Build token
-/* #undef RALFLIGHT_BUILD */
+#define RALFLIGHT_BUILD
 
 // Export token
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)

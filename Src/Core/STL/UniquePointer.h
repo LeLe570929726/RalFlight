@@ -12,12 +12,53 @@
 
 #include "../Global/Macro.h"
 #include <memory>
+#include <utility>
 
 // Core namespace
 namespace Core {
 
 	template <class T>
-	using RALFLIGHT_API_TEMPLATE UniquePointer = std::unique_ptr<T>;
+	class RALFLIGHT_API_TEMPLATE UniquePointer {
+	public:
+		UniquePointer() :
+			mPointer() {
+		}
+		UniquePointer(T *pointer) :
+			mPointer(pointer) {
+		}
+		UniquePointer(const UniquePointer &other) = delete;
+		UniquePointer(UniquePointer &&other) :
+			mPointer(std::forward<std::unique_ptr<T>>(other.mPointer)) {
+		}
+		UniquePointer &operator=(const UniquePointer &other) = delete;
+		UniquePointer &operator=(UniquePointer &&other) {
+			this->mPointer = std::forward<std::unique_ptr<T>>(other.mPointer);
+			return *this;
+		}
+		~UniquePointer() = default;
+
+	public:
+		T &operator*() const {
+			return *(this->mPointer);
+		}
+		T *operator->() const {
+			return this->mPointer.get();
+		}
+
+	public:
+		T *release() {
+			return this->mPointer.release();
+		}
+		void reset(T *pointer) {
+			this->mPointer.reset(pointer);
+		}
+		T *get() const {
+			return this->mPointer.get();
+		}
+
+	private:
+		std::unique_ptr<T> mPointer;
+	};
 
 }
 

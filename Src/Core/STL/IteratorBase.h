@@ -52,7 +52,7 @@ namespace Core {
 		}
 
 	public:
-		IteratorBase &operator++() {
+		IteratorBase & operator++() {
 			++this->mIterator;
 			return *this;
 		}

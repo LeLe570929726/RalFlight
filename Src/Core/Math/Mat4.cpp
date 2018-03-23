@@ -42,9 +42,9 @@ namespace Core {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
 			ALIGN16 float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1],
-													   matrixA.mMatrix[i + 2], matrixA.mMatrix[i + 3] };
+										 matrixA.mMatrix[i + 2], matrixA.mMatrix[i + 3] };
 			ALIGN16 float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
-													   matrixB.mMatrix[i + 2], matrixB.mMatrix[i + 3] };
+										 matrixB.mMatrix[i + 2], matrixB.mMatrix[i + 3] };
 			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
@@ -63,9 +63,9 @@ namespace Core {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
 			ALIGN16 float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], 
-													   matrixA.mMatrix[i + 2], matrixA.mMatrix[i + 3] };
+										 matrixA.mMatrix[i + 2], matrixA.mMatrix[i + 3] };
 			ALIGN16 float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
-													   matrixB.mMatrix[i + 2], matrixB.mMatrix[i + 3] };
+										 matrixB.mMatrix[i + 2], matrixB.mMatrix[i + 3] };
 			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
@@ -84,7 +84,7 @@ namespace Core {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
 			ALIGN16 float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
-													   matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
+										 matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
 			ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
 			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
@@ -107,7 +107,7 @@ namespace Core {
 		sseA = _mm_load_ps(vectorA);
 		for (int i = 0; i <= 12; i += 12) {
 			ALIGN16 float vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
-													   matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
+										 matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
 			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseB, sseResult;
 			sseB = _mm_load_ps(vectorB);
@@ -122,9 +122,9 @@ namespace Core {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i < 16; ++i) {
 			ALIGN16 float vectorA[4] = { matrixA.mMatrix[static_cast<int>(i >> 2)], matrixA.mMatrix[static_cast<int>(i >> 2) + 1],
-													   matrixA.mMatrix[static_cast<int>(i >> 2) + 2], matrixA.mMatrix[static_cast<int>(i >> 2) + 3] };
+										 matrixA.mMatrix[static_cast<int>(i >> 2) + 2], matrixA.mMatrix[static_cast<int>(i >> 2) + 3] };
 			ALIGN16 float vectorB[4] = { matrixB.mMatrix[(i % 4)], matrixB.mMatrix[(i % 4) + 4],
-													   matrixB.mMatrix[(i % 4) + 8], matrixB.mMatrix[(i % 4) + 12] };
+										 matrixB.mMatrix[(i % 4) + 8], matrixB.mMatrix[(i % 4) + 12] };
 			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
@@ -141,7 +141,7 @@ namespace Core {
 		float tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
 			ALIGN16 float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
-													   matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
+										 matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
 			ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
 			ALIGN16 float vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;

@@ -22,7 +22,7 @@ namespace Core {
 
 	template <class Key, class Val, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, Val>>>
 	class RALFLIGHT_API_TEMPLATE Map {
-	private:
+	public:
 		using MapIterator = IteratorBase<typename std::map<Key, Val, Compare, Allocator>::iterator>;
 		using MapConstIterator = IteratorBase<typename std::map<Key, Val, Compare, Allocator>::const_iterator>;
 

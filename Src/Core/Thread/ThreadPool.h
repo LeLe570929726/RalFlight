@@ -15,6 +15,7 @@
 #include "../STL/Map.h"
 #include "RunnableBase.h"
 #include "Runnable.h"
+#include "ReadWriteLock.h"
 #include <assert.h>
 #include <utility>
 #include <tuple>
@@ -38,13 +39,17 @@ namespace Core {
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
 		template <class F, class... FP>
 		int submit(F &&func, FP&&... para) {
+			// Create work
 			UniquePointer<RunnableBase> runnable(dynamic_cast<RunnableBase *>(new Runnable<F, FP...>(std::forward<F>(func), std::forward<FP>(para)...)));
-			this->mWork.insert(static_cast<int>(&runnable), runnable);
-			std::tuple<>
 			auto work = CreateThreadpoolWork(ThreadPool::doRun, static_cast<int>(&runnable), this->mEnvironment);
 			if(work == NULL) {
 				return ErrorCode::FailToCreateWork;
 			}
+			// Insert work to map
+			this->mRWLock.lockWrite();
+			this->mWork.insert(static_cast<int>(&runnable), runnable);
+			this->mRWLock.unlockWrite();
+			// Submit work
 			SubmitThreadpoolWork(work);
 			return ErrorCode::Success;
 		}
@@ -76,6 +81,7 @@ namespace Core {
 		int mThreadMax;
 		int mThreadMin;
 #if defined(RALFLIGHT_SYSTEM_WINDOWS)
+		ReadWriteLock mRWLock;
 		Map<int, UniquePointer<RunnableBase>> mWork;
 		PTP_POOL mPool;
 		PTP_CALLBACK_ENVIRON mEnvironment;

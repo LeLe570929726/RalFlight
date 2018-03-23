@@ -60,10 +60,18 @@ namespace Core {
 
 	void ThreadPool::destory() {
 		if(this->mPool != NULL) {
+			// Destory pool
 			CloseThreadpoolCleanupGroupMembers(this->mCleanupGroup, false, NULL);
 			CloseThreadpoolCleanupGroup(this->mCleanupGroup);
 			DestroyThreadpoolEnvironment(this->mEnvironment);
 			CloseThreadpool(this->mPool);
+			// Destory work
+			this->mRWLock.lockWrite();
+			for(auto itr = this->mWork.begin(); itr != this->mWork.end(); ++itr) {
+				(*itr).second.release();
+			}
+			this->mWork.clear();
+			this->mRWLock.unlockWrite();
 		}
 	}
 #endif
