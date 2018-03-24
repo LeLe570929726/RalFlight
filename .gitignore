@@ -27,3 +27,10 @@
 *.exe
 *.out
 *.app
+
+# Setting file of Visual Studio
+.vs
+.vscode
+
+# Built files
+Build
