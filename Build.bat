@@ -14,12 +14,43 @@
 :: Set title and color
 title RalFlight Build
 
-:: Create directories
-md %cd%\Build\x86
-md %cd%\Build\x64
-
-:: Set root path
+:: Set variable
 set rootPath=%cd%
+set buildToken=%1
+set buildTaget=%2
+
+:: Check variable
+:: Check build token
+if NOT "%buildToken%" == "release" (
+    if NOT "%buildToken%" == "debug" (
+        call :color c "Error - Parameter one should be release or debug."
+        call :exit
+    )
+)
+:: Check build taget
+if NOT "%buildTaget%" == "x86" (
+    if NOT "%buildTaget%" == "x64" (
+        call :color c "Error - Parameter two should be x86 or x64."
+    )
+)
+
+:: Check directories
+if exist %rootPath%\Build (
+    rd /s /q %rootPath%\Build
+)
+if exist %rootPath%\Bin (
+    rd /s /q %rootPath%\Bin
+)
+
+:: Create directories
+md %rootPath%\Build
+md %rootPath%\Bin
+
+:: Check cmake support
+if exist cmake.exe (
+    call :color c "Error - Can't find CMake. Please confirm that you had installed CMake and add the directory into Path environment variable."
+    call :exit
+)
 
 :: Import Qt's environment
 if exist qtenv2.bat (
@@ -34,10 +65,10 @@ if exist vcvarsall.bat (
     call :exit
 )
 
-:: Build version of x86
-cd /D %rootPath%\Build\x86
-call vcvarsall.bat x86
-qmake -makefile "CONFIG+=release" %rootPath%\RalFlight.pro
+:: Build
+cd /D %rootPath%\Build
+call vcvarsall.bat %buildTaget%
+cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=%buildToken% -DEXECUTABLE_OUTPUT_PATH="%rootPath%\Bin" ..\
 nmake
 
 :: Exit

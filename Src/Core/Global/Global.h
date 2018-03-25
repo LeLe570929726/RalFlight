@@ -21,7 +21,7 @@
 #endif
 
 // Build token
-#if defined(RF_BUILD)
+#if defined(RF_CORE_BUILD)
     #define RF_API Q_DECL_EXPORT
 #else
     #define RF_API Q_DECL_IMPORT

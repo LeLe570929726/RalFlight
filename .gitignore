@@ -21,7 +21,6 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -34,3 +33,4 @@
 
 # Built files
 Build
+Bin
