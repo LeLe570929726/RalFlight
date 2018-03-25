@@ -7,7 +7,6 @@
 #
 # @Create: 2018/3/25 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
-TEMPLATE = subdirs
 
-SUBDIRS += \
-    DirectX/DirectX.pro
+# 3rdParties
+include("${PROJECT_SOURCE_DIR}/3rdParty/DirectX/DirectX.cmake")

@@ -14,7 +14,7 @@ add_definitions(-DRF_CORE_BUILD)
 # Public depends
 # Qt5Core
 find_package(Qt5 COMPONENTS Core REQUIRED)
-set(RF_SRC_CORE_DEPENDS ${RF_SRC_CORE_DEPENDS} Qt5::Core)
+set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} Qt5::Core)
 
 # Math
 # Sources
@@ -45,4 +45,4 @@ endif()
 
 # Library
 add_library(RalFlightCore SHARED ${RF_SRC_CORE_SOURCES})
-target_link_libraries(RalFlightCore ${RF_SRC_CORE_DEPENDS})
+target_link_libraries(RalFlightCore ${RF_SRC_CORE_LIBS})

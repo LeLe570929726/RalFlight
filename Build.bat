@@ -68,7 +68,7 @@ if exist vcvarsall.bat (
 :: Build
 cd /D %rootPath%\Build
 call vcvarsall.bat %buildTaget%
-cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=%buildToken% -DEXECUTABLE_OUTPUT_PATH="%rootPath%\Bin" ..\
+cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=%buildToken% -DEXECUTABLE_OUTPUT_PATH="%rootPath%\Bin" -DRF_ARCH=%buildTaget% ..\
 nmake
 
 :: Exit
