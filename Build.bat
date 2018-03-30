@@ -23,14 +23,14 @@ set buildTaget=%2
 :: Check build token
 if NOT "%buildToken%" == "release" (
     if NOT "%buildToken%" == "debug" (
-        call :color c "Error - Parameter one should be release or debug."
+        call :color c "Error - Parameter one must be release or debug."
         call :exit
     )
 )
 :: Check build taget
 if NOT "%buildTaget%" == "x86" (
     if NOT "%buildTaget%" == "x64" (
-        call :color c "Error - Parameter two should be x86 or x64."
+        call :color c "Error - Parameter two must be x86 or x64."
     )
 )
 

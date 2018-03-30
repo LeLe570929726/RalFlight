@@ -10,3 +10,4 @@
 
 # 3rdParties
 include("${PROJECT_SOURCE_DIR}/3rdParty/DirectX/DirectX.cmake")
+include("${PROJECT_SOURCE_DIR}/3rdParty/Vulkan/Vulkan.cmake")
