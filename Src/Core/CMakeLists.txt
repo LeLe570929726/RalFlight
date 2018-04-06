@@ -13,8 +13,8 @@ add_definitions(-DRF_CORE_BUILD)
 
 # Public depends
 # Qt5Core
-find_package(Qt5 COMPONENTS Core REQUIRED)
-set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} Qt5::Core)
+set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${QT_INCLUDE_CORE})
+set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} ${QT_LIBS_CORE})
 
 # Math
 # Sources
@@ -44,5 +44,6 @@ if(${RF_OS} STREQUAL "RF_OS_LINUX")
 endif()
 
 # Library
+include_directories(${RF_SRC_CORE_INCLUDE})
 add_library(RalFlightCore SHARED ${RF_SRC_CORE_SOURCES})
 target_link_libraries(RalFlightCore ${RF_SRC_CORE_LIBS})

@@ -5,10 +5,14 @@
 # @License: Licensed under GNU General Public License v3.
 # @Description: A free and open-source flight simulator.
 #
-# @Create: 2018/3/25 by LeLe570929726
+# @Create: 2018/4/6 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
 
-# 3rdParties
-include("${PROJECT_SOURCE_DIR}/3rdParty/DirectX/DirectX.cmake")
-include("${PROJECT_SOURCE_DIR}/3rdParty/Vulkan/Vulkan.cmake")
-include("${PROJECT_SOURCE_DIR}/3rdParty/Qt/Qt.cmake")
+# Include directories
+set(QT_INCLUDES_PRIVATE "")
+
+# Library directories
+set(QT_LIBS_PRIVATE "")
+
+# Qt version
+set(QT_VERSION_PRIVATE "")

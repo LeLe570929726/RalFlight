@@ -31,6 +31,10 @@
 .vs
 .vscode
 
+# Setting file of CLion
+.idea
+cmake-build-debug
+
 # Built files
 Build
 Bin

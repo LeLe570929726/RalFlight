@@ -35,4 +35,7 @@ set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
 set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
 
 # Add subdirectories
+# 3rdParty
+add_subdirectory("${PROJECT_SOURCE_DIR}/3rdParty")
+# Src
 add_subdirectory("${PROJECT_SOURCE_DIR}/Src")

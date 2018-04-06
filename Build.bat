@@ -11,13 +11,13 @@
 :: Close echo
 @echo off
 
-:: Set title and color
+:: Set title
 title RalFlight Build
 
 :: Set variable
 set rootPath=%cd%
 set buildToken=%1
-set buildTaget=%2
+set buildTarget=%2
 
 :: Check variable
 :: Check build token
@@ -28,8 +28,8 @@ if NOT "%buildToken%" == "release" (
     )
 )
 :: Check build taget
-if NOT "%buildTaget%" == "x86" (
-    if NOT "%buildTaget%" == "x64" (
+if NOT "%buildTarget%" == "x86" (
+    if NOT "%buildTarget%" == "x64" (
         call :color c "Error - Parameter two must be x86 or x64."
     )
 )
@@ -52,7 +52,7 @@ if exist cmake.exe (
     call :exit
 )
 
-:: Import Qt's environment
+:: Check Qt's environment
 if exist qtenv2.bat (
     call :color c "Error - Can't find qtenv2.bat. Please confirm that you had installed Qt and add the directory into Path environment variable."
     call :exit
@@ -67,8 +67,8 @@ if exist vcvarsall.bat (
 
 :: Build
 cd /D %rootPath%\Build
-call vcvarsall.bat %buildTaget%
-cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=%buildToken% -DEXECUTABLE_OUTPUT_PATH="%rootPath%\Bin" -DRF_ARCH=%buildTaget% ..\
+call vcvarsall.bat %buildTarget%
+cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=%buildToken% -DEXECUTABLE_OUTPUT_PATH="%rootPath%\Bin" -DRF_ARCH=%buildTarget% ..\
 nmake
 
 :: Exit
