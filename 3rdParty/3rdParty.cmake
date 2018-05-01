@@ -9,6 +9,6 @@
 # ----------------------------------------------------------------------------------------------------
 
 # 3rdParties
+include("${PROJECT_SOURCE_DIR}/3rdParty/Qt/Qt.cmake")
 include("${PROJECT_SOURCE_DIR}/3rdParty/DirectX/DirectX.cmake")
 include("${PROJECT_SOURCE_DIR}/3rdParty/Vulkan/Vulkan.cmake")
-include("${PROJECT_SOURCE_DIR}/3rdParty/Qt/Qt.cmake")

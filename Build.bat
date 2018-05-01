@@ -47,20 +47,17 @@ md %rootPath%\Build
 md %rootPath%\Bin
 
 :: Check cmake support
-if exist cmake.exe (
+set cmakeExist=0
+cmake --version | find "cmake version" && set cmakeExist=1
+if %cmakeExist% equ 0 (
     call :color c "Error - Can't find CMake. Please confirm that you had installed CMake and add the directory into Path environment variable."
     call :exit
 )
 
-:: Check Qt's environment
-if exist qtenv2.bat (
-    call :color c "Error - Can't find qtenv2.bat. Please confirm that you had installed Qt and add the directory into Path environment variable."
-    call :exit
-)
-call qtenv2.bat
-
 :: Check MSVC's environment
-if exist vcvarsall.bat (
+set vcExist=0
+vcvarsall.bat | find "ERROR:vcvarsall.bat" && set vcExist=1
+if %vcExist% equ 0 (
     call :color c "Error - Can't find vcvarsall.bat. Please confirm that you had installed Visual Studio and add the directory into Path environment variable."
     call :exit
 )
@@ -69,6 +66,11 @@ if exist vcvarsall.bat (
 cd /D %rootPath%\Build
 call vcvarsall.bat %buildTarget%
 cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=%buildToken% -DEXECUTABLE_OUTPUT_PATH="%rootPath%\Bin" -DRF_ARCH=%buildTarget% ..\
+:: Check makefile
+if not exist Makefile (
+    call :color c "Error - CMake config failed, please check log of CMake."
+    call :exit
+)
 nmake
 
 :: Exit
@@ -81,5 +83,4 @@ echo. >%2&findstr /a:%1 . %2*&del %2
 
 :: Exit
 :exit
-pause
 exit

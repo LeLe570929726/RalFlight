@@ -12,6 +12,9 @@
 include("${PROJECT_SOURCE_DIR}/3rdParty/Qt/QtConfig.cmake")
 
 # Check config
+if(NOT QT_INCLUDES_PRIVATE)
+    message(FATAL_ERROR "Qt config missing. Please check Qt config in 3rdParty/Qt/QtConfig.cmake.")
+endif()
 if(${QT_INCLUDES_PRIVATE} STREQUAL "" OR ${QT_LIBS_PRIVATE} STREQUAL "" OR ${QT_VERSION_PRIVATE} STREQUAL "")
     message(FATAL_ERROR "Qt config missing. Please check Qt config in 3rdParty/Qt/QtConfig.cmake.")
 endif()
@@ -20,6 +23,7 @@ endif()
 set(QT_VERSION ${QT_VERSION_PRIVATE})
 
 # Include directories
+set(QT_INCLUDE ${QT_INCLUDES_PRIVATE})
 set(QT_INCLUDE_CORE "${QT_INCLUDES_PRIVATE}/QtCore")
 set(QT_INCLUDE_GUI "${QT_INCLUDES_PRIVATE}/QtGui")
 

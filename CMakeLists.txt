@@ -36,6 +36,6 @@ set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
 
 # Add subdirectories
 # 3rdParty
-add_subdirectory("${PROJECT_SOURCE_DIR}/3rdParty")
+include("${PROJECT_SOURCE_DIR}/3rdParty/3rdParty.cmake")
 # Src
 add_subdirectory("${PROJECT_SOURCE_DIR}/Src")
