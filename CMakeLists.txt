@@ -24,9 +24,6 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     set(RF_OS "RF_OS_MACOS")
 endif()
 
-# Architecture token
-set(RF_ARCH "x86")
-
 # Set c++ standard version
 set(CMAKE_CXX_STANDARD 17)
 

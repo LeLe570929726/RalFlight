@@ -19,24 +19,24 @@ buildTarget=$2
 # Check build token
 if [ ! -n "$buildToken" ]
 then
-    echo -e "\033[35mError - Parameter one must be release or debug.\033[0m"
+    echo -e "\033[35mError - Parameter one must be 'release' or 'debug'.\033[0m"
     exit
 fi
 if [[ $buildToken != "release" && $buildToken != "debug" ]]
 then
-    echo -e "\033[35mError - Parameter one must be release or debug.\033[0m"
+    echo -e "\033[35mError - Parameter one must be 'release' or 'debug'.\033[0m"
     exit
 fi
 
 # Check build targe
 if [ ! -n "$buildTarget" ]
 then
-    echo -e "\033[35mError - Parameter two must be x86 or x64.\033[0m"
+    echo -e "\033[35mError - Parameter two must be 'x86' or 'x64'.\033[0m"
     exit
 fi
 if [[ $buildTarget != "x86" && $buildTarget != "x64" ]]
 then
-    echo -e "\033[35mError - Parameter two must be x86 or x64.\033[0m"
+    echo -e "\033[35mError - Parameter two must be 'x86' or 'x64'.\033[0m"
     exit
 fi
 

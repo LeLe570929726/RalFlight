@@ -12,19 +12,19 @@
 include("${PROJECT_SOURCE_DIR}/3rdParty/Vulkan/VulkanConfig.cmake")
 
 # Check config
-if(NOT VULKAN_INCLUDES_PRIVATE)
+if("${VULKAN_INCLUDES_PRIVATE}" STREQUAL "")
     message(FATAL_ERROR "Vulkan config missing. Please check Vulkan config in 3rdParty/Vulkan/VulkanConfig.cmake.")
 endif()
-if(${VULKAN_INCLUDES_PRIVATE} STREQUAL "" OR ${VULKAN_VERSION_PRIVATE} STREQUAL "")
+if("${VULKAN_INCLUDES_PRIVATE}" STREQUAL "" OR "${VULKAN_VERSION_PRIVATE}" STREQUAL "")
     message(FATAL_ERROR "Vulkan config missing. Please check Vulkan config in 3rdParty/Vulkan/VulkanConfig.cmake.")
 endif()
 if(${RF_ARCH} STREQUAL "x86")
-    if(${VULKAN_LIBS_PRIVATE_X86} STREQUAL "")
+    if("${VULKAN_LIBS_PRIVATE_X86}" STREQUAL "")
         message(FATAL_ERROR "Vulkan config missing. Please check Vulkan config in 3rdParty/Vulkan/VulkanConfig.cmake.")
     endif()
     set(VULKAN_LIBS_PRIVATE_ROOT ${VULKAN_LIBS_PRIVATE_X86})
 else()
-    if(${VULKAN_LIBS_PRIVATE_X64} STREQUAL "")
+    if("${VULKAN_LIBS_PRIVATE_X64}" STREQUAL "")
         message(FATAL_ERROR "Vulkan config missing. Please check Vulkan config in 3rdParty/Vulkan/VulkanConfig.cmake.")
     endif()
     set(VULKAN_LIBS_PRIVATE_ROOT ${VULKAN_LIBS_PRIVATE_X64})
@@ -38,7 +38,7 @@ set(VULKAN_INCLUDE ${VULKAN_INCLUDES_PRIVATE})
 
 # Libraries
 if(${RF_OS} STREQUAL "RF_OS_WIN")
-    set(QT_LIBS_CORE "${QT_LIBS_PRIVATE_ROOT}/vulkan-1.lib")
+    set(VULKAN_LIBS "${VULKAN_LIBS_PRIVATE_ROOT}/vulkan-1.lib")
 elseif(${RF_OS} STREQUAL "RF_OS_LINUX")
     # TODO
     # set(QT_LIBS_CORE "${QT_LIBS_PRIVATE_ROOT}/libQt5Core.so")
