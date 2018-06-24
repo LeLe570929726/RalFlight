@@ -23,9 +23,9 @@ namespace Core {
 
 	class RF_API Mat4 {
 	public:
-		Mat4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
-			float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44);
-		Mat4(float(&array)[16]);
+		Mat4(real32 m11, real32 m12, real32 m13, real32 m14, real32 m21, real32 m22, real32 m23, real32 m24,
+			real32 m31, real32 m32, real32 m33, real32 m34, real32 m41, real32 m42, real32 m43, real32 m44);
+		Mat4(real32(&array)[16]);
 		Mat4(const Mat4 &other);
 		Mat4 &operator=(const Mat4 &other);
 		~Mat4() = default;
@@ -45,10 +45,10 @@ namespace Core {
 			*this = Mat4::sub(*this, matrix);
 			return *this;
 		}
-		inline Mat4 operator*(float scalar) const {
+		inline Mat4 operator*(real32 scalar) const {
 			return Mat4::mul(*this, scalar);
 		}
-		inline Mat4 &operator*=(float scalar) {
+		inline Mat4 &operator*=(real32 scalar) {
 			*this = Mat4::mul(*this, scalar);
 			return *this;
 		}
@@ -62,10 +62,10 @@ namespace Core {
 			*this = Mat4::mul(*this, matrix);
 			return *this;
 		}
-		inline Mat4 operator/(float scalar) const {
+		inline Mat4 operator/(real32 scalar) const {
 			return Mat4::div(*this, scalar);
 		}
-		inline Mat4 &operator/=(float scalar) {
+		inline Mat4 &operator/=(real32 scalar) {
 			*this = Mat4::div(*this, scalar);
 			return *this;
 		}
@@ -79,7 +79,7 @@ namespace Core {
 			*this = Mat4::sub(*this, matrix);
 			return *this;
 		}
-		inline Mat4 &mul(float scalar) {
+		inline Mat4 &mul(real32 scalar) {
 			*this = Mat4::mul(*this, scalar);
 			return *this;
 		}
@@ -90,7 +90,7 @@ namespace Core {
 			*this = Mat4::mul(*this, matrix);
 			return *this;
 		}
-		inline Mat4 &div(float scalar) {
+		inline Mat4 &div(real32 scalar) {
 			*this = Mat4::div(*this, scalar);
 			return *this;
 		}
@@ -100,7 +100,7 @@ namespace Core {
 		}
 
 	public:
-		inline float get(int col, int row) const {
+		inline real32 get(int col, int row) const {
 			return Mat4::get(*this, col, row);
 		}
 		inline Vec4 getRow(int row) const {
@@ -109,10 +109,10 @@ namespace Core {
 		inline Vec4 getCol(int col) const {
 			return Mat4::getCol(*this, col);
 		}
-		inline void set(int col, int row, float scalar) {
+		inline void set(int col, int row, real32 scalar) {
 			Mat4::set(*this, col, row, scalar);
 		}
-		inline void set(float(&array)[16]) {
+		inline void set(real32(&array)[16]) {
 			Mat4::set(*this, array);
 		}
 		inline void setRow(int row, const Vec4 &vector) {
@@ -125,19 +125,19 @@ namespace Core {
 	public:
 		static Mat4 add(const Mat4 &matrixA, const Mat4 &matrixB);
 		static Mat4 sub(const Mat4 &matrixA, const Mat4 &matrixB);
-		static Mat4 mul(const Mat4 &matrix, float scalar);
+		static Mat4 mul(const Mat4 &matrix, real32 scalar);
 		static Vec4 mul(const Mat4 &matrix, const Vec4 &vector);
 		static Mat4 mul(const Mat4 &matrixA, const Mat4 &matrixB);
-		static Mat4 div(const Mat4 &matrix, float scalar);
+		static Mat4 div(const Mat4 &matrix, real32 scalar);
 		static Mat4 transpose(const Mat4 &matrix);
-		static float determinant(const Mat4 &matrix);
+		static real32 determinant(const Mat4 &matrix);
 
 	public:
-		static float get(const Mat4 &matrix, int col, int row);
+		static real32 get(const Mat4 &matrix, int col, int row);
 		static Vec4 getRow(const Mat4 &matrix, int row);
 		static Vec4 getCol(const Mat4 &matrix, int col);
-		static void set(Mat4 &matrix, int col, int row, float scalar);
-		static void set(Mat4 &matrix, float(&array)[16]);
+		static void set(Mat4 &matrix, int col, int row, real32 scalar);
+		static void set(Mat4 &matrix, real32(&array)[16]);
 		static void setRow(Mat4 &matrix, int row, const Vec4 &vector);
 		static void setCol(Mat4 &matrix, int col, const Vec4 &vector);
 
@@ -146,7 +146,7 @@ namespace Core {
 		static const Mat4 identity;
 
 	private:
-		float mMatrix[16];
+		real32 mMatrix[16];
 	};
 
 }

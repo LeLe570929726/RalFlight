@@ -23,8 +23,8 @@ namespace Core {
 
 	class RF_API Vec2 {
 	public:
-		Vec2(float x, float y);
-		Vec2(float(&array)[2]);
+		Vec2(real32 x, real32 y);
+		Vec2(real32(&array)[2]);
 		Vec2(const Vec2 &other);
 		Vec2 &operator=(const Vec2 &other);
 		~Vec2() = default;
@@ -44,17 +44,17 @@ namespace Core {
 			*this = Vec2::sub(*this, vector);
 			return *this;
 		}
-		inline Vec2 operator*(float scalar) const {
+		inline Vec2 operator*(real32 scalar) const {
 			return Vec2::mul(*this, scalar);
 		}
-		inline Vec2 &operator*=(float scalar) {
+		inline Vec2 &operator*=(real32 scalar) {
 			*this = Vec2::mul(*this, scalar);
 			return *this;
 		}
-		inline Vec2 operator/(float scalar) const {
+		inline Vec2 operator/(real32 scalar) const {
 			return Vec2::div(*this, scalar);
 		}
-		inline Vec2 &operator/=(float scalar) {
+		inline Vec2 &operator/=(real32 scalar) {
 			*this = Vec2::div(*this, scalar);
 			return *this;
 		}
@@ -68,32 +68,32 @@ namespace Core {
 			*this = Vec2::sub(*this, vector);
 			return *this;
 		}
-		inline Vec2 &mul(float scalar) {
+		inline Vec2 &mul(real32 scalar) {
 			*this = Vec2::mul(*this, scalar);
 			return *this;
 		}
-		inline Vec2 &div(float scalar) {
+		inline Vec2 &div(real32 scalar) {
 			*this = Vec2::div(*this, scalar);
 			return *this;
 		}
-		inline float module() const {
+		inline real32 module() const {
 			return Vec2::module(*this);
 		}
 		// Module's reciprocal
-		inline float rmodule() const {
+		inline real32 rmodule() const {
 			return Vec2::rmodule(*this);
 		}
 		inline Vec2 &normalize() {
 			*this = Vec2::normalize(*this);
 			return *this;
 		}
-		inline float dot(const Vec2 &vector) const {
+		inline real32 dot(const Vec2 &vector) const {
 			return Vec2::dot(*this, vector);
 		}
-		inline float cross(const Vec2 &vector) const {
+		inline real32 cross(const Vec2 &vector) const {
 			return Vec2::cross(*this, vector);
 		}
-		inline float angle(const Vec2 &vector) const {
+		inline real32 angle(const Vec2 &vector) const {
 			return Vec2::angle(*this, vector);
 		}
 		inline Vec2 project(const Vec2 &vector) const {
@@ -101,19 +101,19 @@ namespace Core {
 		}
 
 	public:
-		inline float getX() const {
+		inline real32 getX() const {
 			return this->mX;
 		}
-		inline float getY() const {
+		inline real32 getY() const {
 			return this->mY;
 		}
-		inline void set(float(&array)[2]) {
+		inline void set(real32(&array)[2]) {
 			Vec2::set(*this, array);
 		}
-		inline void setX(float x) {
+		inline void setX(real32 x) {
 			Vec2::setX(*this, x);
 		}
-		inline void setY(float y) {
+		inline void setY(real32 y) {
 			Vec2::setY(*this, y);
 		}
 
@@ -128,30 +128,30 @@ namespace Core {
 	public:
 		static Vec2 add(const Vec2 &vectorA, const Vec2 &vectorB);
 		static Vec2 sub(const Vec2 &vectorA, const Vec2 &vectorB);
-		static Vec2 mul(const Vec2 &vector, float scalar);
-		static Vec2 div(const Vec2 &vector, float scalar);
-		static float module(const Vec2 &vector);
-		static float rmodule(const Vec2 &vector);
+		static Vec2 mul(const Vec2 &vector, real32 scalar);
+		static Vec2 div(const Vec2 &vector, real32 scalar);
+		static real32 module(const Vec2 &vector);
+		static real32 rmodule(const Vec2 &vector);
 		static Vec2 normalize(const Vec2 &vector);
-		static float dot(const Vec2 &vectorA, const Vec2 &vectorB);
-		static float cross(const Vec2 &vectorA, const Vec2 &vectorB);
-		static float angle(const Vec2 &vectorA, const Vec2 &vectorB);
+		static real32 dot(const Vec2 &vectorA, const Vec2 &vectorB);
+		static real32 cross(const Vec2 &vectorA, const Vec2 &vectorB);
+		static real32 angle(const Vec2 &vectorA, const Vec2 &vectorB);
 		static Vec2 project(const Vec2 &vectorA, const Vec2 &vectorB);
 
 	public:
-		static float getX(const Vec2 &vector);
-		static float getY(const Vec2 &vector);
-		static void set(Vec2 &vector, float(&array)[2]);
-		static void setX(Vec2 &vector, float x);
-		static void setY(Vec2 &vector, float y);
+		static real32 getX(const Vec2 &vector);
+		static real32 getY(const Vec2 &vector);
+		static void set(Vec2 &vector, real32(&array)[2]);
+		static void setX(Vec2 &vector, real32 x);
+		static void setY(Vec2 &vector, real32 y);
 
 	public:
 		static bool isZero(const Vec2 &vector);
 		static bool isOne(const Vec2 &vector);
 
 	private:
-		float mX;
-		float mY;
+		real32 mX;
+		real32 mY;
 	};
 
 }

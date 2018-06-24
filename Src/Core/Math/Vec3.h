@@ -23,8 +23,8 @@ namespace Core {
 
 	class RF_API Vec3 {
 	public:
-		Vec3(float x, float y, float z);
-		Vec3(float(&array)[3]);
+		Vec3(real32 x, real32 y, real32 z);
+		Vec3(real32(&array)[3]);
 		Vec3(const Vec3 &other);
 		Vec3 &operator=(const Vec3 &other);
 		~Vec3() = default;
@@ -44,17 +44,17 @@ namespace Core {
 			*this = Vec3::sub(*this, vector);
 			return *this;
 		}
-		inline Vec3 operator*(float scalar) const {
+		inline Vec3 operator*(real32 scalar) const {
 			return Vec3::mul(*this, scalar);
 		}
-		inline Vec3 &operator*=(float scalar) {
+		inline Vec3 &operator*=(real32 scalar) {
 			*this = Vec3::mul(*this, scalar);
 			return *this;
 		}
-		inline Vec3 operator/(float scalar) const {
+		inline Vec3 operator/(real32 scalar) const {
 			return Vec3::mul(*this, scalar);
 		}
-		inline Vec3 &operator/=(float scalar) {
+		inline Vec3 &operator/=(real32 scalar) {
 			*this = Vec3::div(*this, scalar);
 			return *this;
 		}
@@ -68,32 +68,32 @@ namespace Core {
 			*this = Vec3::sub(*this, vector);
 			return *this;
 		}
-		inline Vec3 &mul(float scalar) {
+		inline Vec3 &mul(real32 scalar) {
 			*this = Vec3::mul(*this, scalar);
 			return *this;
 		}
-		inline Vec3 &div(float scalar) {
+		inline Vec3 &div(real32 scalar) {
 			*this = Vec3::div(*this, scalar);
 			return *this;
 		}
-		inline float module() const {
+		inline real32 module() const {
 			return Vec3::module(*this);
 		}
 		// Module's reciprocal
-		inline float rmodule() const {
+		inline real32 rmodule() const {
 			return Vec3::rmodule(*this);
 		}
 		inline Vec3 &normalize() {
 			*this = Vec3::add(*this);
 			return *this;
 		}
-		inline float dot(const Vec3 &vector) const {
+		inline real32 dot(const Vec3 &vector) const {
 			return Vec3::dot(*this, vector);
 		}
 		inline Vec3 cross(const Vec3 &vector) const {
 			return Vec3::cross(*this, vector);
 		}
-		inline float angle(const Vec3 &vector) const {
+		inline real32 angle(const Vec3 &vector) const {
 			return Vec3::angle(*this, vector);
 		}
 		inline Vec3 project(const Vec3 &vector) const {
@@ -101,25 +101,25 @@ namespace Core {
 		}
 
 	public:
-		inline float getX() const {
+		inline real32 getX() const {
 			return Vec3::getX(*this);
 		}
-		inline float getY() const {
+		inline real32 getY() const {
 			return Vec3::getY(*this);
 		}
-		inline float getZ() const {
+		inline real32 getZ() const {
 			return Vec3::getZ(*this);
 		}
-		inline void set(float(&array)[3]) {
+		inline void set(real32(&array)[3]) {
 			Vec3::set(*this, array);
 		}
-		inline void setX(float x) {
+		inline void setX(real32 x) {
 			Vec3::setX(*this, x);
 		}
-		inline void setY(float y) {
+		inline void setY(real32 y) {
 			Vec3::setY(*this, y);
 		}
-		inline void setZ(float z) {
+		inline void setZ(real32 z) {
 			Vec3::setZ(*this, z);
 		}
 
@@ -134,33 +134,33 @@ namespace Core {
 	public:
 		static Vec3 add(const Vec3 &vectorA, const Vec3 &vectorB);
 		static Vec3 sub(const Vec3 &vectorA, const Vec3 &vectorB);
-		static Vec3 mul(const Vec3 &vector, float scalar);
-		static Vec3 div(const Vec3 &vector, float scalar);
-		static float module(const Vec3 &vector);
-		static float rmodule(const Vec3 &vector);
+		static Vec3 mul(const Vec3 &vector, real32 scalar);
+		static Vec3 div(const Vec3 &vector, real32 scalar);
+		static real32 module(const Vec3 &vector);
+		static real32 rmodule(const Vec3 &vector);
 		static Vec3 normalize(const Vec3 &vector);
-		static float dot(const Vec3 &vectorA, const Vec3 &vectorB);
+		static real32 dot(const Vec3 &vectorA, const Vec3 &vectorB);
 		static Vec3 cross(const Vec3 &vectorA, const Vec3 &vectorB);
-		static float angle(const Vec3 &vectorA, const Vec3 &vectorB);
+		static real32 angle(const Vec3 &vectorA, const Vec3 &vectorB);
 		static Vec3 project(const Vec3 &vectorA, const Vec3 &vectorB);
 
 	public:
-		static float getX(const Vec3 &vector);
-		static float getY(const Vec3 &vector);
-		static float getZ(const Vec3 &vector);
-		static void set(Vec3 &vector, float(&array)[3]);
-		static void setX(Vec3 &vector, float x);
-		static void setY(Vec3 &vector, float y);
-		static void setZ(Vec3 &vector, float z);
+		static real32 getX(const Vec3 &vector);
+		static real32 getY(const Vec3 &vector);
+		static real32 getZ(const Vec3 &vector);
+		static void set(Vec3 &vector, real32(&array)[3]);
+		static void setX(Vec3 &vector, real32 x);
+		static void setY(Vec3 &vector, real32 y);
+		static void setZ(Vec3 &vector, real32 z);
 
 	public:
 		static bool isZero(const Vec3 &vector);
 		static bool isOne(const Vec3 &vector);
 
 	private:
-		float mX;
-		float mY;
-		float mZ;
+		real32 mX;
+		real32 mY;
+		real32 mZ;
 	};
 
 }

@@ -15,12 +15,12 @@ namespace Core {
 	const Mat4 Mat4::zero(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 	const Mat4 Mat4::identity(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	Mat4::Mat4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
-		float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44) :
+	Mat4::Mat4(real32 m11, real32 m12, real32 m13, real32 m14, real32 m21, real32 m22, real32 m23, real32 m24,
+		real32 m31, real32 m32, real32 m33, real32 m34, real32 m41, real32 m42, real32 m43, real32 m44) :
 		mMatrix{ m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44 } {
 	}
 
-	Mat4::Mat4(float(&array)[16]) :
+	Mat4::Mat4(real32(&array)[16]) :
 		mMatrix{ array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7], array[8], array[9],
 			array[10], array[11], array[12], array[13], array[14], array[15] } {
 	}
@@ -39,13 +39,13 @@ namespace Core {
 	}
 
 	Mat4 Mat4::add(const Mat4 &matrixA, const Mat4 &matrixB) {
-		float tempArray[16] = { 0.0f };
+		real32 tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
-			RF_ALIGN16 float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1],
+			RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1],
 										 matrixA.mMatrix[i + 2], matrixA.mMatrix[i + 3] };
-			RF_ALIGN16 float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
+			RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
 										 matrixB.mMatrix[i + 2], matrixB.mMatrix[i + 3] };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -60,13 +60,13 @@ namespace Core {
 	}
 
 	Mat4 Mat4::sub(const Mat4 &matrixA, const Mat4 &matrixB) {
-		float tempArray[16] = { 0.0f };
+		real32 tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
-			RF_ALIGN16 float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], 
+			RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], 
 										 matrixA.mMatrix[i + 2], matrixA.mMatrix[i + 3] };
-			RF_ALIGN16 float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
+			RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], 
 										 matrixB.mMatrix[i + 2], matrixB.mMatrix[i + 3] };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -80,13 +80,13 @@ namespace Core {
 		return Mat4(tempArray);
 	}
 
-	Mat4 Mat4::mul(const Mat4 &matrix, float scalar) {
-		float tempArray[16] = { 0.0f };
+	Mat4 Mat4::mul(const Mat4 &matrix, real32 scalar) {
+		real32 tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
-			RF_ALIGN16 float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
+			RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
 										 matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
-			RF_ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, scalar };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -101,14 +101,14 @@ namespace Core {
 	}
 
 	Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) {
-		float tempArray[4] = { 0.0f };
-		RF_ALIGN16 float vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), vector.getW() };
+		real32 tempArray[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), vector.getW() };
 		__m128 sseA;
 		sseA = _mm_load_ps(vectorA);
 		for (int i = 0; i <= 12; i += 12) {
-			RF_ALIGN16 float vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
+			RF_ALIGN16 real32 vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
 										 matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseB, sseResult;
 			sseB = _mm_load_ps(vectorB);
 			sseResult = _mm_mul_ps(sseA, sseB);
@@ -119,13 +119,13 @@ namespace Core {
 	}
 
 	Mat4 Mat4::mul(const Mat4 &matrixA, const Mat4 &matrixB) {
-		float tempArray[16] = { 0.0f };
+		real32 tempArray[16] = { 0.0f };
 		for (int i = 0; i < 16; ++i) {
-			RF_ALIGN16 float vectorA[4] = { matrixA.mMatrix[static_cast<int>(i >> 2)], matrixA.mMatrix[static_cast<int>(i >> 2) + 1],
+			RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[static_cast<int>(i >> 2)], matrixA.mMatrix[static_cast<int>(i >> 2) + 1],
 										 matrixA.mMatrix[static_cast<int>(i >> 2) + 2], matrixA.mMatrix[static_cast<int>(i >> 2) + 3] };
-			RF_ALIGN16 float vectorB[4] = { matrixB.mMatrix[(i % 4)], matrixB.mMatrix[(i % 4) + 4],
+			RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[(i % 4)], matrixB.mMatrix[(i % 4) + 4],
 										 matrixB.mMatrix[(i % 4) + 8], matrixB.mMatrix[(i % 4) + 12] };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -136,14 +136,14 @@ namespace Core {
 		return Mat4(tempArray);
 	}
 
-	Mat4 Mat4::div(const Mat4 &matrix, float scalar) {
+	Mat4 Mat4::div(const Mat4 &matrix, real32 scalar) {
 		assert(scalar);
-		float tempArray[16] = { 0.0f };
+		real32 tempArray[16] = { 0.0f };
 		for (int i = 0; i <= 12; i += 4) {
-			RF_ALIGN16 float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
+			RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], 
 										 matrix.mMatrix[i + 2], matrix.mMatrix[i + 3] };
-			RF_ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, scalar };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -159,7 +159,7 @@ namespace Core {
 
 	Mat4 Mat4::transpose(const Mat4 &matrix) {
 		Mat4 tempMatrix = matrix;
-		float tempScalar;
+		real32 tempScalar;
 		tempScalar = tempMatrix.mMatrix[1];
 		tempMatrix.mMatrix[1] = tempMatrix.mMatrix[4];
 		tempMatrix.mMatrix[4] = tempScalar;
@@ -181,24 +181,24 @@ namespace Core {
 		return tempMatrix;
 	}
 
-	float Mat4::determinant(const Mat4 &matrix) {
-		RF_ALIGN16 float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[1] };
-		RF_ALIGN16 float vectorB[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[6] };
-		RF_ALIGN16 float vectorC[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[8], matrix.mMatrix[8] };
-		RF_ALIGN16 float vectorD[4] = { matrix.mMatrix[7], matrix.mMatrix[7], matrix.mMatrix[13], matrix.mMatrix[14] };
-		RF_ALIGN16 float vectorE[4] = { matrix.mMatrix[8], matrix.mMatrix[9], matrix.mMatrix[9], matrix.mMatrix[10] };
-		RF_ALIGN16 float vectorF[4] = { matrix.mMatrix[15], matrix.mMatrix[14], matrix.mMatrix[15], matrix.mMatrix[15] };
-		RF_ALIGN16 float vectorG[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3], matrix.mMatrix[2] };
-		RF_ALIGN16 float vectorH[4] = { matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[5] };
-		RF_ALIGN16 float vectorI[4] = { matrix.mMatrix[3], matrix.mMatrix[3], matrix.mMatrix[9], matrix.mMatrix[10] };
-		RF_ALIGN16 float vectorJ[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[12], matrix.mMatrix[12] };
-		RF_ALIGN16 float vectorK[4] = { matrix.mMatrix[11], matrix.mMatrix[10], matrix.mMatrix[11], matrix.mMatrix[11] };
-		RF_ALIGN16 float vectorL[4] = { matrix.mMatrix[12], matrix.mMatrix[13], matrix.mMatrix[13], matrix.mMatrix[14] };
-		RF_ALIGN16 float vectorResultA[4] = { 0.0f };
-		RF_ALIGN16 float vectorResultB[4] = { 0.0f };
-		RF_ALIGN16 float vectorResultC[4] = { 0.0f };
-		RF_ALIGN16 float vectorResultD[4] = { 0.0f };
-		RF_ALIGN16 float vectorResultE[4] = { 0.0f };
+	real32 Mat4::determinant(const Mat4 &matrix) {
+		RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[1] };
+		RF_ALIGN16 real32 vectorB[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[6] };
+		RF_ALIGN16 real32 vectorC[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[8], matrix.mMatrix[8] };
+		RF_ALIGN16 real32 vectorD[4] = { matrix.mMatrix[7], matrix.mMatrix[7], matrix.mMatrix[13], matrix.mMatrix[14] };
+		RF_ALIGN16 real32 vectorE[4] = { matrix.mMatrix[8], matrix.mMatrix[9], matrix.mMatrix[9], matrix.mMatrix[10] };
+		RF_ALIGN16 real32 vectorF[4] = { matrix.mMatrix[15], matrix.mMatrix[14], matrix.mMatrix[15], matrix.mMatrix[15] };
+		RF_ALIGN16 real32 vectorG[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3], matrix.mMatrix[2] };
+		RF_ALIGN16 real32 vectorH[4] = { matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[5] };
+		RF_ALIGN16 real32 vectorI[4] = { matrix.mMatrix[3], matrix.mMatrix[3], matrix.mMatrix[9], matrix.mMatrix[10] };
+		RF_ALIGN16 real32 vectorJ[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[12], matrix.mMatrix[12] };
+		RF_ALIGN16 real32 vectorK[4] = { matrix.mMatrix[11], matrix.mMatrix[10], matrix.mMatrix[11], matrix.mMatrix[11] };
+		RF_ALIGN16 real32 vectorL[4] = { matrix.mMatrix[12], matrix.mMatrix[13], matrix.mMatrix[13], matrix.mMatrix[14] };
+		RF_ALIGN16 real32 vectorResultA[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorResultB[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorResultC[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorResultD[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorResultE[4] = { 0.0f };
 		__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseG, sseH, sseI, sseJ, sseK, sseL, sseM, sseN, sseO, sseP, sseResultA, sseResultB, sseResultC;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -224,10 +224,10 @@ namespace Core {
 		_mm_store_ps(vectorResultA, sseResultA);
 		_mm_store_ps(vectorResultB, sseResultB);
 		_mm_store_ps(vectorResultC, sseResultC);
-		RF_ALIGN16 float vectorM[4] = { vectorResultA[0], vectorResultA[1], vectorResultA[2], 0.0f };
-		RF_ALIGN16 float vectorN[4] = { vectorResultC[3], vectorResultC[2], vectorResultC[1], 0.0f };
-		RF_ALIGN16 float vectorO[4] = { vectorResultA[4], vectorResultB[0], vectorResultB[1], 0.0f };
-		RF_ALIGN16 float vectorP[4] = { vectorResultC[0], vectorResultB[3], vectorResultB[2], 0.0f };
+		RF_ALIGN16 real32 vectorM[4] = { vectorResultA[0], vectorResultA[1], vectorResultA[2], 0.0f };
+		RF_ALIGN16 real32 vectorN[4] = { vectorResultC[3], vectorResultC[2], vectorResultC[1], 0.0f };
+		RF_ALIGN16 real32 vectorO[4] = { vectorResultA[4], vectorResultB[0], vectorResultB[1], 0.0f };
+		RF_ALIGN16 real32 vectorP[4] = { vectorResultC[0], vectorResultB[3], vectorResultB[2], 0.0f };
 		sseM = _mm_load_ps(vectorM);
 		sseN = _mm_load_ps(vectorN);
 		sseO = _mm_load_ps(vectorO);
@@ -239,7 +239,7 @@ namespace Core {
 		return vectorResultD[0] - vectorResultD[1] + vectorResultD[2] + vectorResultE[0] - vectorResultE[1] + vectorResultE[2];
 	}
 
-	float Mat4::get(const Mat4 &matrix, int col, int row) {
+	real32 Mat4::get(const Mat4 &matrix, int col, int row) {
 		assert(col > 0 && col < 5);
 		assert(row > 0 && row < 5);
 		return matrix.mMatrix[(col - 1) + ((row - 1) << 2)];
@@ -255,13 +255,13 @@ namespace Core {
 		return Vec4(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 4], matrix.mMatrix[col - 1 + 8], matrix.mMatrix[col - 1 + 12]);
 	}
 
-	void Mat4::set(Mat4 &matrix, int col, int row, float scalar) {
+	void Mat4::set(Mat4 &matrix, int col, int row, real32 scalar) {
 		assert(col > 0 && col < 5);
 		assert(row > 0 && row < 5);
 		matrix.mMatrix[(col - 1) + ((row - 1) << 2)] = scalar;
 	}
 
-	void Mat4::set(Mat4 &matrix, float(&array)[16]) {
+	void Mat4::set(Mat4 &matrix, real32(&array)[16]) {
 		for (int i = 0; i < 16; ++i) {
 			matrix.mMatrix[i] = array[i];
 		}

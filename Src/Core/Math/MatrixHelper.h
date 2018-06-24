@@ -26,9 +26,9 @@ namespace Core {
 
 	public:
 		static Mat4 createZero();
-		static Mat4 createPerspective(float fov, float near, float far, float ratio);
-		static Mat4 createOrtho(float width, float height, float near, float far);
-		static Mat4 createOrtho(float width, float height, float depth);
+		static Mat4 createPerspective(real32 fov, real32 near, real32 far, real32 ratio);
+		static Mat4 createOrtho(real32 width, real32 height, real32 near, real32 far);
+		static Mat4 createOrtho(real32 width, real32 height, real32 depth);
 	};
 
 }

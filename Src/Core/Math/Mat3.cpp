@@ -15,11 +15,11 @@ namespace Core {
 	const Mat3 Mat3::zero(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 	const Mat3 Mat3::identity(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	Mat3::Mat3(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33) :
+	Mat3::Mat3(real32 m11, real32 m12, real32 m13, real32 m21, real32 m22, real32 m23, real32 m31, real32 m32, real32 m33) :
 		mMatrix{ m11, m12, m13, m21, m22, m23, m31, m32, m33 } {
 	}
 
-	Mat3::Mat3(float(&array)[9]) :
+	Mat3::Mat3(real32(&array)[9]) :
 		mMatrix{ array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7], array[8] } {
 	}
 
@@ -36,11 +36,11 @@ namespace Core {
 	}
 
 	Mat3 Mat3::add(const Mat3 &matrixA, const Mat3 &matrixB) {
-		float tempArray[9] = { 0.0f };
+		real32 tempArray[9] = { 0.0f };
 		for (int i = 0; i <= 6; i += 3) {
-			RF_ALIGN16 float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], matrixA.mMatrix[i + 2], 0.0f };
-			RF_ALIGN16 float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], matrixB.mMatrix[i + 2], 0.0f };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], matrixA.mMatrix[i + 2], 0.0f };
+			RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], matrixB.mMatrix[i + 2], 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -54,11 +54,11 @@ namespace Core {
 	}
 
 	Mat3 Mat3::sub(const Mat3 &matrixA, const Mat3 &matrixB) {
-		float tempArray[9] = { 0.0f };
+		real32 tempArray[9] = { 0.0f };
 		for (int i = 0; i <= 6; i += 3) {
-			RF_ALIGN16 float vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], matrixA.mMatrix[i + 2], 0.0f };
-			RF_ALIGN16 float vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], matrixB.mMatrix[i + 2], 0.0f };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], matrixA.mMatrix[i + 2], 0.0f };
+			RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], matrixB.mMatrix[i + 2], 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -71,12 +71,12 @@ namespace Core {
 		return Mat3(tempArray);
 	}
 
-	Mat3 Mat3::mul(const Mat3 &matrix, float scalar) {
-		float tempArray[9] = { 0.0f };
+	Mat3 Mat3::mul(const Mat3 &matrix, real32 scalar) {
+		real32 tempArray[9] = { 0.0f };
 		for (int i = 0; i <= 6; i += 3) {
-			RF_ALIGN16 float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
-			RF_ALIGN16 float vectorB[4] = { scalar, scalar, scalar, 0.0f };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
+			RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -90,13 +90,13 @@ namespace Core {
 	}
 
 	Vec3 Mat3::mul(const Mat3 &matrix, const Vec3 &vector) {
-		float tempArray[3] = { 0.0f };
-		RF_ALIGN16 float vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), 0.0f };
+		real32 tempArray[3] = { 0.0f };
+		RF_ALIGN16 real32 vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), 0.0f };
 		__m128 sseA;
 		sseA = _mm_load_ps(vectorA);
 		for (int i = 0; i <= 6; i += 3) {
-			RF_ALIGN16 float vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseB, sseResult;
 			sseB = _mm_load_ps(vectorB);
 			sseResult = _mm_mul_ps(sseA, sseB);
@@ -107,13 +107,13 @@ namespace Core {
 	}
 
 	Mat3 Mat3::mul(const Mat3 &matrixA, const Mat3 &matrixB) {
-		float tempArray[9] = { 0.0f };
+		real32 tempArray[9] = { 0.0f };
 		for (int i = 0; i < 9; ++i) {
-			RF_ALIGN16 float vectorA[4] = { matrixA.mMatrix[static_cast<int>(i / 3)], matrixA.mMatrix[static_cast<int>(i / 3) + 1],
+			RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[static_cast<int>(i / 3)], matrixA.mMatrix[static_cast<int>(i / 3) + 1],
 				matrixA.mMatrix[static_cast<int>(i / 3) + 2], 0.0f };
-			RF_ALIGN16 float vectorB[4] = { matrixB.mMatrix[(i % 3)], matrixB.mMatrix[(i % 3) + 3],
+			RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[(i % 3)], matrixB.mMatrix[(i % 3) + 3],
 				matrixB.mMatrix[(i % 3) + 6], 0.0f };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -124,13 +124,13 @@ namespace Core {
 		return Mat3(tempArray);
 	}
 
-	Mat3 Mat3::div(const Mat3 &matrix, float scalar) {
+	Mat3 Mat3::div(const Mat3 &matrix, real32 scalar) {
 		assert(scalar);
-		float tempArray[9] = { 0.0f };
+		real32 tempArray[9] = { 0.0f };
 		for (int i = 0; i <= 6; i += 3) {
-			RF_ALIGN16 float vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
-			RF_ALIGN16 float vectorB[4] = { scalar, scalar, scalar, 0.0f };
-			RF_ALIGN16 float vectorResult[4] = { 0.0f };
+			RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
+			RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, 0.0f };
+			RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 			__m128 sseA, sseB, sseResult;
 			sseA = _mm_load_ps(vectorA);
 			sseB = _mm_load_ps(vectorB);
@@ -145,7 +145,7 @@ namespace Core {
 
 	Mat3 Mat3::transpose(const Mat3 &matrix) {
 		Mat3 tempMatrix = matrix;
-		float tempScalar;
+		real32 tempScalar;
 		tempScalar = tempMatrix.mMatrix[1];
 		tempMatrix.mMatrix[1] = tempMatrix.mMatrix[3];
 		tempMatrix.mMatrix[3] = tempScalar;
@@ -158,15 +158,15 @@ namespace Core {
 		return tempMatrix;
 	}
 
-	float Mat3::determinant(const Mat3 &matrix) {
-		RF_ALIGN16 float vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], 0.0f };
-		RF_ALIGN16 float vectorB[4] = { matrix.mMatrix[4], matrix.mMatrix[5], matrix.mMatrix[3], 0.0f };
-		RF_ALIGN16 float vectorC[4] = { matrix.mMatrix[8], matrix.mMatrix[6], matrix.mMatrix[7], 0.0f };
-		RF_ALIGN16 float vectorD[4] = { matrix.mMatrix[2], matrix.mMatrix[0], matrix.mMatrix[1], 0.0f };
-		RF_ALIGN16 float vectorE[4] = { matrix.mMatrix[4], matrix.mMatrix[5], matrix.mMatrix[3], 0.0f };
-		RF_ALIGN16 float vectorF[4] = { matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[8], 0.0f };
-		RF_ALIGN16 float vectorResultA[4] = { 0.0f };
-		RF_ALIGN16 float vectorResultB[4] = { 0.0f };
+	real32 Mat3::determinant(const Mat3 &matrix) {
+		RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], 0.0f };
+		RF_ALIGN16 real32 vectorB[4] = { matrix.mMatrix[4], matrix.mMatrix[5], matrix.mMatrix[3], 0.0f };
+		RF_ALIGN16 real32 vectorC[4] = { matrix.mMatrix[8], matrix.mMatrix[6], matrix.mMatrix[7], 0.0f };
+		RF_ALIGN16 real32 vectorD[4] = { matrix.mMatrix[2], matrix.mMatrix[0], matrix.mMatrix[1], 0.0f };
+		RF_ALIGN16 real32 vectorE[4] = { matrix.mMatrix[4], matrix.mMatrix[5], matrix.mMatrix[3], 0.0f };
+		RF_ALIGN16 real32 vectorF[4] = { matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[8], 0.0f };
+		RF_ALIGN16 real32 vectorResultA[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorResultB[4] = { 0.0f };
 		__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseResultA, sseResultB;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -183,7 +183,7 @@ namespace Core {
 		return vectorResultA[0] + vectorResultA[1] + vectorResultA[2] - vectorResultB[0] - vectorResultB[1] - vectorResultB[2];
 	}
 
-	float Mat3::get(const Mat3 &matrix, int col, int row) {
+	real32 Mat3::get(const Mat3 &matrix, int col, int row) {
 		assert(col > 0 && col < 4);
 		assert(row > 0 && row < 4);
 		return matrix.mMatrix[(col - 1) + ((row - 1) * 3)];
@@ -199,13 +199,13 @@ namespace Core {
 		return Vec3(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 3], matrix.mMatrix[col - 1 + 6]);
 	}
 
-	void Mat3::set(Mat3 &matrix, int col, int row, float scalar) {
+	void Mat3::set(Mat3 &matrix, int col, int row, real32 scalar) {
 		assert(col > 0 && col < 4);
 		assert(row > 0 && row < 4);
 		matrix.mMatrix[(col - 1) + ((row - 1) * 3)] = scalar;
 	}
 
-	void Mat3::set(Mat3 &matrix, float(&array)[9]) {
+	void Mat3::set(Mat3 &matrix, real32(&array)[9]) {
 		for (int i = 0; i < 9; ++i) {
 			matrix.mMatrix[i] = array[i];
 		}

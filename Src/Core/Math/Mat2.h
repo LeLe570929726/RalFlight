@@ -23,8 +23,8 @@ namespace Core {
 
 	class RF_API Mat2 {
 	public:
-		Mat2(float m11, float m12, float m21, float m22);
-		Mat2(float(&array)[4]);
+		Mat2(real32 m11, real32 m12, real32 m21, real32 m22);
+		Mat2(real32(&array)[4]);
 		Mat2(const Mat2 &other);
 		Mat2 &operator=(const Mat2 &other);
 		~Mat2() = default;
@@ -44,10 +44,10 @@ namespace Core {
 			*this = Mat2::sub(*this, matrix);
 			return *this;
 		}
-		inline Mat2 operator*(float scalar) const {
+		inline Mat2 operator*(real32 scalar) const {
 			return Mat2::mul(*this, scalar);
 		}
-		inline Mat2 &operator*=(float scalar) {
+		inline Mat2 &operator*=(real32 scalar) {
 			*this = Mat2::mul(*this, scalar);
 			return *this;
 		}
@@ -61,10 +61,10 @@ namespace Core {
 			*this = Mat2::mul(*this, matrix);
 			return *this;
 		}
-		inline Mat2 operator/(float scalar) const {
+		inline Mat2 operator/(real32 scalar) const {
 			return Mat2::div(*this, scalar);
 		}
-		inline Mat2 &operator/=(float scalar) {
+		inline Mat2 &operator/=(real32 scalar) {
 			*this = Mat2::div(*this, scalar);
 			return *this;
 		}
@@ -78,7 +78,7 @@ namespace Core {
 			*this = Mat2::sub(*this, matrix);
 			return *this;
 		}
-		inline Mat2 &mul(float scalar) {
+		inline Mat2 &mul(real32 scalar) {
 			*this = Mat2::mul(*this, scalar);
 			return *this;
 		}
@@ -89,7 +89,7 @@ namespace Core {
 			*this = Mat2::mul(*this, matrix);
 			return *this;
 		}
-		inline Mat2 div(float scalar) {
+		inline Mat2 div(real32 scalar) {
 			*this = Mat2::div(*this, scalar);
 			return *this;
 		}
@@ -97,12 +97,12 @@ namespace Core {
 			*this = Mat2::transpose(*this);
 			return *this;
 		}
-		inline float determinant() {
+		inline real32 determinant() {
 			return Mat2::determinant(*this);
 		}
 
 	public:
-		inline float get(int col, int row) const {
+		inline real32 get(int col, int row) const {
 			return Mat2::get(*this, col, row);
 		}
 		inline Vec2 getRow(int row) const {
@@ -113,10 +113,10 @@ namespace Core {
 		}
 
 	public:
-		inline void set(int col, int row, float scalar) {
+		inline void set(int col, int row, real32 scalar) {
 			Mat2::set(*this, col, row, scalar);
 		}
-		inline void set(float(&array)[4]) {
+		inline void set(real32(&array)[4]) {
 			Mat2::set(*this, array);
 		}
 		inline void setRow(int row, const Vec2 &vector) {
@@ -129,19 +129,19 @@ namespace Core {
 	public:
 		static Mat2 add(const Mat2 &matrixA, const Mat2 &matrixB);
 		static Mat2 sub(const Mat2 &matrixA, const Mat2 &matrixB);
-		static Mat2 mul(const Mat2 &matrix, float scalar);
+		static Mat2 mul(const Mat2 &matrix, real32 scalar);
 		static Vec2 mul(const Mat2 &matrix, const Vec2 &vector);
 		static Mat2 mul(const Mat2 &matrixA, const Mat2 &matrixB);
-		static Mat2 div(const Mat2 &matrix, float scalar);
+		static Mat2 div(const Mat2 &matrix, real32 scalar);
 		static Mat2 transpose(const Mat2 &matrix);
-		static float determinant(const Mat2 &matrix);
+		static real32 determinant(const Mat2 &matrix);
 
 	public:
-		static float get(const Mat2 &matrix, int col, int row);
+		static real32 get(const Mat2 &matrix, int col, int row);
 		static Vec2 getRow(const Mat2 &matrix, int row);
 		static Vec2 getCol(const Mat2 &matrix, int col);
-		static void set(Mat2 &matrix, int col, int row, float scalar);
-		static void set(Mat2 &matrix, float(&array)[4]);
+		static void set(Mat2 &matrix, int col, int row, real32 scalar);
+		static void set(Mat2 &matrix, real32(&array)[4]);
 		static void setRow(Mat2 &matrix, int row, const Vec2 &vector);
 		static void setCol(Mat2 &matrix, int col, const Vec2 &vector);
 
@@ -150,7 +150,7 @@ namespace Core {
 		static const Mat2 identity;
 
 	private:
-		float mMatrix[4];
+		real32 mMatrix[4];
 	};
 
 }

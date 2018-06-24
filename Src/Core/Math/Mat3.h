@@ -23,8 +23,8 @@ namespace Core {
 
 	class RF_API Mat3 {
 	public:
-		Mat3(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33);
-		Mat3(float(&array)[9]);
+		Mat3(real32 m11, real32 m12, real32 m13, real32 m21, real32 m22, real32 m23, real32 m31, real32 m32, real32 m33);
+		Mat3(real32(&array)[9]);
 		Mat3(const Mat3 &other);
 		Mat3 &operator=(const Mat3 &other);
 		~Mat3() = default;
@@ -44,10 +44,10 @@ namespace Core {
 			*this = Mat3::sub(*this, matrix);
 			return *this;
 		}
-		inline Mat3 operator*(float scalar) const {
+		inline Mat3 operator*(real32 scalar) const {
 			return Mat3::mul(*this, scalar);
 		}
-		inline Mat3 &operator*=(float scalar) {
+		inline Mat3 &operator*=(real32 scalar) {
 			*this = Mat3::mul(*this, scalar);
 			return *this;
 		}
@@ -61,10 +61,10 @@ namespace Core {
 			*this = Mat3::mul(*this, matrix);
 			return *this;
 		}
-		inline Mat3 operator/(float scalar) const {
+		inline Mat3 operator/(real32 scalar) const {
 			return Mat3::div(*this, scalar);
 		}
-		inline Mat3 &operator/=(float scalar) {
+		inline Mat3 &operator/=(real32 scalar) {
 			*this = Mat3::div(*this, scalar);
 			return *this;
 		}
@@ -78,7 +78,7 @@ namespace Core {
 			*this = Mat3::sub(*this, matrix);
 			return *this;
 		}
-		inline Mat3 &mul(float scalar) {
+		inline Mat3 &mul(real32 scalar) {
 			*this = Mat3::mul(*this, scalar);
 			return *this;
 		}
@@ -89,7 +89,7 @@ namespace Core {
 			*this = Mat3::mul(*this, matrix);
 			return *this;
 		}
-		inline Mat3 &div(float scalar) {
+		inline Mat3 &div(real32 scalar) {
 			*this = Mat3::div(*this, scalar);
 			return *this;
 		}
@@ -97,12 +97,12 @@ namespace Core {
 			*this = Mat3::transpose(*this);
 			return *this;
 		}
-		inline float determinant() {
+		inline real32 determinant() {
 			return Mat3::determinant(*this);
 		}
 
 	public:
-		inline float get(int col, int row) const {
+		inline real32 get(int col, int row) const {
 			return Mat3::get(*this, col, row);
 		}
 		inline Vec3 getRow(int row) const {
@@ -111,10 +111,10 @@ namespace Core {
 		inline Vec3 getCol(int col) const {
 			return Mat3::getCol(*this, col);
 		}
-		inline void set(int col, int row, float scalar) {
+		inline void set(int col, int row, real32 scalar) {
 			Mat3::set(*this, col, row, scalar);
 		}
-		inline void set(float(&array)[9]) {
+		inline void set(real32(&array)[9]) {
 			Mat3::set(*this, array);
 		}
 		inline void setRow(int row, const Vec3 &vector) {
@@ -127,19 +127,19 @@ namespace Core {
 	public:
 		static Mat3 add(const Mat3 &matrixA, const Mat3 &matrixB);
 		static Mat3 sub(const Mat3 &matrixA, const Mat3 &matrixB);
-		static Mat3 mul(const Mat3 &matrix, float scalar);
+		static Mat3 mul(const Mat3 &matrix, real32 scalar);
 		static Vec3 mul(const Mat3 &matrix, const Vec3 &vector);
 		static Mat3 mul(const Mat3 &matrixA, const Mat3 &matrixB);
-		static Mat3 div(const Mat3 &matrix, float scalar);
+		static Mat3 div(const Mat3 &matrix, real32 scalar);
 		static Mat3 transpose(const Mat3 &matrix);
-		static float determinant(const Mat3 &matrix);
+		static real32 determinant(const Mat3 &matrix);
 
 	public:
-		static float get(const Mat3 &matrix, int col, int row);
+		static real32 get(const Mat3 &matrix, int col, int row);
 		static Vec3 getRow(const Mat3 &matrix, int row);
 		static Vec3 getCol(const Mat3 &matrix, int col);
-		static void set(Mat3 &matrix, int col, int row, float scalar);
-		static void set(Mat3 &matrix, float(&array)[9]);
+		static void set(Mat3 &matrix, int col, int row, real32 scalar);
+		static void set(Mat3 &matrix, real32(&array)[9]);
 		static void setRow(Mat3 &matrix, int row, const Vec3 &vector);
 		static void setCol(Mat3 &matrix, int col, const Vec3 &vector);
 
@@ -148,7 +148,7 @@ namespace Core {
 		static const Mat3 identity;
 
 	private:
-		float mMatrix[9];
+		real32 mMatrix[9];
 	};
 
 }

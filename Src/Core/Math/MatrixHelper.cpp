@@ -16,12 +16,12 @@ namespace Core {
         return Mat4::zero;
     }
 
-	Mat4 MatrixHelper::createPerspective(float fov, float near, float far, float ratio) {
+	Mat4 MatrixHelper::createPerspective(real32 fov, real32 near, real32 far, real32 ratio) {
 		assert(near != far);
 		assert(ratio);
 		assert(fov);
-		float tangent = 1.0f / Scalar::tan(fov * 0.5f);
-		float distance = far - near;
+		real32 tangent = 1.0f / Scalar::tan(fov * 0.5f);
+		real32 distance = far - near;
 		Mat4 tempMatrix = Mat4::zero;
 		tempMatrix.set(1, 1, 1.0f / ratio * tangent);
 		tempMatrix.set(2, 2, tangent);
@@ -31,11 +31,11 @@ namespace Core {
 		return tempMatrix;
 	}
 
-	Mat4 MatrixHelper::createOrtho(float width, float height, float near, float far) {
+	Mat4 MatrixHelper::createOrtho(real32 width, real32 height, real32 near, real32 far) {
 		assert(width);
 		assert(height);
 		assert(near != far);
-		float distance = far - near;
+		real32 distance = far - near;
 		Mat4 tempMatrix = Mat4::zero;
 		tempMatrix.set(1, 1, 2.0f / width);
 		tempMatrix.set(2, 2, 2.0f / height);
@@ -45,7 +45,7 @@ namespace Core {
 		return tempMatrix;
 	}
 
-	Mat4 MatrixHelper::createOrtho(float width, float height, float depth) {
+	Mat4 MatrixHelper::createOrtho(real32 width, real32 height, real32 depth) {
 		assert(width);
 		assert(height);
 		assert(depth);

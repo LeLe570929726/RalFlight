@@ -30,7 +30,7 @@ set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
     "${PROJECT_SOURCE_DIR}/Src/Core/Math/MatrixHelper.cpp"
 )
 # Headers
-SET(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "${PROJECT_SOURCE_DIR}/Src/Core/Math/Scalar.h"
     "${PROJECT_SOURCE_DIR}/Src/Core/Math/Vec2.h"
     "${PROJECT_SOURCE_DIR}/Src/Core/Math/Vec3.h"
@@ -44,6 +44,32 @@ SET(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 if(${RF_OS} STREQUAL "RF_OS_LINUX")
     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -msse)
 endif()
+
+# Thread
+# Headers
+set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+    "${PROJECT_SOURCE_DIR}/Src/Core/Thread/SafeQueue.h"
+)
+
+# Log
+# Sources
+set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+    "${PROJECT_SOURCE_DIR}/Src/Core/Log/Log.cpp"
+)
+# Headers
+set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+    "${PROJECT_SOURCE_DIR}/Src/Core/Log/Log.h"
+)
+
+# Memory
+# Sources
+#set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+#    "${PROJECT_SOURCE_DIR}/Src/Core/Memory/MemoryPool.cpp"
+#)
+# Headers
+#set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+#    "${PROJECT_SOURCE_DIR}/Src/Core/Memory/MemoryPool.h"
+#)
 
 # Library
 include_directories(${RF_SRC_CORE_INCLUDE})

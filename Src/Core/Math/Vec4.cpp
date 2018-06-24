@@ -12,11 +12,11 @@
 // Core namespace
 namespace Core {
 
-	Vec4::Vec4(float x, float y, float z, float w) :
+	Vec4::Vec4(real32 x, real32 y, real32 z, real32 w) :
 		mX(x), mY(y), mZ(z), mW(w) {
 	}
 
-	Vec4::Vec4(float(&array)[4]) :
+	Vec4::Vec4(real32(&array)[4]) :
 		mX(array[0]), mY(array[1]), mZ(array[2]), mW(array[3]) {
 	}
 
@@ -33,9 +33,9 @@ namespace Core {
 	}
 
 	Vec4 Vec4::add(const Vec4 &vectorA, const Vec4 &vectorB) {
-		RF_ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
-		RF_ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-		RF_ALIGN16 float vectorAResult[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
+		RF_ALIGN16 real32 vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
+		RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -45,9 +45,9 @@ namespace Core {
 	}
 
 	Vec4 Vec4::sub(const Vec4 &vectorA, const Vec4 &vectorB) {
-		RF_ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
-		RF_ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-		RF_ALIGN16 float vectorAResult[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
+		RF_ALIGN16 real32 vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
+		RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -56,10 +56,10 @@ namespace Core {
 		return Vec4(vectorAResult[0], vectorAResult[1], vectorAResult[2], vectorAResult[3]);
 	}
 
-	Vec4 Vec4::mul(const Vec4 &vector, float scalar){
-		RF_ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		RF_ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
-		RF_ALIGN16 float vectorResult[4] = { 0.0f };
+	Vec4 Vec4::mul(const Vec4 &vector, real32 scalar){
+		RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, scalar };
+		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -68,11 +68,11 @@ namespace Core {
 		return Vec4(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
 	}
 
-	Vec4 Vec4::div(const Vec4 &vector, float scalar) {
+	Vec4 Vec4::div(const Vec4 &vector, real32 scalar) {
 		assert(scalar);
-		RF_ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		RF_ALIGN16 float vectorB[4] = { scalar, scalar, scalar, scalar };
-		RF_ALIGN16 float vectorResult[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, scalar };
+		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -81,10 +81,10 @@ namespace Core {
 		return Vec4(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
 	}
 
-	float Vec4::module(const Vec4 &vector) {
-		RF_ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		RF_ALIGN16 float vectorB[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		RF_ALIGN16 float vectorResult[4] = { 0.0f };
+	real32 Vec4::module(const Vec4 &vector) {
+		RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		RF_ALIGN16 real32 vectorB[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -94,10 +94,10 @@ namespace Core {
 	}
 
 	// Module's reciprocal
-	float Vec4::rmodule(const Vec4 &vector) {
-		RF_ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		RF_ALIGN16 float vectorB[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		RF_ALIGN16 float vectorC[4] = { 0.0f }, vectorD[4] = { 0.0f }, vectorResult[4] = { 0.0f };
+	real32 Vec4::rmodule(const Vec4 &vector) {
+		RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		RF_ALIGN16 real32 vectorB[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		RF_ALIGN16 real32 vectorC[4] = { 0.0f }, vectorD[4] = { 0.0f }, vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseC, sseD, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -111,11 +111,11 @@ namespace Core {
 	}
 
 	Vec4 Vec4::normalize(const Vec4 &vector) {
-		float module = vector.rmodule();
+		real32 module = vector.rmodule();
 		assert(module);
-		RF_ALIGN16 float vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
-		RF_ALIGN16 float vectorB[4] = { module, module, module, module };
-		RF_ALIGN16 float vectorResult[4] = { 0.0f };
+		RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, vector.mZ, vector.mW };
+		RF_ALIGN16 real32 vectorB[4] = { module, module, module, module };
+		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorA);
 		sseB = _mm_load_ps(vectorB);
@@ -124,10 +124,10 @@ namespace Core {
 		return Vec4(vectorResult[0], vectorResult[1], vectorResult[2], vectorResult[3]);
 	}
 
-	float Vec4::dot(const Vec4 &vectorA, const Vec4 &vectorB) {
-		RF_ALIGN16 float vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
-		RF_ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-		RF_ALIGN16 float vectorAResult[4] = { 0.0f };
+	real32 Vec4::dot(const Vec4 &vectorA, const Vec4 &vectorB) {
+		RF_ALIGN16 real32 vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mZ, vectorA.mW };
+		RF_ALIGN16 real32 vectorAB[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
+		RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -136,14 +136,14 @@ namespace Core {
 		return vectorAResult[0] + vectorAResult[1] + vectorAResult[2] + vectorAResult[3];
 	}
 
-	float Vec4::angle(const Vec4 &vectorA, const Vec4 &vectorB) {
-		RF_ALIGN16 float vectorAA[4] = { vectorA.mW, vectorA.mX, vectorA.mY, vectorA.mZ };
-		RF_ALIGN16 float vectorAB[4] = { vectorB.mX, vectorB.mW, vectorB.mZ, vectorB.mY };
-		RF_ALIGN16 float vectorAC[4] = { vectorA.mW, vectorA.mY, vectorA.mZ, vectorA.mX };
-		RF_ALIGN16 float vectorAD[4] = { vectorB.mY, vectorB.mW, vectorB.mX, vectorB.mZ };
-		RF_ALIGN16 float vectorAE[4] = { vectorA.mW, vectorA.mZ, vectorA.mX, vectorA.mY };
-		RF_ALIGN16 float vectorAF[4] = { vectorB.mZ, vectorB.mW, vectorB.mY, vectorB.mX };
-		RF_ALIGN16 float vectorAResult[4] = { 0.0f };
+	real32 Vec4::angle(const Vec4 &vectorA, const Vec4 &vectorB) {
+		RF_ALIGN16 real32 vectorAA[4] = { vectorA.mW, vectorA.mX, vectorA.mY, vectorA.mZ };
+		RF_ALIGN16 real32 vectorAB[4] = { vectorB.mX, vectorB.mW, vectorB.mZ, vectorB.mY };
+		RF_ALIGN16 real32 vectorAC[4] = { vectorA.mW, vectorA.mY, vectorA.mZ, vectorA.mX };
+		RF_ALIGN16 real32 vectorAD[4] = { vectorB.mY, vectorB.mW, vectorB.mX, vectorB.mZ };
+		RF_ALIGN16 real32 vectorAE[4] = { vectorA.mW, vectorA.mZ, vectorA.mX, vectorA.mY };
+		RF_ALIGN16 real32 vectorAF[4] = { vectorB.mZ, vectorB.mW, vectorB.mY, vectorB.mX };
+		RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseResult;
 		Vec3 tempVector(0.0f ,0.0f ,0.0f);
 		sseA = _mm_load_ps(vectorAA);
@@ -165,11 +165,11 @@ namespace Core {
 	}
 
 	Vec4 Vec4::project(const Vec4 &vectorA, const Vec4 &vectorB) {
-		float module = vectorB.rmodule();
-		float scalar = Vec4::dot(vectorA, vectorB) * (module * module);		// u' = ((u · v) / |v|^2) * v
-		RF_ALIGN16 float vectorAA[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-		RF_ALIGN16 float vectorAB[4] = { scalar, scalar, scalar, scalar };
-		RF_ALIGN16 float vectoraResult[4] = { 0.0f };
+		real32 module = vectorB.rmodule();
+		real32 scalar = Vec4::dot(vectorA, vectorB) * (module * module);		// u' = ((u · v) / |v|^2) * v
+		RF_ALIGN16 real32 vectorAA[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
+		RF_ALIGN16 real32 vectorAB[4] = { scalar, scalar, scalar, scalar };
+		RF_ALIGN16 real32 vectoraResult[4] = { 0.0f };
 		__m128 sseA, sseB, sseResult;
 		sseA = _mm_load_ps(vectorAA);
 		sseB = _mm_load_ps(vectorAB);
@@ -178,39 +178,39 @@ namespace Core {
 		return Vec4(vectoraResult[0], vectoraResult[1], vectoraResult[2], vectoraResult[3]);
 	}
 
-	float Vec4::getX(const Vec4 &vector) {
+	real32 Vec4::getX(const Vec4 &vector) {
 		return vector.mX;
 	}
 
-	float Vec4::getY(const Vec4 &vector) {
+	real32 Vec4::getY(const Vec4 &vector) {
 		return vector.mY;
 	}
 
-	float Vec4::getZ(const Vec4 &vector) {
+	real32 Vec4::getZ(const Vec4 &vector) {
 		return vector.mZ;
 	}
 
-	float Vec4::getW(const Vec4 &vector) {
+	real32 Vec4::getW(const Vec4 &vector) {
 		return vector.mW;
 	}
 
-	void Vec4::set(Vec4 &vector, float(&array)[4]) {
+	void Vec4::set(Vec4 &vector, real32(&array)[4]) {
 		vector = Vec4(array);
 	}
 
-	void Vec4::setX(Vec4 &vector, float x) {
+	void Vec4::setX(Vec4 &vector, real32 x) {
 		vector.mX = x;
 	}
 
-	void Vec4::setY(Vec4 &vector, float y) {
+	void Vec4::setY(Vec4 &vector, real32 y) {
 		vector.mY = y;
 	}
 
-	void Vec4::setZ(Vec4 &vector, float z) {
+	void Vec4::setZ(Vec4 &vector, real32 z) {
 		vector.mZ = z;
 	}
 
-	void Vec4::setW(Vec4 &vector, float w) {
+	void Vec4::setW(Vec4 &vector, real32 w) {
 		vector.mW = w;
 	}
 
