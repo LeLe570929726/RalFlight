@@ -3,26 +3,22 @@
 // 
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
-// @Description: A free and open-source flight simulator.
+// @Description: A free and open-source flight simulator which is based on Qt.
 //
 // @Create: 2018/5/5 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-#include "../Global/Token.h"
-#include "../../Core/Math/Scalar.h"
-#include <QByteArray>
+#include "../../Core/Global/Global.h"
 
-// SoundPAL namespace
-namespace SoundPAL {
+// Build token
+#undef RF_API
+#if defined(RF_SOUNDPAL_BUILD)
+    #define RF_API Q_DECL_EXPORT
+#else
+    #define RF_API Q_DECL_IMPORT
+#endif
 
-    class RF_API Format {
-    public:
-        Format(const QByteArray &byteArr) = 0;
-        virtual ~Format() = 0;
-
-    public:
-        virtual Core::int32 getBufferSize() = 0;
-    };
-
-}
+// Template class token
+#undef RF_API_TEMPLATE
+#define RF_API_TEMPLATE

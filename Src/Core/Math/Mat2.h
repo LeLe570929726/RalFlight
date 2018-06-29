@@ -9,7 +9,8 @@
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-#include "../Global/Global.h"
+#include "../Global/Token.h"
+#include "Scalar.h"
 #include "Vec2.h"
 #include <assert.h>
 #if defined(RF_OS_WIN)

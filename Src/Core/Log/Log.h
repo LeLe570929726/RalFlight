@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-#include "../Global/Global.h"
+#include "../Global/Token.h"
 
 // Core namespace
 namespace Core {
@@ -19,7 +19,6 @@ namespace Core {
 
 
     public:
-        static 
-    }
+    };
 
 }

@@ -9,20 +9,16 @@
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-#include "../Global/Global.h"
-#include <QThread>
+#include "../Global/Token.h"
 
 // Core namespace
 namespace Core {
 
-    class RF_API LogRecorder : private QThread {
+    class RF_API LogRecorder {
     public:
         
     
     protected:
-        virtual void run() override {
-
-        }
     }
 
 }

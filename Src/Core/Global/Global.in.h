@@ -5,29 +5,22 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator which is based on Qt.
 //
-// @Create: 2018/5/5 by LeLe570929726
+// @Create: 2018/3/23 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-#include <QtGlobal>
-
 // System token
-#if defined(Q_OS_LINUX)
-    #define RF_OS_LINUX
-#elif defined(Q_OS_WIN)
-    #define RF_OS_WIN
-#elif defined(Q_OS_MACOS)
-    #define RF_OS_MACOS
+#define @RF_OS@
+
+// Share library token
+#if defined(RF_OS_WIN)
+    #define RF_API_EXPORT __declspec(dllexport)
+    #define RF_API_IMPORT __declspec(dllimport)
 #endif
 
-// Build token
-#undef RF_API
-#if defined(RF_SOUNDPAL_BUILD)
-    #define RF_API Q_DECL_EXPORT
-#else
-    #define RF_API Q_DECL_IMPORT
+// Alignment token
+#if defined(RF_OS_WIN)
+    #define RF_ALIGN16 __declspec(align(16))
+#elif defined(RF_OS_LINUX)
+    #define RF_ALIGN16 __attribute__((aligned(16)))
 #endif
-
-// Template class token
-#undef RF_API_TEMPLATE
-#define RF_API_TEMPLATE

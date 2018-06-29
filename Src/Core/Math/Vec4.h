@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-#include "../Global/Global.h"
+#include "../Global/Token.h"
 #include "Scalar.h"
 #include "Vec3.h"
 #include <assert.h>

@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-#include "../Global/Global.h"
+#include "../Global/Token.h"
 #include <QtGlobal>
 #include <QtMath>
 
