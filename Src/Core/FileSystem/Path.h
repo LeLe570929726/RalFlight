@@ -3,8 +3,19 @@
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
-// @Description: A free and open-source flight simulator.
+// @Description: A free and open-source flight simulator which is based on Qt.
 //
-// @Create: 2018/6/23 by LeLe570929726
+// @Create: 2018/6/30 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#include "Log.h"
+#pragma once
+
+#include "../Global/Token.h"
+
+namespace Core {
+
+class RF_API Path {
+public:
+  Path();
+};
+
+} // namespace Core

@@ -14,11 +14,7 @@ add_definitions(-DRF_CORE_BUILD)
 # Public depends
 # Boost
 set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${BOOST_INCLUDE})
-# Qt
-set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${QT_INCLUDE})
-# QtCore
-set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${QT_INCLUDE_CORE})
-set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} ${QT_LIBS_CORE})
+# set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} ${QT_LIBS_CORE})
 
 # Global
 configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/Global.in.h" "${PROJECT_SOURCE_DIR}/Src/Core/Global/Global.h")
@@ -50,6 +46,18 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 if(${RF_OS} STREQUAL "RF_OS_LINUX")
     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -msse)
 endif()
+
+# FileSystem
+# Sources
+set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+    "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/File.cpp"
+)
+# Headers
+set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+    "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/File.h"
+)
+# Depends
+set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${BOOST_INCLUDE_FILESYSTEM})
 
 # Log
 # Sources
