@@ -10,18 +10,23 @@
 #pragma once
 
 #include "../Global/Token.h"
-#include <boost/filesystem.hpp>
+#include <boost/locale.hpp>
+#include <string>
 
 namespace Core {
 
-class RF_API Path {
+class RF_API Convertor {
 public:
-  Path() = default;
-  
-  ~Path() = default;
+  Convertor() = delete;
+  Convertor(const Convertor &other) = delete;
+  Convertor(Convertor &&other) = delete;
+  Convertor &operator=(const Convertor &other) = delete;
+  Convertor &operator=(Convertor &&other) = delete;
+  ~Convertor() = delete;
 
-private:
-  boost::filesystem::path mPath;
+public:
+  static std::string convert(const std::string &text, const std::string &from, const std::string &to);
+  static std::string fromUTF16(const std::u16string &text, const std::string &too_many_files_open);
 };
 
 } // namespace Core

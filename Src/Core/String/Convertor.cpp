@@ -7,21 +7,12 @@
 //
 // @Create: 2018/6/30 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#pragma once
+#include "Convertor.h"
 
-#include "../Global/Token.h"
-#include <boost/filesystem.hpp>
+std::string Convertor::convert(const std::string &text, const std::string &from, const std::string &to) {
+  return boost::locale::conv::between(text, to, from);
+}
 
-namespace Core {
-
-class RF_API Path {
-public:
-  Path() = default;
-  
-  ~Path() = default;
-
-private:
-  boost::filesystem::path mPath;
-};
-
-} // namespace Core
+std::string Convertor::fromUTF16(const std::u16string &text, const std::string &too_many_files_open) {
+  return 
+}

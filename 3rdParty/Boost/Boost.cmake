@@ -8,21 +8,12 @@
 # @Create: 2018/6/29 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
 
-# Config
+# Include config
 include("${PROJECT_SOURCE_DIR}/3rdParty/Boost/BoostConfig.cmake")
 
-# Check config
-if("${BOOST_INCLUDES_PRIVATE}" STREQUAL "")
-    message(FATAL_ERROR "Boost config missing. Please check Boost config in 3rdParty/Boost/BoostConfig.cmake.")
-endif()
-if("${BOOST_INCLUDES_PRIVATE}" STREQUAL "" OR "${BOOST_VERSION_PRIVATE}" STREQUAL "")
-    message(FATAL_ERROR "Boost config missing. Please check Boost config in 3rdParty/Boost/BoostConfig.cmake.")
-endif()
-
-# Version
-set(BOOST_VERSION ${BOOST_VERSION_PRIVATE})
-
-# Include directories
-set(BOOST_INCLUDE ${BOOST_INCLUDES_PRIVATE})
-set(BOOST_INCLUDE_FILESYSTEM "${BOOST_INCLUDES_PRIVATE}/filesystem")
-set(BOOST_INCLUDE_POOL "${BOOST_INCLUDES_PRIVATE}/pool")
+# Find Boost
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost REQUIRED COMPONENTS 
+  locale
+  filesystem
+)

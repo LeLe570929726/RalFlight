@@ -13,8 +13,8 @@ add_definitions(-DRF_CORE_BUILD)
 
 # Public depends
 # Boost
-set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${BOOST_INCLUDE})
-# set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} ${QT_LIBS_CORE})
+set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${Boost_INCLUDE_DIRS})
+set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} ${Boost_LIBRARIES})
 
 # Global
 configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/Global.in.h" "${PROJECT_SOURCE_DIR}/Src/Core/Global/Global.h")
@@ -47,17 +47,27 @@ if(${RF_OS} STREQUAL "RF_OS_LINUX")
     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -msse)
 endif()
 
+# String
+# Sources
+set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+    "${PROJECT_SOURCE_DIR}/Src/Core/String/Convertor.cpp"
+)
+# Headers
+set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+    "${PROJECT_SOURCE_DIR}/Src/Core/String/Convertor.h"
+)
+
 # FileSystem
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+    "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/Path.cpp"
     "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/File.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+    "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/Path.h"
     "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/File.h"
 )
-# Depends
-set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${BOOST_INCLUDE_FILESYSTEM})
 
 # Log
 # Sources
