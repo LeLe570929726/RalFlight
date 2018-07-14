@@ -12,8 +12,15 @@
 #include "../Global/Token.h"
 #include <boost/locale.hpp>
 #include <string>
+#include <assert.h>
 
 namespace Core {
+
+struct RF_API Charset {
+  static const std::string Latin1;
+  static const std::string Utf8;
+  static const std::string Gb2312;
+};
 
 class RF_API Convertor {
 public:
@@ -26,7 +33,9 @@ public:
 
 public:
   static std::string convert(const std::string &text, const std::string &from, const std::string &to);
-  static std::string fromUTF16(const std::u16string &text, const std::string &too_many_files_open);
+  static std::wstring toWstring(const std::string &text, const std::string &from);
+  static std::string fromWstring(const std::wstring &text, const std::string &to);
+  static bool isCharsetExist(const std::string &charset);
 };
 
 } // namespace Core

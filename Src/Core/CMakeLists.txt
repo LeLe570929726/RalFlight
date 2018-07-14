@@ -51,10 +51,14 @@ endif()
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
     "${PROJECT_SOURCE_DIR}/Src/Core/String/Convertor.cpp"
+    "${PROJECT_SOURCE_DIR}/Src/Core/String/Char.cpp"
+    "${PROJECT_SOURCE_DIR}/Src/Core/String/String.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "${PROJECT_SOURCE_DIR}/Src/Core/String/Convertor.h"
+    "${PROJECT_SOURCE_DIR}/Src/Core/String/Char.h"
+    "${PROJECT_SOURCE_DIR}/Src/Core/String/String.h"
 )
 
 # FileSystem
