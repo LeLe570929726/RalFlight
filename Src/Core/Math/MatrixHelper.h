@@ -12,7 +12,6 @@
 #include "../Global/Token.h"
 #include "Mat4.h"
 #include "Scalar.h"
-#include <assert.h>
 
 namespace Core {
 

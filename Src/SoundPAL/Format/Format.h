@@ -11,14 +11,17 @@
 
 #include "../Global/Token.h"
 #include "../../Core/Math/Scalar.h"
-#include <QByteArray>
+#include "../../Core/String/String.h"
 
 // SoundPAL namespace
 namespace SoundPAL {
 
     class RF_API Format {
     public:
-        Format(const QByteArray &byteArr) = 0;
+        Format(const Core::String &byteArr) {
+            Core::String tmp = byteArr;
+            tmp.contains("23333");
+        }
         virtual ~Format() = 0;
 
     public:

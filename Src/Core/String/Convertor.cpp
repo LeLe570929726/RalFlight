@@ -8,6 +8,8 @@
 // @Create: 2018/6/30 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Convertor.h"
+#include <assert.h>
+#include <boost/locale.hpp>
 
 namespace Core {
 

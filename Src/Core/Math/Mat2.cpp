@@ -8,13 +8,17 @@
 // @Create: 2016/12/16 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Mat2.h"
+#include <assert.h>
+#if defined(RF_OS_WIN)
+#include <intrin.h>
+#elif defined(RF_OS_LINUX)
+#include <xmmintrin.h>
+#endif
 
 namespace Core {
 
-const Mat2 Mat2::zero(0.0f, 0.0f, 
-                      0.0f, 0.0f);
-const Mat2 Mat2::identity(1.0f, 0.0f, 
-                          0.0f, 1.0f);
+const Mat2 Mat2::zero(0.0f, 0.0f, 0.0f, 0.0f);
+const Mat2 Mat2::identity(1.0f, 0.0f, 0.0f, 1.0f);
 
 Mat2::Mat2(real32 m11, real32 m12, real32 m21, real32 m22)
     : mMatrix{m11, m12, m21, m22} {}

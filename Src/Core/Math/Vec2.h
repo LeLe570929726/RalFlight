@@ -11,12 +11,6 @@
 
 #include "../Global/Token.h"
 #include "Scalar.h"
-#include <assert.h>
-#if defined(RF_OS_WIN)
-#include <intrin.h>
-#elif defined(RF_OS_LINUX)
-#include <xmmintrin.h>
-#endif
 
 namespace Core {
 

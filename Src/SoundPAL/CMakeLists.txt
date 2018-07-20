@@ -21,12 +21,12 @@ set(RF_SRC_SOUNDPAL_LIBS ${RF_SRC_SOUNDPAL_LIBS} ${QT_LIBS_CORE})
 # Format
 # Sources
 set(RF_SRC_SOUNDPAL_SOURCES ${RF_SRC_SOUNDPAL_SOURCES}
-    "${PROJECT_SOURCE_DIR}/Src/SoundPAL/Format/FormatWav.cpp"
+    "${PROJECT_SOURCE_DIR}/Src/SoundPAL/Format/Format.h"
 )
 # Headers
 SET(RF_SRC_SOUNDPAL_HEADERS ${RF_SRC_SOUNDPAL_HEADERS}
-    "${PROJECT_SOURCE_DIR}/Src/SoundPAL/Format/Format.h"
-    "${PROJECT_SOURCE_DIR}/Src/SoundPAL/Format/FormatWav.h"
+    #"${PROJECT_SOURCE_DIR}/Src/SoundPAL/Format/Format.h"
+    #"${PROJECT_SOURCE_DIR}/Src/SoundPAL/Format/FormatWav.h"
 )
 
 # Library

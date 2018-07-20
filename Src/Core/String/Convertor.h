@@ -10,9 +10,7 @@
 #pragma once
 
 #include "../Global/Token.h"
-#include <boost/locale.hpp>
 #include <string>
-#include <assert.h>
 
 namespace Core {
 

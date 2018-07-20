@@ -11,7 +11,6 @@
 
 #include "../Global/Token.h"
 #include "Format.h"
-#include <QByteArray>
 
 // SoundPAL namespace
 namespace SoundPAL {

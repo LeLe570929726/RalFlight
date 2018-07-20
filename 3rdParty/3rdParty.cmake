@@ -10,6 +10,10 @@
 
 # 3rdParties
 include("${PROJECT_SOURCE_DIR}/3rdParty/Boost/Boost.cmake")
-include("${PROJECT_SOURCE_DIR}/3rdParty/DirectX/DirectX.cmake")
 include("${PROJECT_SOURCE_DIR}/3rdParty/Vulkan/Vulkan.cmake")
 include("${PROJECT_SOURCE_DIR}/3rdParty/OpenAL/OpenAL.cmake")
+
+# Windows only
+if(${RF_OS} STREQUAL "RF_OS_WIN")
+  include("${PROJECT_SOURCE_DIR}/3rdParty/DirectX/DirectX.cmake")
+endif()

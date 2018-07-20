@@ -8,6 +8,12 @@
 // @Create: 2016/12/11 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Vec4.h"
+#include <assert.h>
+#if defined(RF_OS_WIN)
+#include <intrin.h>
+#elif defined(RF_OS_LINUX)
+#include <xmmintrin.h>
+#endif
 
 // Core namespace
 namespace Core {
