@@ -27,11 +27,9 @@
 *.out
 *.app
 
-# Setting file of Visual Studio
+# Setting fold
 .vs
 .vscode
-
-# Setting file of CLion
 .idea
 cmake-build-debug
 

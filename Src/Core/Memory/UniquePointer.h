@@ -5,9 +5,16 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator which is based on Qt.
 //
-// @Create: 2018/6/29 by LeLe570929726
+// @Create: 2018/07/28 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-// Build version
-#cmakedefine RF_VERSION_RELEASE @RF_VERSION_RELEASE@
+#include "../Global/Token.h"
+#include <memory>
+
+namespace Core {
+
+template <class T, class Deleter = std::default_delete<T>>
+using UniquePointer = std::unique_ptr<T, Deleter>;
+
+} // namespace Core

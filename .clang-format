@@ -1,0 +1,13 @@
+BasedOnStyle : LLVM
+SpaceBeforeAssignmentOperators: true
+AllowShortIfStatementsOnASingleLine: true
+AlwaysBreakTemplateDeclarations: Yes
+MaxEmptyLinesToKeep: 1
+SpacesInSquareBrackets: false
+SpacesInParentheses: false
+Cpp11BracedListStyle: false
+AccessModifierOffset: -4
+ColumnLimit: 128
+IndentWidth: 4
+TabWidth: 4
+UseTab: Always

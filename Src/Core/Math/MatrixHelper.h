@@ -17,17 +17,16 @@ namespace Core {
 
 class RF_API MatrixHelper {
 public:
-  MatrixHelper() = delete;
-  MatrixHelper(const MatrixHelper &other) = delete;
-  MatrixHelper &operator=(const MatrixHelper &other) = delete;
-  ~MatrixHelper() = delete;
+	MatrixHelper() = delete;
+	MatrixHelper(const MatrixHelper &other) = delete;
+	MatrixHelper &operator=(const MatrixHelper &other) = delete;
+	~MatrixHelper() = delete;
 
 public:
-  static Mat4 createZero();
-  static Mat4 createPerspective(real32 fov, real32 near, real32 far,
-                                real32 ratio);
-  static Mat4 createOrtho(real32 width, real32 height, real32 near, real32 far);
-  static Mat4 createOrtho(real32 width, real32 height, real32 depth);
+	static Mat4 createZero();
+	static Mat4 createPerspective(real32 fov, real32 near, real32 far, real32 ratio);
+	static Mat4 createOrtho(real32 width, real32 height, real32 near, real32 far);
+	static Mat4 createOrtho(real32 width, real32 height, real32 depth);
 };
 
 } // namespace Core

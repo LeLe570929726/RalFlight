@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------------------------------
 # Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
-# 
+#
 # @Project: RalFlight
 # @License: Licensed under GNU General Public License v3.
 # @Description: A free and open-source flight simulator.
@@ -17,30 +17,39 @@ set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${Boost_INCLUDE_DIRS})
 set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} ${Boost_LIBRARIES})
 
 # Global
-configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/Global.in.h" "${PROJECT_SOURCE_DIR}/Src/Core/Global/Global.h")
-configure_file("${PROJECT_SOURCE_DIR}/Src/Core/Global/VersionInfo.in.h" "${PROJECT_SOURCE_DIR}/Src/Core/Global/VersionInfo.h")
+configure_file("Global/Global.in.h" "Global/Global.h")
+configure_file("Global/VersionInfo.in.h" "Global/VersionInfo.h")
+
+# Memory
+# Sources
+set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+)
+# Headers
+set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+    "Memory/UniquePointer.h"
+)
 
 # Math
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Vec2.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Vec3.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Vec4.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Mat2.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Mat3.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Mat4.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/MatrixHelper.cpp"
+    "Math/Vec2.cpp"
+    "Math/Vec3.cpp"
+    "Math/Vec4.cpp"
+    "Math/Mat2.cpp"
+    "Math/Mat3.cpp"
+    "Math/Mat4.cpp"
+    "Math/MatrixHelper.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Scalar.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Vec2.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Vec3.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Vec4.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Mat2.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Mat3.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/Mat4.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/Math/MatrixHelper.h"
+    "Math/Scalar.h"
+    "Math/Vec2.h"
+    "Math/Vec3.h"
+    "Math/Vec4.h"
+    "Math/Mat2.h"
+    "Math/Mat3.h"
+    "Math/Mat4.h"
+    "Math/MatrixHelper.h"
 )
 # Depends
 if(${RF_OS} STREQUAL "RF_OS_LINUX")
@@ -50,37 +59,41 @@ endif()
 # String
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
-    "${PROJECT_SOURCE_DIR}/Src/Core/String/Convertor.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/String/Char.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/String/String.cpp"
+    "String/Convertor.cpp"
+    "String/Char.cpp"
+    "String/CharReference.cpp"
+    "String/String.cpp"
+    "String/StringIterator.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
-    "${PROJECT_SOURCE_DIR}/Src/Core/String/Convertor.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/String/Char.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/String/String.h"
+    "String/Convertor.h"
+    "String/Char.h"
+    "String/CharReference.h"
+    "String/String.h"
+    "String/StringIterator.h"
 )
 
 # FileSystem
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
-    "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/Path.cpp"
-    "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/File.cpp"
+    "FileSystem/Path.cpp"
+    "FileSystem/File.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
-    "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/Path.h"
-    "${PROJECT_SOURCE_DIR}/Src/Core/FileSystem/File.h"
+    "FileSystem/Path.h"
+    "FileSystem/File.h"
 )
 
 # Log
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
-    "${PROJECT_SOURCE_DIR}/Src/Core/Log/Log.cpp"
+    "Log/Log.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
-    "${PROJECT_SOURCE_DIR}/Src/Core/Log/Log.h"
+    "Log/Log.h"
 )
 
 # Library

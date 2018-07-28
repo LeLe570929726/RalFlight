@@ -7,5 +7,5 @@
 #
 # @Create: 2018/3/25 by LeLe570929726
 # ----------------------------------------------------------------------------------------------------
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src/Core")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Src/SoundPAL")
+add_subdirectory("Core")
+# add_subdirectory("${PROJECT_SOURCE_DIR}/Src/SoundPAL")

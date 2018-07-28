@@ -16,12 +16,12 @@ namespace Core {
 
 class RF_API Path {
 public:
-  Path() = default;
-  
-  ~Path() = default;
+	Path() = default;
+
+	~Path() = default;
 
 private:
-  boost::filesystem::path mPath;
+	boost::filesystem::path mPath;
 };
 
 } // namespace Core

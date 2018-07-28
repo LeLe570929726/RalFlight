@@ -5,9 +5,22 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator which is based on Qt.
 //
-// @Create: 2018/6/29 by LeLe570929726
+// @Create: 2018/07/27 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
-#pragma once
+#include "CharReference.h"
+#include "Char.h"
 
-// Build version
-#cmakedefine RF_VERSION_RELEASE @RF_VERSION_RELEASE@
+namespace Core {
+
+CharReference::CharReference(wchar_t *ptr) : mPtr(ptr) {}
+
+CharReference &CharReference::operator=(const Char &ch) {
+	*(this->mPtr) = ch.toWChar();
+	return *this;
+}
+
+std::string CharReference::toString(const std::string &charset) const {
+	return Convertor::fromWstring(std::wstring(1, *this->mPtr), charset);
+}
+
+} // namespace Core

@@ -11,38 +11,41 @@
 
 namespace Core {
 
-Char::Char(char ch)
-    : mChar(Convertor::toWstring(std::string(1, ch), Charset::Latin1)[0]) {}
+Char::Char(char ch) : mChar(Convertor::toWstring(std::string(1, ch), Charset::Latin1)[0]) {}
 
-Char::Char(const std::string &ch, const std::string &charset)
-    : mChar(Convertor::toWstring(ch, charset)[0]) {}
+Char::Char(const std::string &ch, const std::string &charset) : mChar(Convertor::toWstring(ch, charset)[0]) {}
 
 Char::Char(wchar_t ch) : mChar(ch) {}
 
 Char::Char(int code) : mChar(static_cast<wchar_t>(code)) {}
 
+Char &Char::operator=(const CharReference &chref) {
+	this->mChar = chref.toWChar();
+	return *this;
+}
+
 Char &Char::operator=(char ch) {
-  this->mChar = Convertor::toWstring(std::string(1, ch), Charset::Latin1)[0];
-  return *this;
+	this->mChar = Convertor::toWstring(std::string(1, ch), Charset::Latin1)[0];
+	return *this;
 }
 
 Char &Char::operator=(const std::string &ch) {
-  this->mChar = Convertor::toWstring(ch, Charset::Utf8)[0];
-  return *this;
+	this->mChar = Convertor::toWstring(ch, Charset::Utf8)[0];
+	return *this;
 }
 
 Char &Char::operator=(wchar_t ch) {
-  this->mChar = ch;
-  return *this;
+	this->mChar = ch;
+	return *this;
 }
 
 Char &Char::operator=(int code) {
-  this->mChar = static_cast<wchar_t>(code);
-  return *this;
+	this->mChar = static_cast<wchar_t>(code);
+	return *this;
 }
 
 std::string Char::toString(const std::string &charset) const {
-  return Convertor::fromWstring(std::wstring(1, this->mChar), charset);
+	return Convertor::fromWstring(std::wstring(1, this->mChar), charset);
 }
 
 } // namespace Core
