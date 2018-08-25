@@ -191,12 +191,12 @@ real32 Mat3::get(const Mat3 &matrix, int col, int row) {
 	return matrix.mMatrix[(col - 1) + ((row - 1) * 3)];
 }
 
-Vec3 Mat3::getRow(const Mat3 &matrix, int row) {
+Vec3 Mat3::row(const Mat3 &matrix, int row) {
 	assert(row > 0 && row < 4);
 	return Vec3(matrix.mMatrix[(row - 1) * 3], matrix.mMatrix[((row - 1) * 3) + 1], matrix.mMatrix[((row - 1) * 3) + 2]);
 }
 
-Vec3 Mat3::getCol(const Mat3 &matrix, int col) {
+Vec3 Mat3::col(const Mat3 &matrix, int col) {
 	assert(col > 0 && col < 4);
 	return Vec3(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 3], matrix.mMatrix[col - 1 + 6]);
 }

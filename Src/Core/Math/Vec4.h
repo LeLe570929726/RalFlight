@@ -18,7 +18,7 @@ namespace Core {
 class RF_API Vec4 {
 public:
 	Vec4(real32 x, real32 y, real32 z, real32 w);
-	Vec4(real32 (&array)[4]);
+	explicit Vec4(real32 (&array)[4]);
 	Vec4(const Vec4 &other);
 	Vec4 &operator=(const Vec4 &other);
 	~Vec4() = default;
@@ -74,8 +74,8 @@ public:
 	inline Vec4 project(const Vec4 &vector) const { return Vec4::project(*this, vector); }
 
 public:
-	inline real32 getX() const { return Vec4::getX(*this); }
-	inline real32 getY() const { return Vec4::getY(*this); }
+	inline real32 x() const { return Vec4::x(*this); }
+	inline real32 y() const { return Vec4::y(*this); }
 	inline real32 getZ() const { return Vec4::getZ(*this); }
 	inline real32 getW() const { return Vec4::getW(*this); }
 	inline void set(real32 (&array)[4]) { Vec4::set(*this, array); }
@@ -101,8 +101,8 @@ public:
 	static Vec4 project(const Vec4 &vectorA, const Vec4 &vectorB);
 
 public:
-	static real32 getX(const Vec4 &vector);
-	static real32 getY(const Vec4 &vector);
+	static real32 x(const Vec4 &vector);
+	static real32 y(const Vec4 &vector);
 	static real32 getZ(const Vec4 &vector);
 	static real32 getW(const Vec4 &vector);
 	static void set(Vec4 &vector, real32 (&array)[4]);

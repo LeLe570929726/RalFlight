@@ -11,8 +11,11 @@
 
 #include "../Global/Token.h"
 #include "../Math/Scalar.h"
+#include "../Container/Vector.h"
+#include "../Container/List.h"
 #include "Char.h"
 #include "CharReference.h"
+#include "ConstStringIterator.h"
 #include "Convertor.h"
 #include "StringIterator.h"
 #include <string>
@@ -49,7 +52,17 @@ public:
 
 public:
 	StringIterator begin();
+	ConstStringIterator begin() const { return this->cbegin(); }
+	ConstStringIterator cbegin() const;
+	StringReverseIterator rbegin();
+	ConstStringReverseIterator rbegin() const { return this->crbegin(); }
+	ConstStringReverseIterator crbegin() const;
 	StringIterator end();
+	ConstStringIterator end() const { return this->cend(); }
+	ConstStringIterator cend() const;
+	StringReverseIterator rend();
+	ConstStringReverseIterator rend() const { return this->crend(); }
+	ConstStringReverseIterator crend() const;
 
 public:
 	CharReference at(uint64 position);
@@ -61,10 +74,14 @@ public:
 
 public:
 	String &append(const String &other);
-	String &insert(uint64 position, const String &text);
+	String &insert(const String &text, uint64 position);
+	StringIterator insert(const String &text, ConstStringIterator position);
 	String &remove(uint64 position, uint64 number = 1);
-	String &remove(const String &other, CaseFind cf = CaseFind::All, int64 index = 0);
+	StringIterator remove(ConstStringIterator position);
+	StringIterator remove(ConstStringIterator first, ConstStringIterator last);
+	String &remove(const String &other, CaseFind cf = CaseFind::All, uint64 index = 0);
 	String &replace(const String &other, uint64 position, uint64 number = 1);
+	String &replace(const String &other, ConstStringIterator first, ConstStringIterator last);
 	String &replace(const String &search, const String &text, CaseFind cf = CaseFind::All, uint64 index = 0);
 	void resize(uint64 size) { this->mBuffer.resize(size); }
 	void resize(const Char &ch, uint64 size) { this->mBuffer.resize(size, ch.toWChar()); }
@@ -76,7 +93,7 @@ public:
 	uint64 capacity() const { return this->mBuffer.capacity(); }
 	void reserve(uint64 size) { this->mBuffer.reserve(size); }
 	uint64 length() const { return this->mBuffer.length(); }
-	bool isEmpty() const { return this->mBuffer.empty(); }
+	bool empty() const { return this->mBuffer.empty(); }
 	void clear() { this->mBuffer.clear(); }
 
 private:

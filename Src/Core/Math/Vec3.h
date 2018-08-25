@@ -17,7 +17,7 @@ namespace Core {
 class RF_API Vec3 {
 public:
 	Vec3(real32 x, real32 y, real32 z);
-	Vec3(real32 (&array)[3]);
+	explicit Vec3(real32 (&array)[3]);
 	Vec3(const Vec3 &other);
 	Vec3 &operator=(const Vec3 &other);
 	~Vec3() = default;
@@ -74,8 +74,8 @@ public:
 	inline Vec3 project(const Vec3 &vector) const { return Vec3::project(*this, vector); }
 
 public:
-	inline real32 getX() const { return Vec3::getX(*this); }
-	inline real32 getY() const { return Vec3::getY(*this); }
+	inline real32 x() const { return Vec3::x(*this); }
+	inline real32 y() const { return Vec3::y(*this); }
 	inline real32 getZ() const { return Vec3::getZ(*this); }
 	inline void set(real32 (&array)[3]) { Vec3::set(*this, array); }
 	inline void setX(real32 x) { Vec3::setX(*this, x); }
@@ -100,8 +100,8 @@ public:
 	static Vec3 project(const Vec3 &vectorA, const Vec3 &vectorB);
 
 public:
-	static real32 getX(const Vec3 &vector);
-	static real32 getY(const Vec3 &vector);
+	static real32 x(const Vec3 &vector);
+	static real32 y(const Vec3 &vector);
 	static real32 getZ(const Vec3 &vector);
 	static void set(Vec3 &vector, real32 (&array)[3]);
 	static void setX(Vec3 &vector, real32 x);

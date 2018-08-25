@@ -18,7 +18,7 @@ namespace Core {
 class RF_API Mat2 {
 public:
 	Mat2(real32 m11, real32 m12, real32 m21, real32 m22);
-	Mat2(real32 (&array)[4]);
+	explicit Mat2(real32 (&array)[4]);
 	Mat2(const Mat2 &other);
 	Mat2 &operator=(const Mat2 &other);
 	~Mat2() = default;
@@ -52,11 +52,11 @@ public:
 	}
 
 public:
-	inline Mat2 &add(const Mat2 matrix) {
+	inline Mat2 &add(const Mat2 &matrix) {
 		*this = Mat2::add(*this, matrix);
 		return *this;
 	}
-	inline Mat2 &sub(const Mat2 matrix) {
+	inline Mat2 &sub(const Mat2 &matrix) {
 		*this = Mat2::sub(*this, matrix);
 		return *this;
 	}
@@ -65,7 +65,7 @@ public:
 		return *this;
 	}
 	inline Vec2 mul(const Vec2 &vector) { return Mat2::mul(*this, vector); }
-	inline Mat2 &mul(const Mat2 matrix) {
+	inline Mat2 &mul(const Mat2 &matrix) {
 		*this = Mat2::mul(*this, matrix);
 		return *this;
 	}
@@ -81,8 +81,8 @@ public:
 
 public:
 	inline real32 get(int col, int row) const { return Mat2::get(*this, col, row); }
-	inline Vec2 getRow(int row) const { return Mat2::getRow(*this, row); }
-	inline Vec2 getCol(int col) const { return Mat2::getCol(*this, col); }
+	inline Vec2 row(int row) const { return Mat2::row(*this, row); }
+	inline Vec2 col(int col) const { return Mat2::col(*this, col); }
 
 public:
 	inline void set(int col, int row, real32 scalar) { Mat2::set(*this, col, row, scalar); }
@@ -102,8 +102,8 @@ public:
 
 public:
 	static real32 get(const Mat2 &matrix, int col, int row);
-	static Vec2 getRow(const Mat2 &matrix, int row);
-	static Vec2 getCol(const Mat2 &matrix, int col);
+	static Vec2 row(const Mat2 &matrix, int row);
+	static Vec2 col(const Mat2 &matrix, int col);
 	static void set(Mat2 &matrix, int col, int row, real32 scalar);
 	static void set(Mat2 &matrix, real32 (&array)[4]);
 	static void setRow(Mat2 &matrix, int row, const Vec2 &vector);

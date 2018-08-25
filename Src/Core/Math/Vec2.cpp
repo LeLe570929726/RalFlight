@@ -174,9 +174,9 @@ Vec2 Vec2::project(const Vec2 &vectorA, const Vec2 &vectorB) {
 	return Vec2(vectorAResult[0], vectorAResult[1]);
 }
 
-real32 Vec2::getX(const Vec2 &vector) { return vector.mX; }
+real32 Vec2::x(const Vec2 &vector) { return vector.mX; }
 
-real32 Vec2::getY(const Vec2 &vector) { return vector.mY; }
+real32 Vec2::y(const Vec2 &vector) { return vector.mY; }
 
 void Vec2::set(Vec2 &vector, real32 (&array)[2]) { vector = Vec2(array); }
 

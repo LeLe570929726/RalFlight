@@ -250,13 +250,13 @@ real32 Mat4::get(const Mat4 &matrix, int col, int row) {
 	return matrix.mMatrix[(col - 1) + ((row - 1) << 2)];
 }
 
-Vec4 Mat4::getRow(const Mat4 &matrix, int row) {
+Vec4 Mat4::row(const Mat4 &matrix, int row) {
 	assert(row > 0 && row < 5);
 	return Vec4(matrix.mMatrix[(row - 1) << 2], matrix.mMatrix[((row - 1) << 2) + 1], matrix.mMatrix[((row - 1) << 2) + 2],
 				matrix.mMatrix[((row - 1) << 2) + 3]);
 }
 
-Vec4 Mat4::getCol(const Mat4 &matrix, int col) {
+Vec4 Mat4::col(const Mat4 &matrix, int col) {
 	assert(col > 0 && col < 5);
 	return Vec4(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 4], matrix.mMatrix[col - 1 + 8],
 				matrix.mMatrix[col - 1 + 12]);

@@ -142,12 +142,12 @@ real32 Mat2::get(const Mat2 &matrix, int col, int row) {
 	return matrix.mMatrix[(col - 1) + (2 * (row - 1))];
 }
 
-Vec2 Mat2::getRow(const Mat2 &matrix, int row) {
+Vec2 Mat2::row(const Mat2 &matrix, int row) {
 	assert(row > 0 && row < 3);
 	return Vec2(matrix.mMatrix[(row - 1) << 1], matrix.mMatrix[((row - 1) << 1) + 1]);
 }
 
-Vec2 Mat2::getCol(const Mat2 &matrix, int col) {
+Vec2 Mat2::col(const Mat2 &matrix, int col) {
 	assert(col > 0 && col < 3);
 	return Vec2(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 2]);
 }

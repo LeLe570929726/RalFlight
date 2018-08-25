@@ -18,7 +18,7 @@ namespace Core {
 class RF_API Mat3 {
 public:
 	Mat3(real32 m11, real32 m12, real32 m13, real32 m21, real32 m22, real32 m23, real32 m31, real32 m32, real32 m33);
-	Mat3(real32 (&array)[9]);
+	explicit Mat3(real32 (&array)[9]);
 	Mat3(const Mat3 &other);
 	Mat3 &operator=(const Mat3 &other);
 	~Mat3() = default;
@@ -81,8 +81,8 @@ public:
 
 public:
 	inline real32 get(int col, int row) const { return Mat3::get(*this, col, row); }
-	inline Vec3 getRow(int row) const { return Mat3::getRow(*this, row); }
-	inline Vec3 getCol(int col) const { return Mat3::getCol(*this, col); }
+	inline Vec3 row(int row) const { return Mat3::row(*this, row); }
+	inline Vec3 col(int col) const { return Mat3::col(*this, col); }
 	inline void set(int col, int row, real32 scalar) { Mat3::set(*this, col, row, scalar); }
 	inline void set(real32 (&array)[9]) { Mat3::set(*this, array); }
 	inline void setRow(int row, const Vec3 &vector) { Mat3::setRow(*this, row, vector); }
@@ -100,8 +100,8 @@ public:
 
 public:
 	static real32 get(const Mat3 &matrix, int col, int row);
-	static Vec3 getRow(const Mat3 &matrix, int row);
-	static Vec3 getCol(const Mat3 &matrix, int col);
+	static Vec3 row(const Mat3 &matrix, int row);
+	static Vec3 col(const Mat3 &matrix, int col);
 	static void set(Mat3 &matrix, int col, int row, real32 scalar);
 	static void set(Mat3 &matrix, real32 (&array)[9]);
 	static void setRow(Mat3 &matrix, int row, const Vec3 &vector);

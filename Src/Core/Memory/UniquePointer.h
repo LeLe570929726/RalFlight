@@ -15,6 +15,6 @@
 namespace Core {
 
 template <class T, class Deleter = std::default_delete<T>>
-using UniquePointer = std::unique_ptr<T, Deleter>;
+using RF_API_TEMPLATE UniquePointer = std::unique_ptr<T, Deleter>;
 
 } // namespace Core

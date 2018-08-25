@@ -19,7 +19,7 @@ class Char;
 
 class RF_API CharReference {
 public:
-	CharReference(wchar_t *ptr);
+	explicit CharReference(wchar_t *ptr);
 	CharReference(const CharReference &other) = default;
 	CharReference(CharReference &&other) = default;
 	CharReference &operator=(const CharReference &other) = default;

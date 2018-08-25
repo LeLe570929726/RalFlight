@@ -20,6 +20,16 @@ set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} ${Boost_LIBRARIES})
 configure_file("Global/Global.in.h" "Global/Global.h")
 configure_file("Global/VersionInfo.in.h" "Global/VersionInfo.h")
 
+# Container
+# Sources
+set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+)
+# Headers
+set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+    "Container/List.h"
+    "Container/Vector.h"
+)
+
 # Memory
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
@@ -64,6 +74,7 @@ set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
     "String/CharReference.cpp"
     "String/String.cpp"
     "String/StringIterator.cpp"
+    "String/ConstStringIterator.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
@@ -72,6 +83,7 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "String/CharReference.h"
     "String/String.h"
     "String/StringIterator.h"
+    "String/ConstStringIterator.h"
 )
 
 # FileSystem

@@ -167,9 +167,9 @@ Vec3 Vec3::project(const Vec3 &vectorA, const Vec3 &vectorB) {
 	return Vec3(vectorAResult[0], vectorAResult[1], vectorAResult[2]);
 }
 
-real32 Vec3::getX(const Vec3 &vector) { return vector.mX; }
+real32 Vec3::x(const Vec3 &vector) { return vector.mX; }
 
-real32 Vec3::getY(const Vec3 &vector) { return vector.mY; }
+real32 Vec3::y(const Vec3 &vector) { return vector.mY; }
 
 real32 Vec3::getZ(const Vec3 &vector) { return vector.mZ; }
 

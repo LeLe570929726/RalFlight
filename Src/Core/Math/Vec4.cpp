@@ -178,9 +178,9 @@ Vec4 Vec4::project(const Vec4 &vectorA, const Vec4 &vectorB) {
 	return Vec4(vectoraResult[0], vectoraResult[1], vectoraResult[2], vectoraResult[3]);
 }
 
-real32 Vec4::getX(const Vec4 &vector) { return vector.mX; }
+real32 Vec4::x(const Vec4 &vector) { return vector.mX; }
 
-real32 Vec4::getY(const Vec4 &vector) { return vector.mY; }
+real32 Vec4::y(const Vec4 &vector) { return vector.mY; }
 
 real32 Vec4::getZ(const Vec4 &vector) { return vector.mZ; }
 

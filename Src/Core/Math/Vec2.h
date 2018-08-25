@@ -17,7 +17,7 @@ namespace Core {
 class RF_API Vec2 {
 public:
 	Vec2(real32 x, real32 y);
-	Vec2(real32 (&array)[2]);
+	explicit Vec2(real32 (&array)[2]);
 	Vec2(const Vec2 &other);
 	Vec2 &operator=(const Vec2 &other);
 	~Vec2() = default;
@@ -74,8 +74,8 @@ public:
 	inline Vec2 project(const Vec2 &vector) const { return Vec2::project(*this, vector); }
 
 public:
-	inline real32 getX() const { return this->mX; }
-	inline real32 getY() const { return this->mY; }
+	inline real32 x() const { return this->mX; }
+	inline real32 y() const { return this->mY; }
 	inline void set(real32 (&array)[2]) { Vec2::set(*this, array); }
 	inline void setX(real32 x) { Vec2::setX(*this, x); }
 	inline void setY(real32 y) { Vec2::setY(*this, y); }
@@ -98,8 +98,8 @@ public:
 	static Vec2 project(const Vec2 &vectorA, const Vec2 &vectorB);
 
 public:
-	static real32 getX(const Vec2 &vector);
-	static real32 getY(const Vec2 &vector);
+	static real32 x(const Vec2 &vector);
+	static real32 y(const Vec2 &vector);
 	static void set(Vec2 &vector, real32 (&array)[2]);
 	static void setX(Vec2 &vector, real32 x);
 	static void setY(Vec2 &vector, real32 y);

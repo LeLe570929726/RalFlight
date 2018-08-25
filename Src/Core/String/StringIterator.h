@@ -18,7 +18,7 @@
 
 namespace Core {
 
-class RF_API StringIterator : public std::iterator_traits<StringIterator> {
+class RF_API StringIterator {
 public:
 	StringIterator(const std::wstring::iterator itr);
 	StringIterator(const StringIterator &other) = default;
@@ -42,18 +42,23 @@ public:
 	UniquePointer<CharReference> operator->() { return this->getPointer(); }
 
 public:
+	std::wstring::iterator get() { return this->mItr; }
 	CharReference getReference();
 	UniquePointer<CharReference> getPointer();
-
-public:
-	using iterator_category = std::random_access_iterator_tag;
-	using difference_type = std::wstring::difference_type;
-	using value_type = Char;
-	using reference = CharReference;
-	using pointer = UniquePointer<CharReference>;
 
 private:
 	std::wstring::iterator mItr;
 };
 
+using StringReverseIterator = std::reverse_iterator<StringIterator>;
+
 } // namespace Core
+
+template <>
+struct std::iterator_traits<Core::StringIterator> {
+	using iterator_category = std::random_access_iterator_tag;
+	using difference_type = std::wstring::difference_type;
+	using value_type = Core::Char;
+	using reference = Core::CharReference;
+	using pointer = Core::UniquePointer<Core::CharReference>;
+};

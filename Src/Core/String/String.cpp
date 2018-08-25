@@ -8,6 +8,7 @@
 // @Create: 2018/6/30 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "String.h"
+#include <assert.h>
 #include <boost/algorithm/string.hpp>
 #include <cwctype>
 #include <utility>
@@ -45,6 +46,18 @@ StringIterator String::begin() { return StringIterator(this->mBuffer.begin()); }
 
 StringIterator String::end() { return StringIterator(this->mBuffer.end()); }
 
+ConstStringIterator String::cbegin() const { return ConstStringIterator(this->mBuffer.cbegin()); }
+
+ConstStringIterator String::cend() const { return ConstStringIterator(this->mBuffer.cend()); }
+
+StringReverseIterator String::rbegin() { return StringReverseIterator(this->mBuffer.rbegin()); }
+
+StringReverseIterator String::rend() { return StringReverseIterator(this->mBuffer.rend()); }
+
+ConstStringReverseIterator String::crbegin() const { return ConstStringReverseIterator(this->mBuffer.crbegin()); }
+
+ConstStringReverseIterator String::crend() const { return ConstStringReverseIterator(this->mBuffer.crend()); }
+
 CharReference String::at(uint64 position) {
 	assert(position < this->mBuffer.length());
 	return CharReference(&this->mBuffer.at(position));
@@ -60,9 +73,13 @@ String &String::append(const String &other) {
 	return *this;
 }
 
-String &String::insert(uint64 position, const String &text) {
+String &String::insert(const String &text, uint64 position) {
 	this->mBuffer.insert(position, text.mBuffer);
 	return *this;
+}
+
+StringIterator String::insert(const String &text, ConstStringIterator position) {
+	return StringIterator(this->mBuffer.insert(position.get(), text.mBuffer.begin(), text.mBuffer.end()));
 }
 
 String &String::remove(uint64 position, uint64 number) {
@@ -71,11 +88,17 @@ String &String::remove(uint64 position, uint64 number) {
 	return *this;
 }
 
-String &String::remove(const String &other, CaseFind cf, int64 index) {
+StringIterator String::remove(ConstStringIterator position) { return StringIterator(this->mBuffer.erase(position.get())); }
+
+StringIterator String::remove(ConstStringIterator first, ConstStringIterator last) {
+	return StringIterator(this->mBuffer.erase(first.get(), last.get()));
+}
+
+String &String::remove(const String &other, CaseFind cf, uint64 index) {
 	assert(index < this->mBuffer.length());
 	switch (cf) {
 	case CaseFind::Index:
-		boost::algorithm::erase_nth(this->mBuffer, other.mBuffer, index);
+		boost::algorithm::erase_nth(this->mBuffer, other.mBuffer, static_cast<int>(index));
 		break;
 	case CaseFind::First:
 		boost::algorithm::erase_first(this->mBuffer, other.mBuffer);
@@ -96,11 +119,16 @@ String &String::replace(const String &other, uint64 position, uint64 number) {
 	return *this;
 }
 
+String &String::replace(const String &other, ConstStringIterator first, ConstStringIterator last) {
+	this->mBuffer.replace(first.get(), last.get(), other.mBuffer);
+	return *this;
+}
+
 String &String::replace(const String &search, const String &text, CaseFind cf, uint64 index) {
 	assert(index < this->mBuffer.length());
 	switch (cf) {
 	case CaseFind::Index:
-		boost::algorithm::replace_nth(this->mBuffer, search.mBuffer, index, text.mBuffer);
+		boost::algorithm::replace_nth(this->mBuffer, search.mBuffer, static_cast<int>(index), text.mBuffer);
 		break;
 	case CaseFind::First:
 		boost::algorithm::replace_first(this->mBuffer, search.mBuffer, text.mBuffer);

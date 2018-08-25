@@ -19,7 +19,7 @@ class RF_API Mat4 {
 public:
 	Mat4(real32 m11, real32 m12, real32 m13, real32 m14, real32 m21, real32 m22, real32 m23, real32 m24, real32 m31, real32 m32,
 		 real32 m33, real32 m34, real32 m41, real32 m42, real32 m43, real32 m44);
-	Mat4(real32 (&array)[16]);
+	explicit Mat4(real32 (&array)[16]);
 	Mat4(const Mat4 &other);
 	Mat4 &operator=(const Mat4 &other);
 	~Mat4() = default;
@@ -81,8 +81,8 @@ public:
 
 public:
 	inline real32 get(int col, int row) const { return Mat4::get(*this, col, row); }
-	inline Vec4 getRow(int row) const { return Mat4::getRow(*this, row); }
-	inline Vec4 getCol(int col) const { return Mat4::getCol(*this, col); }
+	inline Vec4 row(int row) const { return Mat4::row(*this, row); }
+	inline Vec4 col(int col) const { return Mat4::col(*this, col); }
 	inline void set(int col, int row, real32 scalar) { Mat4::set(*this, col, row, scalar); }
 	inline void set(real32 (&array)[16]) { Mat4::set(*this, array); }
 	inline void setRow(int row, const Vec4 &vector) { Mat4::setRow(*this, row, vector); }
@@ -100,8 +100,8 @@ public:
 
 public:
 	static real32 get(const Mat4 &matrix, int col, int row);
-	static Vec4 getRow(const Mat4 &matrix, int row);
-	static Vec4 getCol(const Mat4 &matrix, int col);
+	static Vec4 row(const Mat4 &matrix, int row);
+	static Vec4 col(const Mat4 &matrix, int col);
 	static void set(Mat4 &matrix, int col, int row, real32 scalar);
 	static void set(Mat4 &matrix, real32 (&array)[16]);
 	static void setRow(Mat4 &matrix, int row, const Vec4 &vector);
