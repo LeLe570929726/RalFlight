@@ -9,10 +9,9 @@
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
+#include "../Container/Vector.h"
 #include "../Global/Token.h"
 #include "../Math/Scalar.h"
-#include "../Container/Vector.h"
-#include "../Container/List.h"
 #include "Char.h"
 #include "CharReference.h"
 #include "ConstStringIterator.h"
@@ -34,6 +33,10 @@ public:
 	String(const wchar_t *text);
 	String(const std::wstring &text);
 	String(const Char &ch, uint64 number = 1);
+	String(int64 value);
+	String(uint64 value);
+	String(real32 value);
+	String(real64 value);
 	String(const String &other) = default;
 	String(String &&other) noexcept;
 	String &operator=(const String &other) = default;
@@ -41,6 +44,7 @@ public:
 	~String() = default;
 
 public:
+	String operator+(const String &other) const;
 	bool operator==(const String &other) const { return this->mBuffer == other.mBuffer; }
 	bool operator!=(const String &other) const { return this->mBuffer != other.mBuffer; }
 	bool operator<(const String &other) const { return this->mBuffer < other.mBuffer; }
@@ -88,6 +92,8 @@ public:
 
 public:
 	bool contains(const String &other, CaseSensitive cs = CaseSensitive::Sensitive) const;
+	void split(Vector<String> &result, const Char &ch) const;
+	void split(Vector<String> &result, const String &other) const;
 
 public:
 	uint64 capacity() const { return this->mBuffer.capacity(); }
@@ -95,6 +101,10 @@ public:
 	uint64 length() const { return this->mBuffer.length(); }
 	bool empty() const { return this->mBuffer.empty(); }
 	void clear() { this->mBuffer.clear(); }
+
+public:
+	std::string toString(const std::string &charset) const;
+	std::wstring toWString() const { return this->mBuffer; }
 
 private:
 	std::wstring mBuffer;

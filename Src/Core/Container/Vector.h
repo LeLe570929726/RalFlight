@@ -30,7 +30,7 @@ using ConstVectorReverseIterator = typename std::vector<T, Allocator>::const_rev
 template <class T, class Allocator = std::allocator<T>>
 class RF_API_TEMPLATE Vector {
 public:
-	explicit Vector(const Allocator &alloc) : mVector(alloc) {}
+	explicit Vector(const Allocator &alloc = Allocator()) : mVector(alloc) {}
 	Vector(const T &value, uint64 number, const Allocator &alloc = Allocator()) : mVector(number, value, alloc) {}
 	Vector(uint64 number, const Allocator &alloc = Allocator()) : mVector(number, alloc) {}
 	Vector(std::initializer_list<T> init, const Allocator &alloc = Allocator()) : mVector(init, alloc) {}

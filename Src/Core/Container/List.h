@@ -30,7 +30,7 @@ using ConstListReverseIterator = typename std::list<T, Allocator>::const_reverse
 template <class T, class Allocator = std::allocator<T>>
 class RF_API_TEMPLATE List {
 public:
-	explicit List(const Allocator &alloc) : mList(alloc) {}
+	explicit List(const Allocator &alloc = Allocator()) : mList(alloc) {}
 	List(const T &value, uint64 number, const Allocator &alloc = Allocator()) : mList(number, value, alloc) {}
 	List(uint64 number, const Allocator &alloc = Allocator()) : mList(number, alloc) {}
 	List(std::initializer_list<T> init, const Allocator &alloc = Allocator()) : mList(init, alloc) {}

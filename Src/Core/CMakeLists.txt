@@ -28,6 +28,7 @@ set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "Container/List.h"
     "Container/Vector.h"
+    "Container/LockFreeQueue.h"
 )
 
 # Memory
@@ -101,11 +102,13 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 # Log
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
-    "Log/Log.cpp"
+    #"Log/Log.cpp"
+    #"Log/StackTracer.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
-    "Log/Log.h"
+    #"Log/Log.h"
+    #"Log/StackTracer.h"
 )
 
 # Library

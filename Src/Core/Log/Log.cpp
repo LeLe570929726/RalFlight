@@ -8,3 +8,13 @@
 // @Create: 2018/6/23 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Log.h"
+
+namespace Core {
+
+Log Log::mLog;
+
+bool Log::initialize() {
+
+}
+
+} // namespace Core

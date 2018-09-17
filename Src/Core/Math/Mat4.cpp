@@ -104,7 +104,7 @@ Mat4 Mat4::mul(const Mat4 &matrix, real32 scalar) {
 
 Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) {
 	real32 tempArray[4] = { 0.0f };
-	RF_ALIGN16 real32 vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), vector.getW() };
+	RF_ALIGN16 real32 vectorA[4] = { vector.x(), vector.y(), vector.getZ(), vector.getW() };
 	__m128 sseA;
 	sseA = _mm_load_ps(vectorA);
 	for (int i = 0; i <= 12; i += 12) {
@@ -276,16 +276,16 @@ void Mat4::set(Mat4 &matrix, real32 (&array)[16]) {
 
 void Mat4::setRow(Mat4 &matrix, int row, const Vec4 &vector) {
 	assert(row > 0 && row < 5);
-	matrix.mMatrix[(row - 1) << 2] = vector.getX();
-	matrix.mMatrix[((row - 1) << 2) + 1] = vector.getY();
+	matrix.mMatrix[(row - 1) << 2] = vector.x();
+	matrix.mMatrix[((row - 1) << 2) + 1] = vector.y();
 	matrix.mMatrix[((row - 1) << 2) + 2] = vector.getZ();
 	matrix.mMatrix[((row - 1) << 2) + 3] = vector.getW();
 }
 
 void Mat4::setCol(Mat4 &matrix, int col, const Vec4 &vector) {
 	assert(col > 0 && col < 5);
-	matrix.mMatrix[col - 1] = vector.getX();
-	matrix.mMatrix[col - 1 + 4] = vector.getY();
+	matrix.mMatrix[col - 1] = vector.x();
+	matrix.mMatrix[col - 1 + 4] = vector.y();
 	matrix.mMatrix[col - 1 + 8] = vector.getZ();
 	matrix.mMatrix[col - 1 + 12] = vector.getW();
 }

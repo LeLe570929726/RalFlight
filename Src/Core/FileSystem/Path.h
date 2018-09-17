@@ -10,6 +10,7 @@
 #pragma once
 
 #include "../Global/Token.h"
+#include "../String/String.h"
 #include <boost/filesystem.hpp>
 
 namespace Core {
@@ -17,8 +18,24 @@ namespace Core {
 class RF_API Path {
 public:
 	Path() = default;
-
+	Path(const String &path);
+	Path(const Path &other) = default;
+	Path(Path &&other) noexcept = default;
+	Path &operator=(const String &path);
+	Path &operator=(const Path &other) = default;
+	Path &operator=(Path &&other) noexcept = default;
 	~Path() = default;
+
+public:
+	Path &operator/=(const Path &other);
+	Path &operator/=(const String &path);
+
+public:
+	Path &append(const Path &other);
+	Path &append(const String &path);
+
+public:
+	static Path currentPath();
 
 private:
 	boost::filesystem::path mPath;

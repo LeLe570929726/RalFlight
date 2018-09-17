@@ -93,7 +93,7 @@ Mat3 Mat3::mul(const Mat3 &matrix, real32 scalar) {
 
 Vec3 Mat3::mul(const Mat3 &matrix, const Vec3 &vector) {
 	real32 tempArray[3] = { 0.0f };
-	RF_ALIGN16 real32 vectorA[4] = { vector.getX(), vector.getY(), vector.getZ(), 0.0f };
+	RF_ALIGN16 real32 vectorA[4] = { vector.x(), vector.y(), vector.getZ(), 0.0f };
 	__m128 sseA;
 	sseA = _mm_load_ps(vectorA);
 	for (int i = 0; i <= 6; i += 3) {
@@ -215,15 +215,15 @@ void Mat3::set(Mat3 &matrix, real32 (&array)[9]) {
 
 void Mat3::setRow(Mat3 &matrix, int row, const Vec3 &vector) {
 	assert(row > 0 && row < 4);
-	matrix.mMatrix[(row - 1) * 3] = vector.getX();
-	matrix.mMatrix[((row - 1) * 3) + 1] = vector.getY();
+	matrix.mMatrix[(row - 1) * 3] = vector.x();
+	matrix.mMatrix[((row - 1) * 3) + 1] = vector.y();
 	matrix.mMatrix[((row - 1) * 3) + 2] = vector.getZ();
 }
 
 void Mat3::setCol(Mat3 &matrix, int col, const Vec3 &vector) {
 	assert(col > 0 && col < 4);
-	matrix.mMatrix[col - 1] = vector.getX();
-	matrix.mMatrix[col - 1 + 3] = vector.getY();
+	matrix.mMatrix[col - 1] = vector.x();
+	matrix.mMatrix[col - 1 + 3] = vector.y();
 	matrix.mMatrix[col - 1 + 6] = vector.getZ();
 }
 

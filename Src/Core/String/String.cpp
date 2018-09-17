@@ -12,6 +12,7 @@
 #include <boost/algorithm/string.hpp>
 #include <cwctype>
 #include <utility>
+#include <vector>
 
 namespace Core {
 
@@ -25,11 +26,25 @@ String::String(const std::wstring &text) : mBuffer(text) {}
 
 String::String(const Char &ch, uint64 number) : mBuffer(number, ch.toWChar()) {}
 
+String::String(int64 value) : mBuffer(std::to_wstring(value)) {}
+
+String::String(uint64 value) : mBuffer(std::to_wstring(value)) {}
+
+String::String(real32 value) : mBuffer(std::to_wstring(value)) {}
+
+String::String(real64 value) : mBuffer(std::to_wstring(value)) {}
+
 String::String(String &&other) noexcept : mBuffer(std::forward<std::wstring>(other.mBuffer)) {}
 
 String &String::operator=(String &&other) noexcept {
 	this->mBuffer = std::forward<std::wstring>(other.mBuffer);
 	return *this;
+}
+
+String String::operator+(const String &other) const {
+	String tmpStr = *this;
+	tmpStr.append(other);
+	return tmpStr;
 }
 
 CharReference String::operator[](uint64 position) {
@@ -151,6 +166,28 @@ bool String::contains(const String &other, CaseSensitive cs) const {
 			return std::towlower(static_cast<wint_t>(a)) == std::towlower(static_cast<wint_t>(b));
 		});
 	}
+}
+
+void String::split(Vector<String> &result, const Char &ch) const {
+	std::vector<std::wstring> tmpVec;
+	boost::algorithm::split(tmpVec, this->mBuffer, boost::algorithm::is_any_of(std::wstring(1, ch.toWChar())));
+	result.clear();
+	for (auto &subStr : tmpVec) {
+		result.append(String(subStr));
+	}
+}
+
+void String::split(Vector<String> &result, const String &other) const {
+	std::vector<std::wstring> tmpVec;
+	boost::algorithm::split(tmpVec, this->mBuffer, boost::algorithm::is_any_of(other.mBuffer));
+	result.clear();
+	for (auto &subStr : tmpVec) {
+		result.append(String(subStr));
+	}
+}
+
+std::string String::toString(const std::string &charset) const {
+	return Convertor::fromWstring(this->mBuffer, charset);
 }
 
 } // namespace Core

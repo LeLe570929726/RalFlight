@@ -72,7 +72,7 @@ Mat2 Mat2::mul(const Mat2 &matrix, real32 scalar) {
 
 Vec2 Mat2::mul(const Mat2 &matrix, const Vec2 &vector) {
 	RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3] };
-	RF_ALIGN16 real32 vectorB[4] = { vector.getX(), vector.getY(), vector.getX(), vector.getY() };
+	RF_ALIGN16 real32 vectorB[4] = { vector.x(), vector.y(), vector.x(), vector.y() };
 	RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
 	__m128 sseA, sseB, sseResult;
 	sseA = _mm_load_ps(vectorA);
@@ -162,14 +162,14 @@ void Mat2::set(Mat2 &matrix, real32 (&array)[4]) { matrix = Mat2(array); }
 
 void Mat2::setRow(Mat2 &matrix, int row, const Vec2 &vector) {
 	assert(row > 0 && row < 3);
-	matrix.mMatrix[(row - 1) << 1] = vector.getX();
-	matrix.mMatrix[((row - 1) << 1) + 1] = vector.getY();
+	matrix.mMatrix[(row - 1) << 1] = vector.x();
+	matrix.mMatrix[((row - 1) << 1) + 1] = vector.y();
 }
 
 void Mat2::setCol(Mat2 &matrix, int col, const Vec2 &vector) {
 	assert(col > 0 && col < 3);
-	matrix.mMatrix[col - 1] = vector.getX();
-	matrix.mMatrix[col - 1 + 2] = vector.getY();
+	matrix.mMatrix[col - 1] = vector.x();
+	matrix.mMatrix[col - 1 + 2] = vector.y();
 }
 
 } // namespace Core

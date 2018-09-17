@@ -9,13 +9,35 @@
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
+#include "../Container/LockFreeQueue.h"
 #include "../Global/Token.h"
+#include "../String/String.h"
+#include "StackTracer.h"
 
 namespace Core {
 
+enum class LogLevel { Error, Warning, Text };
+
 class RF_API Log {
-private:
 public:
+	static bool initialize();
+	static void log();
+
+private:
+	Log() = default;
+	~Log() = default;
+
+private:
+	struct LogItem {
+		String mLogContent;
+		LogLevel mLogLevel;
+	};
+
+private:
+	static Log mLog;
+
+private:
+	LockFreeQueue<LogItem> mLogQueue;
 };
 
 } // namespace Core

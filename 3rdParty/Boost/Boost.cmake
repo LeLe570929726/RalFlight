@@ -13,7 +13,7 @@ include("${PROJECT_SOURCE_DIR}/3rdParty/Boost/BoostConfig.cmake")
 
 # Find Boost
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost REQUIRED COMPONENTS 
+find_package(Boost 1.65.0 REQUIRED COMPONENTS
   locale
   filesystem
 )
