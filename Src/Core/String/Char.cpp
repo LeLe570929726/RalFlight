@@ -11,9 +11,9 @@
 
 namespace Core {
 
-Char::Char(char ch) : mChar(Convertor::toWstring(std::string(1, ch), Charset::Latin1)[0]) {}
+Char::Char(char ch) : mChar(Convertor::toWString(std::string(1, ch), Charset::Latin1)[0]) {}
 
-Char::Char(const std::string &ch, const std::string &charset) : mChar(Convertor::toWstring(ch, charset)[0]) {}
+Char::Char(const std::string &ch, const std::string &charset) : mChar(Convertor::toWString(ch, charset)[0]) {}
 
 Char::Char(wchar_t ch) : mChar(ch) {}
 
@@ -25,12 +25,12 @@ Char &Char::operator=(const CharReference &chref) {
 }
 
 Char &Char::operator=(char ch) {
-	this->mChar = Convertor::toWstring(std::string(1, ch), Charset::Latin1)[0];
+	this->mChar = Convertor::toWString(std::string(1, ch), Charset::Latin1)[0];
 	return *this;
 }
 
 Char &Char::operator=(const std::string &ch) {
-	this->mChar = Convertor::toWstring(ch, Charset::Utf8)[0];
+	this->mChar = Convertor::toWString(ch, Charset::Utf8)[0];
 	return *this;
 }
 
@@ -45,7 +45,7 @@ Char &Char::operator=(int code) {
 }
 
 std::string Char::toString(const std::string &charset) const {
-	return Convertor::fromWstring(std::wstring(1, this->mChar), charset);
+	return Convertor::fromWString(std::wstring(1, this->mChar), charset);
 }
 
 } // namespace Core

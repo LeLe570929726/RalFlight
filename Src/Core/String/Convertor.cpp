@@ -8,8 +8,8 @@
 // @Create: 2018/6/30 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Convertor.h"
-#include <assert.h>
 #include <boost/locale.hpp>
+#include <assert.h>
 
 namespace Core {
 
@@ -23,14 +23,30 @@ std::string Convertor::convert(const std::string &text, const std::string &from,
 	return boost::locale::conv::between(text, to, from);
 }
 
-std::wstring Convertor::toWstring(const std::string &text, const std::string &from) {
+void Convertor::convert(const std::string &text, const std::string &from, const std::string &to, std::string &out) {
+	assert(Convertor::isCharsetExist(from));
+	assert(Convertor::isCharsetExist(to));
+	out = boost::locale::conv::between(text, to, from);
+}
+
+std::wstring Convertor::toWString(const std::string &text, const std::string &from) {
 	assert(Convertor::isCharsetExist(from));
 	return boost::locale::conv::to_utf<wchar_t>(text, from);
 }
 
-std::string Convertor::fromWstring(const std::wstring &text, const std::string &to) {
+void Convertor::toWString(const std::string &text, const std::string &from, std::wstring &out) {
+	assert(Convertor::isCharsetExist(from));
+	out = boost::locale::conv::to_utf<wchar_t>(text, from);
+}
+
+std::string Convertor::fromWString(const std::wstring &text, const std::string &to) {
 	assert(Convertor::isCharsetExist(to));
 	return boost::locale::conv::from_utf(text, to);
+}
+
+void Convertor::fromWString(const std::wstring &text, const std::string &to, std::string &out) {
+	assert(Convertor::isCharsetExist(to));
+	out = boost::locale::conv::from_utf(text, to);
 }
 
 bool Convertor::isCharsetExist(const std::string &charset) {

@@ -11,10 +11,16 @@
 # Token
 add_definitions(-DRF_CORE_BUILD)
 
-# Public depends
+# Public dependences
+# Dependence's directory
+set(RF_SRC_CORE_DEPENDENCES_INCLUDE ${RF_SRC_CORE_DEPENDENCES_INCLUDE})
 # Boost
-set(RF_SRC_CORE_INCLUDE ${RF_SRC_CORE_INCLUDE} ${Boost_INCLUDE_DIRS})
-set(RF_SRC_CORE_LIBS ${RF_SRC_CORE_LIBS} ${Boost_LIBRARIES})
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.65 REQUIRED COMPONENTS
+    locale
+    filesystem
+)
+set(RF_SRC_CORE_DEPENDENCES_INCLUDE ${RF_SRC_CORE_DEPENDENCES_INCLUDE} ${Boost_INCLUDE_DIR})
 
 # Global
 configure_file("Global/Global.in.h" "Global/Global.h")
@@ -62,7 +68,7 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "Math/Mat4.h"
     "Math/MatrixHelper.h"
 )
-# Depends
+# Dependences
 if(${RF_OS} STREQUAL "RF_OS_LINUX")
     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -msse)
 endif()
@@ -92,11 +98,13 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
     "FileSystem/Path.cpp"
     "FileSystem/File.cpp"
+    "FileSystem/PathStatus.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "FileSystem/Path.h"
     "FileSystem/File.h"
+    "FileSystem/PathStatus.h"
 )
 
 # Log
@@ -112,6 +120,10 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 )
 
 # Library
-include_directories(${RF_SRC_CORE_INCLUDE})
 add_library(RalFlightCore SHARED ${RF_SRC_CORE_SOURCES})
-target_link_libraries(RalFlightCore ${RF_SRC_CORE_LIBS})
+target_link_libraries(RalFlightCore
+    Boost::boost Boost::locale Boost::filesystem
+)
+set_target_properties(RalFlightCore PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES ${RF_SRC_CORE_DEPENDENCES_INCLUDE}
+)

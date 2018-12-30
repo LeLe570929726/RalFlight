@@ -31,8 +31,10 @@
 .vs
 .vscode
 .idea
-cmake-build-debug
 
 # Built files
 Build
 Bin
+
+# Config files
+CMake/Config.cmake

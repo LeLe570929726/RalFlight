@@ -20,7 +20,7 @@ CharReference &CharReference::operator=(const Char &ch) {
 }
 
 std::string CharReference::toString(const std::string &charset) const {
-	return Convertor::fromWstring(std::wstring(1, *this->mPtr), charset);
+	return Convertor::fromWString(std::wstring(1, *this->mPtr), charset);
 }
 
 } // namespace Core

@@ -24,6 +24,9 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     set(RF_OS "RF_OS_MACOS")
 endif()
 
+# Platform token
+set(RF_ARCH ${CMAKE_GENERATOR_PLATFORM})
+
 # Set c++ standard version
 set(CMAKE_CXX_STANDARD 17)
 
@@ -32,7 +35,7 @@ set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
 set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin")
 
 # Add subdirectories
-# 3rdParty
-include("3rdParty/3rdParty.cmake")
+# Config
+include("CMake/Config.cmake")
 # Src
 add_subdirectory("Src")

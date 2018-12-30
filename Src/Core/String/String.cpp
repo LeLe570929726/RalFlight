@@ -16,9 +16,9 @@
 
 namespace Core {
 
-String::String(const char *text, const std::string &charset) : mBuffer(Convertor::toWstring(text, charset)) {}
+String::String(const char *text, const std::string &charset) : mBuffer(Convertor::toWString(text, charset)) {}
 
-String::String(const std::string &text, const std::string &charset) : mBuffer(Convertor::toWstring(text, charset)) {}
+String::String(const std::string &text, const std::string &charset) : mBuffer(Convertor::toWString(text, charset)) {}
 
 String::String(const wchar_t *text) : mBuffer(text) {}
 
@@ -187,7 +187,7 @@ void String::split(Vector<String> &result, const String &other) const {
 }
 
 std::string String::toString(const std::string &charset) const {
-	return Convertor::fromWstring(this->mBuffer, charset);
+	return Convertor::fromWString(this->mBuffer, charset);
 }
 
 } // namespace Core

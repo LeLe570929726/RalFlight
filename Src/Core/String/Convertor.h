@@ -10,6 +10,7 @@
 #pragma once
 
 #include "../Global/Token.h"
+#include "../Math/Scalar.h"
 #include <string>
 
 namespace Core {
@@ -31,8 +32,11 @@ public:
 
 public:
 	static std::string convert(const std::string &text, const std::string &from, const std::string &to);
-	static std::wstring toWstring(const std::string &text, const std::string &from);
-	static std::string fromWstring(const std::wstring &text, const std::string &to);
+	static void convert(const std::string &text, const std::string &from, const std::string &to, std::string &out);
+	static std::wstring toWString(const std::string &text, const std::string &from);
+	static void toWString(const std::string &text, const std::string &from, std::wstring &out);
+	static std::string fromWString(const std::wstring &text, const std::string &to);
+	static void fromWString(const std::wstring &text, const std::string &to, std::string &out);
 	static bool isCharsetExist(const std::string &charset);
 };
 

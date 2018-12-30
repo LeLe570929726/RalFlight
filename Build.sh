@@ -1,7 +1,7 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------------------------------
 # Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
-# 
+#
 # @Project: RalFlight
 # @License: Licensed under GNU General Public License v3.
 # @Description: A free and open-source flight simulator.
@@ -28,7 +28,7 @@ then
     exit
 fi
 
-# Check build targe
+# Check build target
 if [ ! -n "$buildTarget" ]
 then
     echo -e "\033[35mError - Parameter two must be 'x86' or 'x64'.\033[0m"
@@ -63,7 +63,13 @@ fi
 
 # Build
 cd "$rootPath/Build"
-cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$buildToken -DEXECUTABLE_OUTPUT_PATH="$rootPath/Bin" -DRF_ARCH=$buildTarget ../
+cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$buildToken -DEXECUTABLE_OUTPUT_PATH="$rootPath/Bin" -DCMAKE_GENERATOR_PLATFORM=$buildTarget ../
+# Check makefile
+if [ ! -f "Makefile" ];
+then
+    echo -e "\033[35mError - CMake config failed, please check log of CMake.\033[0m"
+    exit
+fi
 make
 
 # Exit
