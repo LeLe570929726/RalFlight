@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -11,8 +11,6 @@
 #include <assert.h>
 
 namespace Core {
-
-bool PathStatus::isEmpty() const { return this->mIsEmpty; }
 
 void PathStatus::setPermission(PathPermisson permisson) {
 	assert(permisson != PathPermisson::Unknow);

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -171,7 +171,7 @@ real32 Vec3::x(const Vec3 &vector) { return vector.mX; }
 
 real32 Vec3::y(const Vec3 &vector) { return vector.mY; }
 
-real32 Vec3::getZ(const Vec3 &vector) { return vector.mZ; }
+real32 Vec3::z(const Vec3 &vector) { return vector.mZ; }
 
 void Vec3::set(Vec3 &vector, real32 (&array)[3]) { vector = Vec3(array); }
 

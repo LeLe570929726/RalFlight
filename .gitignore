@@ -27,10 +27,13 @@
 *.out
 *.app
 
-# Setting fold
+# Setting folds
 .vs
 .vscode
 .idea
+
+# Setting files
+CMakeSettings.json
 
 # Built files
 Build

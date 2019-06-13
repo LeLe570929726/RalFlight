@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------------------------
-# Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+# Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 #
 # @Project: RalFlight
 # @License: Licensed under GNU General Public License v3.
@@ -10,6 +10,9 @@
 
 # Token
 add_definitions(-DRF_CORE_BUILD)
+
+# Compile options
+set(RF_SRC_CORE_COMPILE_OPTIONS ${RF_SRC_CORE_COMPILE_OPTIONS})
 
 # Public dependences
 # Dependence's directory
@@ -69,8 +72,10 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "Math/MatrixHelper.h"
 )
 # Dependences
-if(${RF_OS} STREQUAL "RF_OS_LINUX")
-    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -msse)
+if(${RF_OS} STREQUAL "RF_OS_WIN")
+    set(RF_SRC_CORE_COMPILE_OPTIONS ${RF_SRC_CORE_COMPILE_OPTIONS} /arch:AVX /arch:AVX2)
+elseif(${RF_OS} STREQUAL "RF_OS_LINUX")
+    set(RF_SRC_CORE_COMPILE_OPTIONS ${RF_SRC_CORE_COMPILE_OPTIONS} -msse)
 endif()
 
 # String
@@ -99,12 +104,14 @@ set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
     "FileSystem/Path.cpp"
     "FileSystem/File.cpp"
     "FileSystem/PathStatus.cpp"
+    "FileSystem/Directory.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "FileSystem/Path.h"
     "FileSystem/File.h"
     "FileSystem/PathStatus.h"
+    "FileSystem/Directory.h"
 )
 
 # Log
@@ -127,3 +134,4 @@ target_link_libraries(RalFlightCore
 set_target_properties(RalFlightCore PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES ${RF_SRC_CORE_DEPENDENCES_INCLUDE}
 )
+target_compile_options(RalFlightCore PRIVATE ${RF_SRC_CORE_COMPILE_OPTIONS})

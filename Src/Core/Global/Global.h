@@ -23,6 +23,8 @@
 // Alignment token
 #if defined(RF_OS_WIN)
 #define RF_ALIGN16 __declspec(align(16))
+#define RF_ALIGN32 __declspec(align(32))
 #elif defined(RF_OS_LINUX)
 #define RF_ALIGN16 __attribute__((aligned(16)))
+#define RF_ALIGN32 __attribute__((aligned(32)))
 #endif

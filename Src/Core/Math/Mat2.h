@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -17,6 +17,7 @@ namespace Core {
 
 class RF_API Mat2 {
 public:
+	Mat2();
 	Mat2(real32 m11, real32 m12, real32 m21, real32 m22);
 	explicit Mat2(real32 (&array)[4]);
 	Mat2(const Mat2 &other);
@@ -26,61 +27,43 @@ public:
 public:
 	inline Mat2 operator+(const Mat2 &matrix) const { return Mat2::add(*this, matrix); }
 	inline Mat2 &operator+=(const Mat2 &matrix) {
-		*this = Mat2::add(*this, matrix);
+		this->add(matrix);
 		return *this;
 	}
 	inline Mat2 operator-(const Mat2 &matrix) const { return Mat2::sub(*this, matrix); }
 	inline Mat2 &operator-=(const Mat2 &matrix) {
-		*this = Mat2::sub(*this, matrix);
+		this->sub(matrix);
 		return *this;
 	}
 	inline Mat2 operator*(real32 scalar) const { return Mat2::mul(*this, scalar); }
 	inline Mat2 &operator*=(real32 scalar) {
-		*this = Mat2::mul(*this, scalar);
+		this->mul(scalar);
 		return *this;
 	}
 	inline Vec2 operator*(const Vec2 &vector) const { return Mat2::mul(*this, vector); }
 	inline Mat2 operator*(const Mat2 &matrix) const { return Mat2::mul(*this, matrix); }
 	inline Mat2 &operator*=(const Mat2 &matrix) {
-		*this = Mat2::mul(*this, matrix);
+		this->mul(matrix);
 		return *this;
 	}
 	inline Mat2 operator/(real32 scalar) const { return Mat2::div(*this, scalar); }
 	inline Mat2 &operator/=(real32 scalar) {
-		*this = Mat2::div(*this, scalar);
+		this->div(scalar);
 		return *this;
 	}
 
 public:
-	inline Mat2 &add(const Mat2 &matrix) {
-		*this = Mat2::add(*this, matrix);
-		return *this;
-	}
-	inline Mat2 &sub(const Mat2 &matrix) {
-		*this = Mat2::sub(*this, matrix);
-		return *this;
-	}
-	inline Mat2 &mul(real32 scalar) {
-		*this = Mat2::mul(*this, scalar);
-		return *this;
-	}
-	inline Vec2 mul(const Vec2 &vector) { return Mat2::mul(*this, vector); }
-	inline Mat2 &mul(const Mat2 &matrix) {
-		*this = Mat2::mul(*this, matrix);
-		return *this;
-	}
-	inline Mat2 div(real32 scalar) {
-		*this = Mat2::div(*this, scalar);
-		return *this;
-	}
-	inline Mat2 &transpose() {
-		*this = Mat2::transpose(*this);
-		return *this;
-	}
-	inline real32 determinant() { return Mat2::determinant(*this); }
+	Mat2 &add(const Mat2 &matrix);
+	Mat2 &sub(const Mat2 &matrix);
+	Mat2 &mul(real32 scalar);
+	Vec2 mul(const Vec2 &vector) const;
+	Mat2 &mul(const Mat2 &matrix);
+	Mat2 &div(real32 scalar);
+	Mat2 &transpose();
+	real32 determinant() const;
 
 public:
-	inline real32 get(int col, int row) const { return Mat2::get(*this, col, row); }
+	real32 get(int row, int col) const;
 	inline Vec2 row(int row) const { return Mat2::row(*this, row); }
 	inline Vec2 col(int col) const { return Mat2::col(*this, col); }
 
@@ -101,7 +84,7 @@ public:
 	static real32 determinant(const Mat2 &matrix);
 
 public:
-	static real32 get(const Mat2 &matrix, int col, int row);
+	static real32 get(const Mat2 &matrix, int row, int col);
 	static Vec2 row(const Mat2 &matrix, int row);
 	static Vec2 col(const Mat2 &matrix, int col);
 	static void set(Mat2 &matrix, int col, int row, real32 scalar);
@@ -114,7 +97,7 @@ public:
 	static const Mat2 identity;
 
 private:
-	real32 mMatrix[4];
+	RF_ALIGN16 real32 mMatrix[4];
 };
 
 } // namespace Core

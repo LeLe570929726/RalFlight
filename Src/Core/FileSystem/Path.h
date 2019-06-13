@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -9,12 +9,14 @@
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
-#include "PathStatus.h"
 #include "../Global/Token.h"
 #include "../String/String.h"
+#include "PathStatus.h"
 #include <boost/filesystem.hpp>
 
 namespace Core {
+
+class Directory;
 
 class RF_API Path {
 public:
@@ -46,12 +48,25 @@ public:
 	Path parentPath() const;
 	Path fileName() const;
 	Path extension() const;
+	Path relativePath() const;
+	Path stem() const;
 
 public:
 	String native() const;
 	String generic() const;
 
 public:
+	bool hasRootPath() const;
+	bool hasRootName() const;
+	bool hasRootDirectory() const;
+	bool hasRelativePath() const;
+	bool hasParentPath() const;
+	bool hasFileName() const;
+	bool hasExtension() const;
+	bool hasStem() const;
+
+public:
+	bool isEmpty() const;
 	bool isExist() const;
 	bool isAbsolute() const;
 	bool isRelative() const;
@@ -63,6 +78,9 @@ public:
 public:
 	void clear();
 	bool empty();
+
+private:
+	friend Directory;
 
 private:
 	boost::filesystem::wpath mPath;

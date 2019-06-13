@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -46,7 +46,6 @@ public:
 	~PathStatus() = default;
 
 public:
-	bool isEmpty() const;
 	void setPermission(PathPermisson permisson);
 	PathPermisson permission() const;
 	void setType(PathType type);
@@ -57,7 +56,6 @@ private:
 
 private:
 	boost::filesystem::file_status mFileStatus;
-	bool mIsEmpty;
 };
 
 } // namespace Core

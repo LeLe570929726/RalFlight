@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -76,7 +76,7 @@ public:
 public:
 	inline real32 x() const { return Vec3::x(*this); }
 	inline real32 y() const { return Vec3::y(*this); }
-	inline real32 getZ() const { return Vec3::getZ(*this); }
+	inline real32 z() const { return Vec3::z(*this); }
 	inline void set(real32 (&array)[3]) { Vec3::set(*this, array); }
 	inline void setX(real32 x) { Vec3::setX(*this, x); }
 	inline void setY(real32 y) { Vec3::setY(*this, y); }
@@ -102,7 +102,7 @@ public:
 public:
 	static real32 x(const Vec3 &vector);
 	static real32 y(const Vec3 &vector);
-	static real32 getZ(const Vec3 &vector);
+	static real32 z(const Vec3 &vector);
 	static void set(Vec3 &vector, real32 (&array)[3]);
 	static void setX(Vec3 &vector, real32 x);
 	static void setY(Vec3 &vector, real32 y);

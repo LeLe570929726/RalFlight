@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -9,6 +9,8 @@
 // ----------------------------------------------------------------------------------------------------
 #include "Mat3.h"
 #include <assert.h>
+#include <cstring>
+#include <utility>
 #if defined(RF_OS_WIN)
 #include <intrin.h>
 #elif defined(RF_OS_LINUX)
@@ -31,81 +33,81 @@ Mat3::Mat3(const Mat3 &other)
 			   other.mMatrix[5], other.mMatrix[6], other.mMatrix[7], other.mMatrix[8] } {}
 
 Mat3 &Mat3::operator=(const Mat3 &other) {
-	for (int i = 0; i < 9; ++i) {
-		this->mMatrix[i] = other.mMatrix[i];
-	}
+	std::memcpy(this->mMatrix, other.mMatrix, sizeof(this->mMatrix));
 	return *this;
 }
 
+Mat3 &Mat3::add(const Mat3 &matrix) {
+	__m256 avxA, avxB, avxRes;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_load_ps(matrix.mMatrix);
+	avxRes = _mm256_add_ps(avxA, avxB);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	this->mMatrix[8] += matrix.mMatrix[8];
+	return *this;
+}
+
+Mat3 &Mat3::sub(const Mat3 &matrix) {
+	__m256 avxA, avxB, avxRes;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_load_ps(matrix.mMatrix);
+	avxRes = _mm256_sub_ps(avxA, avxB);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	this->mMatrix[8] -= matrix.mMatrix[8];
+	return *this;
+}
+
+Mat3 &Mat3::mul(real32 scalar) {
+	__m256 avxA, avxB, avxRes;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_broadcast_ss(&scalar);
+	avxRes = _mm256_mul_ps(avxA, avxB);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	this->mMatrix[8] *= scalar;
+	return *this;
+}
+
+Vec3 Mat3::mul(const Vec3 &vector) {
+	real32 x = vector.x();
+	real32 y = vector.y();
+	real32 z = vector.z();
+	RF_ALIGN16 real32 vecA[4] = { this->mMatrix[0], this->mMatrix[3], this->mMatrix[6], 0.0f };
+	RF_ALIGN16 real32 vecB[4] = { this->mMatrix[1], this->mMatrix[4], this->mMatrix[7], 0.0f };
+	RF_ALIGN16 real32 vecC[4] = { this->mMatrix[2], this->mMatrix[5], this->mMatrix[8], 0.0f };
+	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
+	__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseRes;
+	sseA = _mm_load_ps(vecA);
+	sseB = _mm_load_ps(vecB);
+	sseC = _mm_load_ps(vecC);
+	sseD = _mm_broadcast_ss(&x);
+	sseE = _mm_broadcast_ss(&y);
+	sseF = _mm_broadcast_ss(&z);
+	sseD = _mm_mul_ss(sseA, sseD);
+	sseE = _mm_mul_ss(sseB, sseE);
+	sseF = _mm_mul_ss(sseC, sseF);
+	sseRes = _mm_add_ss(_mm_add_ss(sseD, sseE), sseF);
+	_mm_store_ps(vecRes, sseRes);
+	return Vec3(vecRes[0], vecRes[1], vecRes[2]);
+}
+
 Mat3 Mat3::add(const Mat3 &matrixA, const Mat3 &matrixB) {
-	real32 tempArray[9] = { 0.0f };
-	for (int i = 0; i <= 6; i += 3) {
-		RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], matrixA.mMatrix[i + 2], 0.0f };
-		RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], matrixB.mMatrix[i + 2], 0.0f };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_add_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0];
-		tempArray[i + 1] = vectorResult[1];
-		tempArray[i + 2] = vectorResult[2];
-	}
-	return Mat3(tempArray);
+	auto tmpMat = matrixA;
+	return tmpMat.add(matrixB);
 }
 
 Mat3 Mat3::sub(const Mat3 &matrixA, const Mat3 &matrixB) {
-	real32 tempArray[9] = { 0.0f };
-	for (int i = 0; i <= 6; i += 3) {
-		RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], matrixA.mMatrix[i + 2], 0.0f };
-		RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], matrixB.mMatrix[i + 2], 0.0f };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_sub_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0];
-		tempArray[i + 1] = vectorResult[1];
-		tempArray[i + 2] = vectorResult[2];
-	}
-	return Mat3(tempArray);
+	auto tmpMat = matrixA;
+	return tmpMat.sub(matrixB);
 }
 
 Mat3 Mat3::mul(const Mat3 &matrix, real32 scalar) {
-	real32 tempArray[9] = { 0.0f };
-	for (int i = 0; i <= 6; i += 3) {
-		RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
-		RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, 0.0f };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_mul_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0];
-		tempArray[i + 1] = vectorResult[1];
-		tempArray[i + 2] = vectorResult[2];
-	}
-	return Mat3(tempArray);
+	auto tmpMat = matrix;
+	return tmpMat.mul(scalar);
 }
 
 Vec3 Mat3::mul(const Mat3 &matrix, const Vec3 &vector) {
-	real32 tempArray[3] = { 0.0f };
-	RF_ALIGN16 real32 vectorA[4] = { vector.x(), vector.y(), vector.getZ(), 0.0f };
-	__m128 sseA;
-	sseA = _mm_load_ps(vectorA);
-	for (int i = 0; i <= 6; i += 3) {
-		RF_ALIGN16 real32 vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseB, sseResult;
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_mul_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[static_cast<int>(i / 3)] = vectorResult[0] + vectorResult[1] + vectorResult[2];
-	}
-	return Vec3(tempArray);
+	auto tmpMat = matrix;
+	return tmpMat.mul(vector);
 }
 
 Mat3 Mat3::mul(const Mat3 &matrixA, const Mat3 &matrixB) {
@@ -217,14 +219,14 @@ void Mat3::setRow(Mat3 &matrix, int row, const Vec3 &vector) {
 	assert(row > 0 && row < 4);
 	matrix.mMatrix[(row - 1) * 3] = vector.x();
 	matrix.mMatrix[((row - 1) * 3) + 1] = vector.y();
-	matrix.mMatrix[((row - 1) * 3) + 2] = vector.getZ();
+	matrix.mMatrix[((row - 1) * 3) + 2] = vector.x();
 }
 
 void Mat3::setCol(Mat3 &matrix, int col, const Vec3 &vector) {
 	assert(col > 0 && col < 4);
 	matrix.mMatrix[col - 1] = vector.x();
 	matrix.mMatrix[col - 1 + 3] = vector.y();
-	matrix.mMatrix[col - 1 + 6] = vector.getZ();
+	matrix.mMatrix[col - 1 + 6] = vector.x();
 }
 
 } // namespace Core

@@ -1,5 +1,5 @@
 :: ----------------------------------------------------------------------------------------------------
-:: Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+:: Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 :: 
 :: @Project: RalFlight
 :: @License: Licensed under GNU General Public License v3.
@@ -65,7 +65,7 @@ if %vcExist% equ 0 (
 :: Build
 cd /D %rootPath%\Build
 call vcvarsall.bat %buildTarget%
-cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=%buildToken% -DEXECUTABLE_OUTPUT_PATH="%rootPath%\Bin" -DCMAKE_GENERATOR_PLATFORM=%buildTarget% ..\
+cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=%buildToken% -DEXECUTABLE_OUTPUT_PATH="%rootPath%\Bin" -DRF_ARCH=%buildTarget% ..\
 :: Check makefile
 if not exist Makefile (
     call :color c "Error - CMake config failed, please check log of CMake."

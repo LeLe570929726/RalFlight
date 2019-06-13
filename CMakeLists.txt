@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------------------------
-# Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+# Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 # 
 # @Project: RalFlight
 # @License: Licensed under GNU General Public License v3.
@@ -26,6 +26,8 @@ endif()
 
 # Platform token
 set(RF_ARCH ${CMAKE_GENERATOR_PLATFORM})
+
+message(${CMAKE_CXX_FLAGS})
 
 # Set c++ standard version
 set(CMAKE_CXX_STANDARD 17)

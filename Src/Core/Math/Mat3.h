@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -52,19 +52,10 @@ public:
 	}
 
 public:
-	inline Mat3 &add(const Mat3 &matrix) {
-		*this = Mat3::add(*this, matrix);
-		return *this;
-	}
-	inline Mat3 &sub(const Mat3 &matrix) {
-		*this = Mat3::sub(*this, matrix);
-		return *this;
-	}
-	inline Mat3 &mul(real32 scalar) {
-		*this = Mat3::mul(*this, scalar);
-		return *this;
-	}
-	inline Vec3 mul(const Vec3 &vector) { return Mat3::mul(*this, vector); }
+	Mat3 &add(const Mat3 &matrix);
+	Mat3 &sub(const Mat3 &matrix);
+	Mat3 &mul(real32 scalar);
+	Vec3 mul(const Vec3 &vector);
 	inline Mat3 &mul(const Mat3 &matrix) {
 		*this = Mat3::mul(*this, matrix);
 		return *this;
@@ -112,7 +103,7 @@ public:
 	static const Mat3 identity;
 
 private:
-	real32 mMatrix[9];
+	RF_ALIGN32 real32 mMatrix[9];
 };
 
 } // namespace Core

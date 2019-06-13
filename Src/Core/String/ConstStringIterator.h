@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -20,7 +20,7 @@ namespace Core {
 
 class RF_API ConstStringIterator {
 public:
-	explicit ConstStringIterator(const std::wstring::const_iterator itr);
+	ConstStringIterator(const std::wstring::const_iterator itr);
 	ConstStringIterator(const ConstStringIterator &other) = default;
 	ConstStringIterator(ConstStringIterator &&other) = default;
 	ConstStringIterator &operator=(const ConstStringIterator &other) = default;

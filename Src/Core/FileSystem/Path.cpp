@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------------------------------
-// Copyright © 2016 - 2018 LeLe570929726. All rights reserved.
+// Copyright © 2016 - 2019 LeLe570929726. All rights reserved.
 //
 // @Project: RalFlight
 // @License: Licensed under GNU General Public License v3.
@@ -88,9 +88,39 @@ Path Path::extension() const {
 	return tmpPath;
 }
 
+Path Path::relativePath() const {
+	Path tmpPath;
+	tmpPath.mPath = this->mPath.relative_path();
+	return tmpPath;
+}
+
+Path Path::stem() const {
+	Path tmpPath;
+	tmpPath.mPath = this->mPath.stem();
+	return tmpPath;
+}
+
 String Path::native() const { return String(this->mPath.native()); }
 
 String Path::generic() const { return String(this->mPath.generic_string()); }
+
+bool Path::hasRootPath() const { return this->mPath.has_root_path(); }
+
+bool Path::hasRootName() const { return this->mPath.has_root_name(); }
+
+bool Path::hasRootDirectory() const { return this->mPath.has_root_directory(); }
+
+bool Path::hasRelativePath() const { return this->mPath.has_relative_path(); }
+
+bool Path::hasParentPath() const { return this->mPath.has_parent_path(); }
+
+bool Path::hasFileName() const { return this->mPath.has_filename(); }
+
+bool Path::hasExtension() const { return this->mPath.has_extension(); }
+
+bool Path::hasStem() const { return this->mPath.has_stem(); }
+
+bool Path::isEmpty() const { return this->mPath.empty(); }
 
 bool Path::isExist() const { return boost::filesystem::exists(this->mPath); }
 
@@ -101,7 +131,6 @@ bool Path::isRelative() const { return this->mPath.is_relative(); }
 PathStatus Path::status() const {
 	PathStatus tmpStatus;
 	tmpStatus.mFileStatus = boost::filesystem::status(this->mPath);
-	tmpStatus.mIsEmpty = this->mPath.empty();
 	return tmpStatus;
 }
 
