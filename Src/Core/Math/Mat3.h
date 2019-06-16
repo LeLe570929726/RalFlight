@@ -56,10 +56,7 @@ public:
 	Mat3 &sub(const Mat3 &matrix);
 	Mat3 &mul(real32 scalar);
 	Vec3 mul(const Vec3 &vector);
-	inline Mat3 &mul(const Mat3 &matrix) {
-		*this = Mat3::mul(*this, matrix);
-		return *this;
-	}
+	Mat3 &mul(const Mat3 &matrix);
 	inline Mat3 &div(real32 scalar) {
 		*this = Mat3::div(*this, scalar);
 		return *this;

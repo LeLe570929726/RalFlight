@@ -68,9 +68,6 @@ Mat3 &Mat3::mul(real32 scalar) {
 }
 
 Vec3 Mat3::mul(const Vec3 &vector) {
-	real32 x = vector.x();
-	real32 y = vector.y();
-	real32 z = vector.z();
 	RF_ALIGN16 real32 vecA[4] = { this->mMatrix[0], this->mMatrix[3], this->mMatrix[6], 0.0f };
 	RF_ALIGN16 real32 vecB[4] = { this->mMatrix[1], this->mMatrix[4], this->mMatrix[7], 0.0f };
 	RF_ALIGN16 real32 vecC[4] = { this->mMatrix[2], this->mMatrix[5], this->mMatrix[8], 0.0f };
@@ -79,15 +76,43 @@ Vec3 Mat3::mul(const Vec3 &vector) {
 	sseA = _mm_load_ps(vecA);
 	sseB = _mm_load_ps(vecB);
 	sseC = _mm_load_ps(vecC);
-	sseD = _mm_broadcast_ss(&x);
-	sseE = _mm_broadcast_ss(&y);
-	sseF = _mm_broadcast_ss(&z);
+	sseD = _mm_broadcast_ss(&vector.mX);
+	sseE = _mm_broadcast_ss(&vector.mY);
+	sseF = _mm_broadcast_ss(&vector.mZ);
 	sseD = _mm_mul_ss(sseA, sseD);
 	sseE = _mm_mul_ss(sseB, sseE);
 	sseF = _mm_mul_ss(sseC, sseF);
 	sseRes = _mm_add_ss(_mm_add_ss(sseD, sseE), sseF);
 	_mm_store_ps(vecRes, sseRes);
 	return Vec3(vecRes[0], vecRes[1], vecRes[2]);
+}
+
+Mat3 &Mat3::mul(const Mat3 &matrix) {
+	RF_ALIGN32 real32 vecA[8] = { this->mMatrix[0], this->mMatrix[0], this->mMatrix[0], this->mMatrix[1],
+								  this->mMatrix[1], this->mMatrix[1], this->mMatrix[2], this->mMatrix[2] };
+	RF_ALIGN32 real32 vecB[8] = { this->mMatrix[3], this->mMatrix[3], this->mMatrix[3], this->mMatrix[4],
+								  this->mMatrix[4], this->mMatrix[4], this->mMatrix[5], this->mMatrix[5] };
+	RF_ALIGN32 real32 vecC[8] = { this->mMatrix[6], this->mMatrix[6], this->mMatrix[6], this->mMatrix[7],
+								  this->mMatrix[7], this->mMatrix[7], this->mMatrix[8], this->mMatrix[8] };
+	RF_ALIGN16 real32 vecD[4] = { this->mMatrix[2], this->mMatrix[5], this->mMatrix[8], 0.0f };
+	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
+	__m256 avxA, avxB, avxC, avxD, avxRes;
+	__m128 sseA, sseB, sseRes;
+	avxA = _mm256_load_ps(vecA);
+	avxB = _mm256_load_ps(vecB);
+	avxC = _mm256_load_ps(vecC);
+	avxD = _mm256_load_ps(matrix.mMatrix);
+	sseA = _mm_load_ps(vecD);
+	sseB = _mm_broadcast_ss(&matrix.mMatrix[8]);
+	avxA = _mm256_mul_ps(avxA, avxD);
+	avxB = _mm256_mul_ps(avxB, avxD);
+	avxC = _mm256_mul_ps(avxC, avxD);
+	sseRes = _mm_mul_ps(sseA, sseB);
+	avxRes = _mm256_add_ps(_mm256_add_ps(avxA, avxB), avxC);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	_mm_store_ps(vecRes, sseRes);
+	this->mMatrix[8] = vecRes[0] + vecRes[1] + vecRes[2];
+	return *this;
 }
 
 Mat3 Mat3::add(const Mat3 &matrixA, const Mat3 &matrixB) {
@@ -111,21 +136,8 @@ Vec3 Mat3::mul(const Mat3 &matrix, const Vec3 &vector) {
 }
 
 Mat3 Mat3::mul(const Mat3 &matrixA, const Mat3 &matrixB) {
-	real32 tempArray[9] = { 0.0f };
-	for (int i = 0; i < 9; ++i) {
-		RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[static_cast<int>(i / 3)], matrixA.mMatrix[static_cast<int>(i / 3) + 1],
-										 matrixA.mMatrix[static_cast<int>(i / 3) + 2], 0.0f };
-		RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[(i % 3)], matrixB.mMatrix[(i % 3) + 3], matrixB.mMatrix[(i % 3) + 6],
-										 0.0f };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_mul_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0] + vectorResult[1] + vectorResult[2];
-	}
-	return Mat3(tempArray);
+	auto tmpMat = matrixA;
+	return tmpMat.mul(matrixB);
 }
 
 Mat3 Mat3::div(const Mat3 &matrix, real32 scalar) {

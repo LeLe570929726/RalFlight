@@ -14,6 +14,8 @@
 
 namespace Core {
 
+class Mat2;
+
 class RF_API Vec2 {
 public:
 	Vec2(real32 x, real32 y);
@@ -107,6 +109,9 @@ public:
 public:
 	static bool isZero(const Vec2 &vector);
 	static bool isOne(const Vec2 &vector);
+
+private:
+	friend Mat2;
 
 private:
 	real32 mX;

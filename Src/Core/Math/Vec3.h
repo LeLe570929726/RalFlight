@@ -14,6 +14,8 @@
 
 namespace Core {
 
+class Mat3;
+
 class RF_API Vec3 {
 public:
 	Vec3(real32 x, real32 y, real32 z);
@@ -111,6 +113,9 @@ public:
 public:
 	static bool isZero(const Vec3 &vector);
 	static bool isOne(const Vec3 &vector);
+
+private:
+	friend Mat3;
 
 private:
 	real32 mX;
