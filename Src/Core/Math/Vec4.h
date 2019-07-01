@@ -15,6 +15,8 @@
 
 namespace Core {
 
+class Mat4;
+
 class RF_API Vec4 {
 public:
 	Vec4(real32 x, real32 y, real32 z, real32 w);
@@ -103,8 +105,8 @@ public:
 public:
 	static real32 x(const Vec4 &vector);
 	static real32 y(const Vec4 &vector);
-	static real32 getZ(const Vec4 &vector);
-	static real32 getW(const Vec4 &vector);
+	static real32 z(const Vec4 &vector);
+	static real32 w(const Vec4 &vector);
 	static void set(Vec4 &vector, real32 (&array)[4]);
 	static void setX(Vec4 &vector, real32 x);
 	static void setY(Vec4 &vector, real32 y);
@@ -114,6 +116,9 @@ public:
 public:
 	static bool isZero(const Vec4 &vector);
 	static bool isOne(const Vec4 &vector);
+
+private:
+	friend Mat4;
 
 private:
 	real32 mX;

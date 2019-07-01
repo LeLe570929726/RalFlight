@@ -60,18 +60,18 @@ public:
 	Mat2 &mul(const Mat2 &matrix);
 	Mat2 &div(real32 scalar);
 	Mat2 &transpose();
-	real32 determinant() const;
+	real32 det() const;
 
 public:
-	real32 get(int row, int col) const;
-	inline Vec2 row(int row) const { return Mat2::row(*this, row); }
-	inline Vec2 col(int col) const { return Mat2::col(*this, col); }
+	real32 get(uint8 row, uint8 col) const;
+	Vec2 row(uint8 row) const;
+	Vec2 col(uint8 col) const;
 
 public:
-	inline void set(int col, int row, real32 scalar) { Mat2::set(*this, col, row, scalar); }
-	inline void set(real32 (&array)[4]) { Mat2::set(*this, array); }
-	inline void setRow(int row, const Vec2 &vector) { Mat2::setRow(*this, row, vector); }
-	inline void setCol(int col, const Vec2 &vector) { Mat2::setCol(*this, col, vector); }
+	void set(uint8 col, uint8 row, real32 scalar);
+	void set(real32 (&array)[4]);
+	void setRow(uint8 row, const Vec2 &vector);
+	void setCol(uint8 col, const Vec2 &vector);
 
 public:
 	static Mat2 add(const Mat2 &matrixA, const Mat2 &matrixB);
@@ -81,23 +81,23 @@ public:
 	static Mat2 mul(const Mat2 &matrixA, const Mat2 &matrixB);
 	static Mat2 div(const Mat2 &matrix, real32 scalar);
 	static Mat2 transpose(const Mat2 &matrix);
-	static real32 determinant(const Mat2 &matrix);
+	static real32 det(const Mat2 &matrix);
 
 public:
-	static real32 get(const Mat2 &matrix, int row, int col);
-	static Vec2 row(const Mat2 &matrix, int row);
-	static Vec2 col(const Mat2 &matrix, int col);
-	static void set(Mat2 &matrix, int col, int row, real32 scalar);
+	static real32 get(const Mat2 &matrix, uint8 row, uint8 col);
+	static Vec2 row(const Mat2 &matrix, uint8 row);
+	static Vec2 col(const Mat2 &matrix, uint8 col);
+	static void set(Mat2 &matrix, uint8 col, uint8 row, real32 scalar);
 	static void set(Mat2 &matrix, real32 (&array)[4]);
-	static void setRow(Mat2 &matrix, int row, const Vec2 &vector);
-	static void setCol(Mat2 &matrix, int col, const Vec2 &vector);
+	static void setRow(Mat2 &matrix, uint8 row, const Vec2 &vector);
+	static void setCol(Mat2 &matrix, uint8 col, const Vec2 &vector);
 
 public:
 	static const Mat2 zero;
 	static const Mat2 identity;
 
 private:
-	RF_ALIGN16 real32 mMatrix[4];
+	RF_ALIGN32 real32 mMatrix[4];
 };
 
 } // namespace Core

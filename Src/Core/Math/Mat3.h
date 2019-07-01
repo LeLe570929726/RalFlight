@@ -57,43 +57,37 @@ public:
 	Mat3 &mul(real32 scalar);
 	Vec3 mul(const Vec3 &vector);
 	Mat3 &mul(const Mat3 &matrix);
-	inline Mat3 &div(real32 scalar) {
-		*this = Mat3::div(*this, scalar);
-		return *this;
-	}
-	inline Mat3 &transpose() {
-		*this = Mat3::transpose(*this);
-		return *this;
-	}
-	inline real32 determinant() { return Mat3::determinant(*this); }
+	Mat3 &div(real32 scalar);
+	Mat3 &transpose();
+	real32 det() const;
 
 public:
-	inline real32 get(int col, int row) const { return Mat3::get(*this, col, row); }
-	inline Vec3 row(int row) const { return Mat3::row(*this, row); }
-	inline Vec3 col(int col) const { return Mat3::col(*this, col); }
-	inline void set(int col, int row, real32 scalar) { Mat3::set(*this, col, row, scalar); }
-	inline void set(real32 (&array)[9]) { Mat3::set(*this, array); }
-	inline void setRow(int row, const Vec3 &vector) { Mat3::setRow(*this, row, vector); }
-	inline void setCol(int col, const Vec3 &vector) { Mat3::setCol(*this, col, vector); }
+	real32 get(uint8 col, uint8 row) const;
+	Vec3 row(uint8 row) const;
+	Vec3 col(uint8 col) const;
+	void set(uint8 col, uint8 row, real32 scalar);
+	void set(real32 (&array)[9]);
+	void setRow(uint8 row, const Vec3 &vector);
+	void setCol(uint8 col, const Vec3 &vector);
 
 public:
-	static Mat3 add(const Mat3 &matrixA, const Mat3 &matrixB);
+	static Mat3	add(const Mat3 &matrixA, const Mat3 &matrixB);
 	static Mat3 sub(const Mat3 &matrixA, const Mat3 &matrixB);
 	static Mat3 mul(const Mat3 &matrix, real32 scalar);
 	static Vec3 mul(const Mat3 &matrix, const Vec3 &vector);
 	static Mat3 mul(const Mat3 &matrixA, const Mat3 &matrixB);
 	static Mat3 div(const Mat3 &matrix, real32 scalar);
 	static Mat3 transpose(const Mat3 &matrix);
-	static real32 determinant(const Mat3 &matrix);
+	static real32 det(const Mat3 &matrix);
 
 public:
-	static real32 get(const Mat3 &matrix, int col, int row);
-	static Vec3 row(const Mat3 &matrix, int row);
-	static Vec3 col(const Mat3 &matrix, int col);
-	static void set(Mat3 &matrix, int col, int row, real32 scalar);
+	static real32 get(const Mat3 &matrix, uint8 col, uint8 row);
+	static Vec3 row(const Mat3 &matrix, uint8 row);
+	static Vec3 col(const Mat3 &matrix, uint8 col);
+	static void set(Mat3 &matrix, uint8 col, uint8 row, real32 scalar);
 	static void set(Mat3 &matrix, real32 (&array)[9]);
-	static void setRow(Mat3 &matrix, int row, const Vec3 &vector);
-	static void setCol(Mat3 &matrix, int col, const Vec3 &vector);
+	static void setRow(Mat3 &matrix, uint8 row, const Vec3 &vector);
+	static void setCol(Mat3 &matrix, uint8 col, const Vec3 &vector);
 
 public:
 	static const Mat3 zero;

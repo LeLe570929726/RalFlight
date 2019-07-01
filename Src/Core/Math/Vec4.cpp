@@ -182,9 +182,9 @@ real32 Vec4::x(const Vec4 &vector) { return vector.mX; }
 
 real32 Vec4::y(const Vec4 &vector) { return vector.mY; }
 
-real32 Vec4::getZ(const Vec4 &vector) { return vector.mZ; }
+real32 Vec4::z(const Vec4 &vector) { return vector.mZ; }
 
-real32 Vec4::getW(const Vec4 &vector) { return vector.mW; }
+real32 Vec4::w(const Vec4 &vector) { return vector.mW; }
 
 void Vec4::set(Vec4 &vector, real32 (&array)[4]) { vector = Vec4(array); }
 

@@ -9,6 +9,7 @@
 // ----------------------------------------------------------------------------------------------------
 #include "Mat4.h"
 #include <assert.h>
+#include <cstring>
 #if defined(RF_OS_WIN)
 #include <intrin.h>
 #elif defined(RF_OS_LINUX)
@@ -34,72 +35,73 @@ Mat4::Mat4(const Mat4 &other)
 			   other.mMatrix[12], other.mMatrix[13], other.mMatrix[14], other.mMatrix[15] } {}
 
 Mat4 &Mat4::operator=(const Mat4 &other) {
-	for (int i = 0; i < 15; ++i) {
-		this->mMatrix[i] = other.mMatrix[i];
-	}
+	std::memcpy(this->mMatrix, other.mMatrix, sizeof(this->mMatrix));
 	return *this;
 }
 
+Mat4 &Mat4::add(const Mat4 &matrix) {
+	__m256 avxA, avxB, avxC, avxD, avxRes;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_load_ps(&this->mMatrix[8]);
+	avxC = _mm256_load_ps(matrix.mMatrix);
+	avxD = _mm256_load_ps(&matrix.mMatrix[8]);
+	avxRes = _mm256_add_ps(avxA, avxB);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	avxRes = _mm256_add_ps(avxC, avxD);
+	_mm256_store_ps(&this->mMatrix[8], avxRes);
+	return *this;
+}
+
+Mat4 &Mat4::sub(const Mat4 &matrix) {
+	__m256 avxA, avxB, avxC, avxD, avxRes;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_load_ps(&this->mMatrix[8]);
+	avxC = _mm256_load_ps(matrix.mMatrix);
+	avxD = _mm256_load_ps(&matrix.mMatrix[8]);
+	avxRes = _mm256_sub_ps(avxA, avxB);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	avxRes = _mm256_sub_ps(avxC, avxD);
+	_mm256_store_ps(&this->mMatrix[8], avxRes);
+	return *this;
+}
+
+Mat4 &Mat4::mul(real32 scalar) {
+	__m256 avxA, avxB, avxC, avxRes;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_load_ps(&this->mMatrix[8]);
+	avxC = _mm256_broadcast_ss(&scalar);
+	avxRes = _mm256_mul_ps(avxA, avxC);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	avxRes = _mm256_mul_ps(avxB, avxC);
+	_mm256_store_ps(&this->mMatrix[8], avxRes);
+	return *this;
+}
+
+Vec4 Mat4::mul(const Vec4 &vector) {
+	RF_ALIGN32 real32 vecA[8] = { vector.mX, vector.mY, vector.mZ, vector.mW, vector.mX, vector.mY, vector.mZ, vector.mW };
+	__m256 avxA, avxB, avxC, avxRes;
+	avxA = _mm256_load_ps(vecA);
+	avxB = _mm256_load_ps(this->mMatrix);
+	avxC = _mm256_load_ps(&this->mMatrix[8]);
+	avxB = _mm256_mul_ps(avxA, avxB);
+	avxC = _mm256_mul_ps(avxA, avxC);
+
+	return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
+}
+
 Mat4 Mat4::add(const Mat4 &matrixA, const Mat4 &matrixB) {
-	real32 tempArray[16] = { 0.0f };
-	for (int i = 0; i <= 12; i += 4) {
-		RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], matrixA.mMatrix[i + 2],
-										 matrixA.mMatrix[i + 3] };
-		RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], matrixB.mMatrix[i + 2],
-										 matrixB.mMatrix[i + 3] };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_add_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0];
-		tempArray[i + 1] = vectorResult[1];
-		tempArray[i + 2] = vectorResult[2];
-		tempArray[i + 3] = vectorResult[3];
-	}
-	return Mat4(tempArray);
+	auto tmpMat = matrixA;
+	return tmpMat.add(matrixB);
 }
 
 Mat4 Mat4::sub(const Mat4 &matrixA, const Mat4 &matrixB) {
-	real32 tempArray[16] = { 0.0f };
-	for (int i = 0; i <= 12; i += 4) {
-		RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[i], matrixA.mMatrix[i + 1], matrixA.mMatrix[i + 2],
-										 matrixA.mMatrix[i + 3] };
-		RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[i], matrixB.mMatrix[i + 1], matrixB.mMatrix[i + 2],
-										 matrixB.mMatrix[i + 3] };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_sub_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0];
-		tempArray[i + 1] = vectorResult[1];
-		tempArray[i + 2] = vectorResult[2];
-		tempArray[i + 3] = vectorResult[3];
-	}
-	return Mat4(tempArray);
+	auto tmpMat = matrixA;
+	return tmpMat.sub(matrixB);
 }
 
 Mat4 Mat4::mul(const Mat4 &matrix, real32 scalar) {
-	real32 tempArray[16] = { 0.0f };
-	for (int i = 0; i <= 12; i += 4) {
-		RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2],
-										 matrix.mMatrix[i + 3] };
-		RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, scalar };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_mul_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0];
-		tempArray[i + 1] = vectorResult[1];
-		tempArray[i + 2] = vectorResult[2];
-		tempArray[i + 3] = vectorResult[3];
-	}
-	return Mat4(tempArray);
+	auto tmpMat = matrix;
+	return tmpMat.mul(scalar);
 }
 
 Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) {

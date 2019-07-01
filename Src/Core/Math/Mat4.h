@@ -53,19 +53,10 @@ public:
 	}
 
 public:
-	inline Mat4 &add(const Mat4 &matrix) {
-		*this = Mat4::add(*this, matrix);
-		return *this;
-	}
-	inline Mat4 &sub(const Mat4 &matrix) {
-		*this = Mat4::sub(*this, matrix);
-		return *this;
-	}
-	inline Mat4 &mul(real32 scalar) {
-		*this = Mat4::mul(*this, scalar);
-		return *this;
-	}
-	inline Vec4 mul(const Vec4 &vector) { return Mat4::mul(*this, vector); }
+	Mat4 &add(const Mat4 &matrix);
+	Mat4 &sub(const Mat4 &matrix);
+	Mat4 &mul(real32 scalar);
+	Vec4 mul(const Vec4 &vector);
 	inline Mat4 &mul(const Mat4 &matrix) {
 		*this = Mat4::mul(*this, matrix);
 		return *this;
@@ -112,7 +103,7 @@ public:
 	static const Mat4 identity;
 
 private:
-	real32 mMatrix[16];
+	RF_ALIGN32 real32 mMatrix[16];
 };
 
 } // namespace Core

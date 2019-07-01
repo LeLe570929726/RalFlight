@@ -10,7 +10,6 @@
 #include "Mat3.h"
 #include <assert.h>
 #include <cstring>
-#include <utility>
 #if defined(RF_OS_WIN)
 #include <intrin.h>
 #elif defined(RF_OS_LINUX)
@@ -115,6 +114,89 @@ Mat3 &Mat3::mul(const Mat3 &matrix) {
 	return *this;
 }
 
+Mat3 &Mat3::div(real32 scalar) {
+	assert(scalar);
+	__m256 avxA, avxB, avxRes;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_broadcast_ss(&scalar);
+	avxRes = _mm256_div_ps(avxA, avxB);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	this->mMatrix[8] /= scalar;
+	return *this;
+}
+
+Mat3 &Mat3::transpose() {
+	real32 tempScalar;
+	tempScalar = this->mMatrix[1];
+	this->mMatrix[1] = this->mMatrix[3];
+	this->mMatrix[3] = tempScalar;
+	tempScalar = this->mMatrix[2];
+	this->mMatrix[2] = this->mMatrix[6];
+	this->mMatrix[6] = tempScalar;
+	tempScalar = this->mMatrix[5];
+	this->mMatrix[5] = this->mMatrix[7];
+	this->mMatrix[7] = tempScalar;
+	return *this;
+}
+
+real32 Mat3::det() const {
+	RF_ALIGN32 real32 vecA[8] = {
+		this->mMatrix[0], this->mMatrix[1], this->mMatrix[2], this->mMatrix[2], this->mMatrix[0], this->mMatrix[1], 0.0f, 0.0f
+	};
+	RF_ALIGN32 real32 vecB[8] = {
+		this->mMatrix[4], this->mMatrix[5], this->mMatrix[3], this->mMatrix[4], this->mMatrix[5], this->mMatrix[3], 0.0f, 0.0f
+	};
+	RF_ALIGN32 real32 vecC[8] = {
+		this->mMatrix[8], this->mMatrix[6], this->mMatrix[7], this->mMatrix[6], this->mMatrix[7], this->mMatrix[8], 0.0f, 0.0f
+	};
+	RF_ALIGN32 real32 vecRes[8] = { 0.0f };
+	__m256 avxA, avxB, avxC, avxRes;
+	avxA = _mm256_load_ps(vecA);
+	avxB = _mm256_load_ps(vecB);
+	avxC = _mm256_load_ps(vecC);
+	avxRes = _mm256_mul_ps(_mm256_mul_ps(avxA, avxB), avxC);
+	_mm256_store_ps(vecRes, avxRes);
+	return vecRes[0] + vecRes[1] + vecRes[2] - vecRes[3] - vecRes[4] - vecRes[5];
+}
+
+real32 Mat3::get(uint8 col, uint8 row) const {
+	assert(col > 0 && col < 4);
+	assert(row > 0 && row < 4);
+	return this->mMatrix[(col - 1) + ((row - 1) * 3)];
+}
+
+Vec3 Mat3::row(uint8 row) const {
+	assert(row > 0 && row < 4);
+	return Vec3(this->mMatrix[(row - 1) * 3], this->mMatrix[((row - 1) * 3) + 1], this->mMatrix[((row - 1) * 3) + 2]);
+}
+
+Vec3 Mat3::col(uint8 col) const {
+	assert(col > 0 && col < 4);
+	return Vec3(this->mMatrix[col - 1], this->mMatrix[col - 1 + 3], this->mMatrix[col - 1 + 6]);
+}
+
+void Mat3::set(uint8 col, uint8 row, real32 scalar) {
+	assert(col > 0 && col < 4);
+	assert(row > 0 && row < 4);
+	this->mMatrix[(col - 1) + ((row - 1) * 3)] = scalar;
+}
+
+void Mat3::set(real32 (&array)[9]) { std::memcpy(this->mMatrix, array, sizeof(this->mMatrix)); }
+
+void Mat3::setRow(uint8 row, const Vec3 &vector) {
+	assert(row > 0 && row < 4);
+	this->mMatrix[(row - 1) * 3] = vector.mX;
+	this->mMatrix[((row - 1) * 3) + 1] = vector.mY;
+	this->mMatrix[((row - 1) * 3) + 2] = vector.mZ;
+}
+
+void Mat3::setCol(uint8 col, const Vec3 &vector) {
+	assert(col > 0 && col < 4);
+	this->mMatrix[col - 1] = vector.mX;
+	this->mMatrix[col - 1 + 3] = vector.mY;
+	this->mMatrix[col - 1 + 6] = vector.mZ;
+}
+
 Mat3 Mat3::add(const Mat3 &matrixA, const Mat3 &matrixB) {
 	auto tmpMat = matrixA;
 	return tmpMat.add(matrixB);
@@ -142,103 +224,49 @@ Mat3 Mat3::mul(const Mat3 &matrixA, const Mat3 &matrixB) {
 
 Mat3 Mat3::div(const Mat3 &matrix, real32 scalar) {
 	assert(scalar);
-	real32 tempArray[9] = { 0.0f };
-	for (int i = 0; i <= 6; i += 3) {
-		RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2], 0.0f };
-		RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, 0.0f };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_div_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0];
-		tempArray[i + 1] = vectorResult[1];
-		tempArray[i + 2] = vectorResult[2];
-	}
-	return Mat3(tempArray);
+	auto tmpMat = matrix;
+	return tmpMat.div(scalar);
 }
 
 Mat3 Mat3::transpose(const Mat3 &matrix) {
-	Mat3 tempMatrix = matrix;
-	real32 tempScalar;
-	tempScalar = tempMatrix.mMatrix[1];
-	tempMatrix.mMatrix[1] = tempMatrix.mMatrix[3];
-	tempMatrix.mMatrix[3] = tempScalar;
-	tempScalar = tempMatrix.mMatrix[2];
-	tempMatrix.mMatrix[2] = tempMatrix.mMatrix[6];
-	tempMatrix.mMatrix[6] = tempScalar;
-	tempScalar = tempMatrix.mMatrix[5];
-	tempMatrix.mMatrix[5] = tempMatrix.mMatrix[7];
-	tempMatrix.mMatrix[7] = tempScalar;
-	return tempMatrix;
+	auto tmpMat = matrix;
+	return tmpMat.transpose();
 }
 
-real32 Mat3::determinant(const Mat3 &matrix) {
-	RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[1], matrix.mMatrix[2], 0.0f };
-	RF_ALIGN16 real32 vectorB[4] = { matrix.mMatrix[4], matrix.mMatrix[5], matrix.mMatrix[3], 0.0f };
-	RF_ALIGN16 real32 vectorC[4] = { matrix.mMatrix[8], matrix.mMatrix[6], matrix.mMatrix[7], 0.0f };
-	RF_ALIGN16 real32 vectorD[4] = { matrix.mMatrix[2], matrix.mMatrix[0], matrix.mMatrix[1], 0.0f };
-	RF_ALIGN16 real32 vectorE[4] = { matrix.mMatrix[4], matrix.mMatrix[5], matrix.mMatrix[3], 0.0f };
-	RF_ALIGN16 real32 vectorF[4] = { matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[8], 0.0f };
-	RF_ALIGN16 real32 vectorResultA[4] = { 0.0f };
-	RF_ALIGN16 real32 vectorResultB[4] = { 0.0f };
-	__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseResultA, sseResultB;
-	sseA = _mm_load_ps(vectorA);
-	sseB = _mm_load_ps(vectorB);
-	sseC = _mm_load_ps(vectorC);
-	sseD = _mm_load_ps(vectorD);
-	sseE = _mm_load_ps(vectorE);
-	sseF = _mm_load_ps(vectorF);
-	sseB = _mm_mul_ps(sseA, sseB);
-	sseResultA = _mm_mul_ps(sseB, sseC);
-	sseE = _mm_mul_ps(sseD, sseE);
-	sseResultB = _mm_mul_ps(sseE, sseF);
-	_mm_store_ps(vectorResultA, sseResultA);
-	_mm_store_ps(vectorResultB, sseResultB);
-	return vectorResultA[0] + vectorResultA[1] + vectorResultA[2] - vectorResultB[0] - vectorResultB[1] - vectorResultB[2];
-}
+real32 Mat3::det(const Mat3 &matrix) { return matrix.det(); }
 
-real32 Mat3::get(const Mat3 &matrix, int col, int row) {
+real32 Mat3::get(const Mat3 &matrix, uint8 col, uint8 row) {
 	assert(col > 0 && col < 4);
 	assert(row > 0 && row < 4);
-	return matrix.mMatrix[(col - 1) + ((row - 1) * 3)];
+	return matrix.get(col, row);
 }
 
-Vec3 Mat3::row(const Mat3 &matrix, int row) {
+Vec3 Mat3::row(const Mat3 &matrix, uint8 row) {
 	assert(row > 0 && row < 4);
-	return Vec3(matrix.mMatrix[(row - 1) * 3], matrix.mMatrix[((row - 1) * 3) + 1], matrix.mMatrix[((row - 1) * 3) + 2]);
+	return matrix.row(row);
 }
 
-Vec3 Mat3::col(const Mat3 &matrix, int col) {
+Vec3 Mat3::col(const Mat3 &matrix, uint8 col) {
 	assert(col > 0 && col < 4);
 	return Vec3(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 3], matrix.mMatrix[col - 1 + 6]);
 }
 
-void Mat3::set(Mat3 &matrix, int col, int row, real32 scalar) {
+void Mat3::set(Mat3 &matrix, uint8 col, uint8 row, real32 scalar) {
 	assert(col > 0 && col < 4);
 	assert(row > 0 && row < 4);
-	matrix.mMatrix[(col - 1) + ((row - 1) * 3)] = scalar;
+	matrix.set(col, row, scalar);
 }
 
-void Mat3::set(Mat3 &matrix, real32 (&array)[9]) {
-	for (int i = 0; i < 9; ++i) {
-		matrix.mMatrix[i] = array[i];
-	}
-}
+void Mat3::set(Mat3 &matrix, real32 (&array)[9]) { matrix.set(array); }
 
-void Mat3::setRow(Mat3 &matrix, int row, const Vec3 &vector) {
+void Mat3::setRow(Mat3 &matrix, uint8 row, const Vec3 &vector) {
 	assert(row > 0 && row < 4);
-	matrix.mMatrix[(row - 1) * 3] = vector.x();
-	matrix.mMatrix[((row - 1) * 3) + 1] = vector.y();
-	matrix.mMatrix[((row - 1) * 3) + 2] = vector.x();
+	matrix.setRow(row, vector);
 }
 
-void Mat3::setCol(Mat3 &matrix, int col, const Vec3 &vector) {
+void Mat3::setCol(Mat3 &matrix, uint8 col, const Vec3 &vector) {
 	assert(col > 0 && col < 4);
-	matrix.mMatrix[col - 1] = vector.x();
-	matrix.mMatrix[col - 1 + 3] = vector.y();
-	matrix.mMatrix[col - 1 + 6] = vector.x();
+	matrix.setCol(col, vector);
 }
 
 } // namespace Core

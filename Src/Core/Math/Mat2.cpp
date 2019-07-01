@@ -111,7 +111,7 @@ Mat2 &Mat2::transpose() {
 	return *this;
 }
 
-real32 Mat2::determinant() const {
+real32 Mat2::det() const {
 	RF_ALIGN16 real32 vecA[4] = { this->mMatrix[0], this->mMatrix[1], 0, 0 };
 	RF_ALIGN16 real32 vecB[4] = { this->mMatrix[3], this->mMatrix[2], 0, 0 };
 	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
@@ -123,10 +123,40 @@ real32 Mat2::determinant() const {
 	return vecRes[0] - vecRes[1];
 }
 
-real32 Mat2::get(int row, int col) const {
+real32 Mat2::get(uint8 row, uint8 col) const {
 	assert(col > 0 && col < 3);
 	assert(row > 0 && row < 3);
 	return this->mMatrix[(col - 1) + (2 * (row - 1))];
+}
+
+Vec2 Mat2::row(uint8 row) const {
+	assert(row > 0 && row < 3);
+	return Vec2(this->mMatrix[(row - 1) << 1], this->mMatrix[((row - 1) << 1) + 1]);
+}
+
+Vec2 Mat2::col(uint8 col) const {
+	assert(col > 0 && col < 3);
+	return Vec2(this->mMatrix[col - 1], this->mMatrix[col - 1 + 2]);
+}
+
+void Mat2::set(uint8 col, uint8 row, real32 scalar) {
+	assert(col > 0 && col < 3);
+	assert(row > 0 && row < 3);
+	this->mMatrix[(col - 1) + (2 * (row - 1))] = scalar;
+}
+
+void Mat2::set(real32 (&array)[4]) { std::memcpy(this->mMatrix, array, sizeof(this->mMatrix)); }
+
+void Mat2::setRow(uint8 row, const Vec2 &vector) {
+	assert(row > 0 && row < 3);
+	this->mMatrix[(row - 1) << 1] = vector.mX;
+	this->mMatrix[((row - 1) << 1) + 1] = vector.mY;
+}
+
+void Mat2::setCol(uint8 col, const Vec2 &vector) {
+	assert(col > 0 && col < 3);
+	this->mMatrix[col - 1] = vector.mX;
+	this->mMatrix[col - 1 + 2] = vector.mY;
 }
 
 // More function here
@@ -164,42 +194,40 @@ Mat2 Mat2::transpose(const Mat2 &matrix) {
 	return tmpMat;
 }
 
-real32 Mat2::determinant(const Mat2 &matrix) { return matrix.determinant(); }
+real32 Mat2::det(const Mat2 &matrix) { return matrix.det(); }
 
-real32 Mat2::get(const Mat2 &matrix, int row, int col) {
+real32 Mat2::get(const Mat2 &matrix, uint8 row, uint8 col) {
 	assert(col > 0 && col < 3);
 	assert(row > 0 && row < 3);
 	return matrix.get(row, col);
 }
 
-Vec2 Mat2::row(const Mat2 &matrix, int row) {
+Vec2 Mat2::row(const Mat2 &matrix, uint8 row) {
 	assert(row > 0 && row < 3);
-	return Vec2(matrix.mMatrix[(row - 1) << 1], matrix.mMatrix[((row - 1) << 1) + 1]);
+	return matrix.row(row);
 }
 
-Vec2 Mat2::col(const Mat2 &matrix, int col) {
+Vec2 Mat2::col(const Mat2 &matrix, uint8 col) {
 	assert(col > 0 && col < 3);
-	return Vec2(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 2]);
+	return matrix.col(col);
 }
 
-void Mat2::set(Mat2 &matrix, int col, int row, real32 scalar) {
+void Mat2::set(Mat2 &matrix, uint8 col, uint8 row, real32 scalar) {
 	assert(col > 0 && col < 3);
 	assert(row > 0 && row < 3);
-	matrix.mMatrix[(col - 1) + (2 * (row - 1))] = scalar;
+	matrix.set(col, row, scalar);
 }
 
 void Mat2::set(Mat2 &matrix, real32 (&array)[4]) { matrix = Mat2(array); }
 
-void Mat2::setRow(Mat2 &matrix, int row, const Vec2 &vector) {
+void Mat2::setRow(Mat2 &matrix, uint8 row, const Vec2 &vector) {
 	assert(row > 0 && row < 3);
-	matrix.mMatrix[(row - 1) << 1] = vector.mX;
-	matrix.mMatrix[((row - 1) << 1) + 1] = vector.mY;
+	matrix.setRow(row, vector);
 }
 
-void Mat2::setCol(Mat2 &matrix, int col, const Vec2 &vector) {
+void Mat2::setCol(Mat2 &matrix, uint8 col, const Vec2 &vector) {
 	assert(col > 0 && col < 3);
-	matrix.mMatrix[col - 1] = vector.mX;
-	matrix.mMatrix[col - 1 + 2] = vector.mY;
+	matrix.setCol(col, vector);
 }
 
 } // namespace Core
