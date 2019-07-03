@@ -23,15 +23,18 @@ set(RF_SRC_TEST_DEPENDENCES_INCLUDE ${RF_SRC_TEST_DEPENDENCES_INCLUDE} ${Boost_I
 
 # Math
 # Sources
-set(RF_SRC_TEST_SOURCES ${RF_SRC_TEST_SOURCES}
+set(RF_SRC_CORE_TEST_MATH_SOURCES ${RF_SRC_CORE_TEST_MATH_SOURCES}
+	"Math/Module.cpp"
     "Math/Mat2.cpp"
+	"Math/Mat3.cpp"
+	"Math/Mat4.cpp"
 )
 
 # Executable
-add_executable(RalFlightTest ${RF_SRC_TEST_SOURCES})
-target_link_libraries(RalFlightTest
+add_executable(RalFlightTestMath ${RF_SRC_CORE_TEST_MATH_SOURCES})
+target_link_libraries(RalFlightTestMath
     RalFlightCore Boost::boost Boost::unit_test_framework
 )
-set_target_properties(RalFlightTest PROPERTIES
+set_target_properties(RalFlightTestMath PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES ${RF_SRC_TEST_DEPENDENCES_INCLUDE}
 )

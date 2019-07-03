@@ -78,8 +78,8 @@ public:
 public:
 	inline real32 x() const { return Vec4::x(*this); }
 	inline real32 y() const { return Vec4::y(*this); }
-	inline real32 getZ() const { return Vec4::getZ(*this); }
-	inline real32 getW() const { return Vec4::getW(*this); }
+	inline real32 z() const { return Vec4::z(*this); }
+	inline real32 w() const { return Vec4::w(*this); }
 	inline void set(real32 (&array)[4]) { Vec4::set(*this, array); }
 	inline void setX(real32 x) { Vec4::setX(*this, x); }
 	inline void setY(real32 y) { Vec4::setY(*this, y); }

@@ -85,8 +85,45 @@ Vec4 Mat4::mul(const Vec4 &vector) {
 	avxC = _mm256_load_ps(&this->mMatrix[8]);
 	avxB = _mm256_mul_ps(avxA, avxB);
 	avxC = _mm256_mul_ps(avxA, avxC);
-
+	// TODO
 	return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
+}
+
+Mat4 &Mat4::mul(const Mat4 &matrix) {
+	__m256 avxA, avxB, avxC, avxD, avxE, avxF, avxG, avxH, avxI, avxJ, avxK, avxL, avxM, avxN, avxO;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_load_ps(&this->mMatrix[8]);
+	avxC = _mm256_load_ps(matrix.mMatrix);
+	avxD = _mm256_load_ps(&matrix.mMatrix[8]);
+	avxE = _mm256_shuffle_ps(avxA, avxA, _MM_SHUFFLE(0, 0, 0, 0));
+	avxF = _mm256_shuffle_ps(avxB, avxB, _MM_SHUFFLE(0, 0, 0, 0));
+	avxG = _mm256_permute2f128_ps(avxC, avxC, 0x00);
+	avxH = _mm256_mul_ps(avxE, avxG);
+	avxI = _mm256_mul_ps(avxF, avxG);
+	avxE = _mm256_shuffle_ps(avxA, avxA, _MM_SHUFFLE(1, 1, 1, 1));
+	avxF = _mm256_shuffle_ps(avxB, avxB, _MM_SHUFFLE(1, 1, 1, 1));
+	avxG = _mm256_permute2f128_ps(avxC, avxC, 0x11);
+	avxJ = _mm256_mul_ps(avxE, avxG);
+	avxK = _mm256_mul_ps(avxF, avxG);
+	avxE = _mm256_shuffle_ps(avxA, avxA, _MM_SHUFFLE(2, 2, 2, 2));
+	avxF = _mm256_shuffle_ps(avxB, avxB, _MM_SHUFFLE(2, 2, 2, 2));
+	avxG = _mm256_permute2f128_ps(avxD, avxD, 0x00);
+	avxL = _mm256_mul_ps(avxE, avxG);
+	avxM = _mm256_mul_ps(avxF, avxG);
+	avxE = _mm256_shuffle_ps(avxA, avxA, _MM_SHUFFLE(3, 3, 3, 3));
+	avxF = _mm256_shuffle_ps(avxB, avxB, _MM_SHUFFLE(3, 3, 3, 3));
+	avxG = _mm256_permute2f128_ps(avxD, avxD, 0x11);
+	avxN = _mm256_mul_ps(avxE, avxG);
+	avxO = _mm256_mul_ps(avxF, avxG);
+	avxH = _mm256_add_ps(avxH, avxJ);
+	avxL = _mm256_add_ps(avxL, avxN);
+	avxI = _mm256_add_ps(avxI, avxK);
+	avxM = _mm256_add_ps(avxM, avxO);
+	avxH = _mm256_add_ps(avxH, avxL);
+	avxI = _mm256_add_ps(avxI, avxM);
+	_mm256_store_ps(this->mMatrix, avxH);
+	_mm256_store_ps(&this->mMatrix[8], avxI);
+	return *this;
 }
 
 Mat4 Mat4::add(const Mat4 &matrixA, const Mat4 &matrixB) {
@@ -106,7 +143,7 @@ Mat4 Mat4::mul(const Mat4 &matrix, real32 scalar) {
 
 Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) {
 	real32 tempArray[4] = { 0.0f };
-	RF_ALIGN16 real32 vectorA[4] = { vector.x(), vector.y(), vector.getZ(), vector.getW() };
+	RF_ALIGN16 real32 vectorA[4] = { vector.x(), vector.y(), vector.z(), vector.w() };
 	__m128 sseA;
 	sseA = _mm_load_ps(vectorA);
 	for (int i = 0; i <= 12; i += 12) {
@@ -123,23 +160,8 @@ Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) {
 }
 
 Mat4 Mat4::mul(const Mat4 &matrixA, const Mat4 &matrixB) {
-	real32 tempArray[16] = { 0.0f };
-	for (int i = 0; i < 16; ++i) {
-		RF_ALIGN16 real32 vectorA[4] = { matrixA.mMatrix[static_cast<int>(i >> 2)],
-										 matrixA.mMatrix[static_cast<int>(i >> 2) + 1],
-										 matrixA.mMatrix[static_cast<int>(i >> 2) + 2],
-										 matrixA.mMatrix[static_cast<int>(i >> 2) + 3] };
-		RF_ALIGN16 real32 vectorB[4] = { matrixB.mMatrix[(i % 4)], matrixB.mMatrix[(i % 4) + 4], matrixB.mMatrix[(i % 4) + 8],
-										 matrixB.mMatrix[(i % 4) + 12] };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_mul_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0] + vectorResult[1] + vectorResult[2] + vectorResult[3];
-	}
-	return Mat4(tempArray);
+	auto tmpMat = matrixA;
+	return tmpMat.mul(matrixB);
 }
 
 Mat4 Mat4::div(const Mat4 &matrix, real32 scalar) {
@@ -280,16 +302,16 @@ void Mat4::setRow(Mat4 &matrix, int row, const Vec4 &vector) {
 	assert(row > 0 && row < 5);
 	matrix.mMatrix[(row - 1) << 2] = vector.x();
 	matrix.mMatrix[((row - 1) << 2) + 1] = vector.y();
-	matrix.mMatrix[((row - 1) << 2) + 2] = vector.getZ();
-	matrix.mMatrix[((row - 1) << 2) + 3] = vector.getW();
+	matrix.mMatrix[((row - 1) << 2) + 2] = vector.z();
+	matrix.mMatrix[((row - 1) << 2) + 3] = vector.w();
 }
 
 void Mat4::setCol(Mat4 &matrix, int col, const Vec4 &vector) {
 	assert(col > 0 && col < 5);
 	matrix.mMatrix[col - 1] = vector.x();
 	matrix.mMatrix[col - 1 + 4] = vector.y();
-	matrix.mMatrix[col - 1 + 8] = vector.getZ();
-	matrix.mMatrix[col - 1 + 12] = vector.getW();
+	matrix.mMatrix[col - 1 + 8] = vector.z();
+	matrix.mMatrix[col - 1 + 12] = vector.w();
 }
 
 } // namespace Core

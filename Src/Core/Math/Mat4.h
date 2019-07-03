@@ -57,10 +57,7 @@ public:
 	Mat4 &sub(const Mat4 &matrix);
 	Mat4 &mul(real32 scalar);
 	Vec4 mul(const Vec4 &vector);
-	inline Mat4 &mul(const Mat4 &matrix) {
-		*this = Mat4::mul(*this, matrix);
-		return *this;
-	}
+	Mat4 &mul(const Mat4 &matrix);
 	inline Mat4 &div(real32 scalar) {
 		*this = Mat4::div(*this, scalar);
 		return *this;
