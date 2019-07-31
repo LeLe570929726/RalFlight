@@ -129,7 +129,7 @@ real32 Vec2::angle(const Vec2 &vector) const {
 
 Vec2 Vec2::project(const Vec2 &vector) const {
 	Vec2 tmpVec = Vec2::zero;
-	real32 scalar = this->dot(vector) * Scalar::pow(this->rmodule(), 2.0f);	// a' = ((a · b) / |b| ^ 2) * b
+	real32 scalar = this->dot(vector) * Scalar::pow(this->rmodule(), 2.0f); // a' = ((a · b) / |b| ^ 2) * b
 	__m128 sseA, sseB, sseRes;
 	sseA = _mm_load_ps(this->mVector);
 	sseB = _mm_broadcast_ss(&scalar);
@@ -138,7 +138,19 @@ Vec2 Vec2::project(const Vec2 &vector) const {
 	return tmpVec;
 }
 
-// TODO
+real32 Vec2::x() const { return this->mVector[0]; }
+
+real32 Vec2::y() const { return this->mVector[1]; }
+
+void Vec2::set(real32 (&array)[2]) { std::memcpy(this->mVector, array, sizeof(array)); }
+
+void Vec2::setX(real32 x) { this->mVector[0] = x; }
+
+void Vec2::setY(real32 y) { this->mVector[1] = y; }
+
+bool Vec2::isZero() const { return this->mVector[0] == 0.0f && this->mVector[1] == 0.0f; }
+
+bool Vec2::isOne() const { return this->mVector[0] == 1.0f && this->mVector[1] == 1.0f; }
 
 Vec2 Vec2::add(const Vec2 &vectorA, const Vec2 &vectorB) {
 	auto tmpVec = vectorA;
@@ -178,18 +190,18 @@ real32 Vec2::angle(const Vec2 &vectorA, const Vec2 &vectorB) { return vectorA.an
 
 Vec2 Vec2::project(const Vec2 &vectorA, const Vec2 &vectorB) { return vectorA.project(vectorB); }
 
-real32 Vec2::x(const Vec2 &vector) { return vector.mVector[0]; }
+real32 Vec2::x(const Vec2 &vector) { return vector.x(); }
 
-real32 Vec2::y(const Vec2 &vector) { return vector.mVector[1]; }
+real32 Vec2::y(const Vec2 &vector) { return vector.y(); }
 
-void Vec2::set(Vec2 &vector, real32 (&array)[2]) { vector = Vec2(array); }
+void Vec2::set(Vec2 &vector, real32 (&array)[2]) { vector.set(array); }
 
-void Vec2::setX(Vec2 &vector, real32 x) { vector.mVector[0] = x; }
+void Vec2::setX(Vec2 &vector, real32 x) { vector.setX(x); }
 
-void Vec2::setY(Vec2 &vector, real32 y) { vector.mVector[1] = y; }
+void Vec2::setY(Vec2 &vector, real32 y) { vector.setY(y); }
 
-bool Vec2::isZero(const Vec2 &vector) { return vector.mVector[0] == 0 && vector.mVector[1] == 0; }
+bool Vec2::isZero(const Vec2 &vector) { return vector.isZero(); }
 
-bool Vec2::isOne(const Vec2 &vector) { return vector.mVector[0] == 1 && vector.mVector[1] == 1; }
+bool Vec2::isOne(const Vec2 &vector) { return vector.isOne(); }
 
 } // namespace Core

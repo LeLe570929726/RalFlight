@@ -47,31 +47,15 @@ public:
 	}
 
 public:
-	inline Vec3 &add(const Vec3 &vector) {
-		*this = Vec3::add(*this, vector);
-		return *this;
-	}
-	inline Vec3 &sub(const Vec3 &vector) {
-		*this = Vec3::sub(*this, vector);
-		return *this;
-	}
-	inline Vec3 &mul(real32 scalar) {
-		*this = Vec3::mul(*this, scalar);
-		return *this;
-	}
-	inline Vec3 &div(real32 scalar) {
-		*this = Vec3::div(*this, scalar);
-		return *this;
-	}
-	inline real32 module() const { return Vec3::module(*this); }
-	// Module's reciprocal
-	inline real32 rmodule() const { return Vec3::rmodule(*this); }
-	inline Vec3 &normalize() {
-		*this = Vec3::add(*this);
-		return *this;
-	}
-	inline real32 dot(const Vec3 &vector) const { return Vec3::dot(*this, vector); }
-	inline Vec3 cross(const Vec3 &vector) const { return Vec3::cross(*this, vector); }
+	Vec3 &add(const Vec3 &vector);
+	Vec3 &sub(const Vec3 &vector);
+	Vec3 &mul(real32 scalar);
+	Vec3 &div(real32 scalar);
+	real32 module() const;
+	real32 rmodule() const;
+	Vec3 &normalize();
+	real32 dot(const Vec3 &vector) const;
+	Vec3 cross(const Vec3 &vector) const;
 	inline real32 angle(const Vec3 &vector) const { return Vec3::angle(*this, vector); }
 	inline Vec3 project(const Vec3 &vector) const { return Vec3::project(*this, vector); }
 
@@ -114,13 +98,14 @@ public:
 	static bool isZero(const Vec3 &vector);
 	static bool isOne(const Vec3 &vector);
 
+public:
+	static const Vec3 zero;
+
 private:
 	friend Mat3;
 
 private:
-	real32 mX;
-	real32 mY;
-	real32 mZ;
+	RF_ALIGN16 real32 mVector[4];
 };
 
 } // namespace Core

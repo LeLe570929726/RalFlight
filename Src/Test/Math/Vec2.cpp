@@ -28,12 +28,4 @@ BOOST_AUTO_TEST_CASE(Core_Math_Vec2_Angle_1) {
 	BOOST_CHECK_CLOSE_FRACTION(vecA.angle(vecB), scaRes, 0.0001f);
 }
 
-BOOST_AUTO_TEST_CASE(Core_Math_Vec2_Project_1) {
-	Core::Vec2 vecA = { -480.198072f, 33.1824120f };
-	Core::Vec2 vecB = { 0.661884238f, -1.64497582f };
-	Core::real32 scaRes = 2.02233;
-	auto tmp = vecA.angle(vecB);
-	BOOST_CHECK_CLOSE_FRACTION(vecA.angle(vecB), scaRes, 0.0001f);
-}
-
 BOOST_AUTO_TEST_SUITE_END();

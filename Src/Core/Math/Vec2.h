@@ -60,15 +60,15 @@ public:
 	Vec2 project(const Vec2 &vector) const;
 
 public:
-	inline real32 x() const { return this->mVector[0]; }
-	inline real32 y() const { return this->mVector[1]; }
-	inline void set(real32 (&array)[2]) { Vec2::set(*this, array); }
-	inline void setX(real32 x) { Vec2::setX(*this, x); }
-	inline void setY(real32 y) { Vec2::setY(*this, y); }
+	real32 x() const;
+	real32 y() const;
+	void set(real32 (&array)[2]);
+	void setX(real32 x);
+	void setY(real32 y);
 
 public:
-	inline bool isZero() const { return Vec2::isZero(*this); }
-	inline bool isOne() const { return Vec2::isOne(*this); }
+	bool isZero() const;
+	bool isOne() const;
 
 public:
 	static Vec2 add(const Vec2 &vectorA, const Vec2 &vectorB);
