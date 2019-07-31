@@ -8,7 +8,9 @@
 // @Create: 2016/12/7 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Vec2.h"
-#include <assert.h>
+#include <cassert>
+#include <cmath>
+#include <cstring>
 #if defined(RF_OS_WIN)
 #include <intrin.h>
 #elif defined(RF_OS_LINUX)
@@ -17,175 +19,177 @@
 
 namespace Core {
 
-Vec2::Vec2(real32 x, real32 y) : mX(x), mY(y) {}
+const Vec2 Vec2::zero(0.f, 0.0f);
 
-Vec2::Vec2(real32 (&array)[2]) : mX(array[0]), mY(array[1]) {}
+Vec2::Vec2(real32 x, real32 y) : mVector{ x, y, 0.0f, 0.0f } {}
 
-Vec2::Vec2(const Vec2 &other) : mX(other.mX), mY(other.mY) {}
+Vec2::Vec2(real32 (&array)[2]) : mVector{ array[0], array[1], 0.0f, 0.0f } {}
+
+Vec2::Vec2(const Vec2 &other) : mVector{ other.mVector[0], other.mVector[1], 0.0f, 0.0f } {}
 
 Vec2 &Vec2::operator=(const Vec2 &other) {
-	this->mX = other.mX;
-	this->mY = other.mY;
+	std::memcpy(this->mVector, other.mVector, sizeof(this->mVector));
 	return *this;
 }
 
+Vec2 &Vec2::add(const Vec2 &vector) {
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_load_ps(vector.mVector);
+	sseRes = _mm_add_ps(sseA, sseB);
+	_mm_store_ps(this->mVector, sseRes);
+	return *this;
+}
+
+Vec2 &Vec2::sub(const Vec2 &vector) {
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_load_ps(vector.mVector);
+	sseRes = _mm_sub_ps(sseA, sseB);
+	_mm_store_ps(this->mVector, sseRes);
+	return *this;
+}
+
+Vec2 &Vec2::mul(real32 scalar) {
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_broadcast_ss(&scalar);
+	sseRes = _mm_mul_ps(sseA, sseB);
+	_mm_store_ps(this->mVector, sseRes);
+	return *this;
+}
+
+Vec2 &Vec2::div(real32 scalar) {
+	assert(scalar);
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_broadcast_ss(&scalar);
+	sseRes = _mm_div_ps(sseA, sseB);
+	_mm_store_ps(this->mVector, sseRes);
+	return *this;
+}
+
+real32 Vec2::module() const { return std::hypot(this->mVector[0], this->mVector[1]); }
+
+real32 Vec2::rmodule() const {
+	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
+	__m128 sseA, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseRes = _mm_mul_ps(sseA, sseA);
+	_mm_store_ps(vecRes, sseRes);
+	return Scalar::rsqrt(vecRes[0] + vecRes[1]);
+}
+
+Vec2 &Vec2::normalize() {
+	real32 rmoudule = this->rmodule();
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_broadcast_ss(&rmoudule);
+	sseRes = _mm_mul_ps(sseA, sseB);
+	_mm_store_ps(this->mVector, sseRes);
+	return *this;
+}
+
+real32 Vec2::dot(const Vec2 &vector) const {
+	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_load_ps(vector.mVector);
+	sseRes = _mm_mul_ps(sseA, sseB);
+	_mm_store_ps(vecRes, sseRes);
+	return vecRes[0] + vecRes[1];
+}
+
+real32 Vec2::cross(const Vec2 &vector) const {
+	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
+	__m128 sseA, sseB, sseC, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_load_ps(vector.mVector);
+	sseC = _mm_permute_ps(sseB, 0x11); // 00 01 00 01
+	sseRes = _mm_mul_ps(sseA, sseC);
+	_mm_store_ps(vecRes, sseRes);
+	return vecRes[0] - vecRes[1];
+}
+
+real32 Vec2::angle(const Vec2 &vector) const {
+	// Here use a small trick to avoid the situation when lose precision incalculating a real32 number.
+	// a · b = |a| * |b| * cosθ = (xa * xb) + (ya * yb) a × b = |a| * |b| * sinθ
+	//       = (xa * yb) - (ya * xb) tanθ = (a × b) / (a · b)
+	// So we can use it to calculate tanθ, using this method can avoid some unnecessary calculating.
+	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
+	__m128 sseA, sseB, sseC, sseD, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_load_ps(vector.mVector);
+	sseC = _mm_permute_ps(sseA, 0x44); // 01 00 01 00
+	sseD = _mm_permute_ps(sseB, 0x41); // 01 00 00 01
+	sseRes = _mm_mul_ps(sseC, sseD);
+	_mm_store_ps(vecRes, sseRes);
+	return Scalar::atan2(vecRes[0] - vecRes[1], vecRes[2] + vecRes[3]);
+}
+
+Vec2 Vec2::project(const Vec2 &vector) const {
+	Vec2 tmpVec = Vec2::zero;
+	real32 scalar = this->dot(vector) * Scalar::pow(this->rmodule(), 2.0f);	// a' = ((a · b) / |b| ^ 2) * b
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_broadcast_ss(&scalar);
+	sseRes = _mm_mul_ps(sseA, sseB);
+	_mm_store_ps(tmpVec.mVector, sseRes);
+	return tmpVec;
+}
+
+// TODO
+
 Vec2 Vec2::add(const Vec2 &vectorA, const Vec2 &vectorB) {
-	RF_ALIGN16 real32 vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseResult = _mm_add_ps(sseA, sseB);
-	_mm_store_ps(vectorAResult, sseResult);
-	return Vec2(vectorAResult[0], vectorAResult[1]);
+	auto tmpVec = vectorA;
+	return tmpVec.add(vectorB);
 }
 
 Vec2 Vec2::sub(const Vec2 &vectorA, const Vec2 &vectorB) {
-	RF_ALIGN16 real32 vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseResult = _mm_sub_ps(sseA, sseB);
-	_mm_store_ps(vectorAResult, sseResult);
-	return Vec2(vectorAResult[0], vectorAResult[1]);
+	auto tmpVec = vectorA;
+	return tmpVec.sub(vectorB);
 }
 
 Vec2 Vec2::mul(const Vec2 &vector, real32 scalar) {
-	RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorA);
-	sseB = _mm_load_ps(vectorB);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorResult, sseResult);
-	return Vec2(vectorResult[0], vectorResult[1]);
+	auto tmpVec = vector;
+	return tmpVec.mul(scalar);
 }
 
 Vec2 Vec2::div(const Vec2 &vector, real32 scalar) {
 	assert(scalar);
-	RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorA);
-	sseB = _mm_load_ps(vectorB);
-	sseResult = _mm_div_ps(sseA, sseB);
-	_mm_store_ps(vectorResult, sseResult);
-	return Vec2(vectorResult[0], vectorResult[1]);
+	auto tmpVec = vector;
+	return tmpVec.div(scalar);
 }
 
-real32 Vec2::module(const Vec2 &vector) {
-	RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorA);
-	sseB = _mm_load_ps(vectorA);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorResult, sseResult);
-	return Scalar::sqrt(vectorResult[0] + vectorResult[1]);
-}
+real32 Vec2::module(const Vec2 &vector) { return vector.module(); }
 
-real32 Vec2::rmodule(const Vec2 &vector) {
-	RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorB[4] = { 0.0f }, vectorC[4] = { 0.0f }, vectorResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseC, sseD, sseResult;
-	sseA = _mm_load_ps(vectorA);
-	sseB = _mm_load_ps(vectorA);
-	sseC = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorB, sseC);
-	vectorC[0] = vectorB[0] + vectorB[1];
-	sseD = _mm_load_ps(vectorC);
-	sseResult = _mm_rsqrt_ps(sseD);
-	_mm_store_ps(vectorResult, sseResult);
-	return vectorResult[0];
-}
+real32 Vec2::rmodule(const Vec2 &vector) { return vector.rmodule(); }
 
 Vec2 Vec2::normalize(const Vec2 &vector) {
-	real32 module = Vec2::rmodule(vector);
-	assert(module);
-	RF_ALIGN16 real32 vectorA[4] = { vector.mX, vector.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorB[4] = { module, module, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorA);
-	sseB = _mm_load_ps(vectorB);
-	sseResult = _mm_mul_ps(sseA, sseB); // Because the module we getting is reciprocal(1/module), so use multiplication here.
-	_mm_store_ps(vectorResult, sseResult);
-	return Vec2(vectorResult[0], vectorResult[1]);
+	auto tmpVec = vector;
+	return tmpVec.normalize();
 }
 
-real32 Vec2::dot(const Vec2 &vectorA, const Vec2 &vectorB) {
-	RF_ALIGN16 real32 vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAB[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorAResult, sseResult);
-	return vectorAResult[0] + vectorAResult[1];
-}
+real32 Vec2::dot(const Vec2 &vectorA, const Vec2 &vectorB) { return vectorA.dot(vectorB); }
 
-real32 Vec2::cross(const Vec2 &vectorA, const Vec2 &vectorB) {
-	RF_ALIGN16 real32 vectorAA[4] = { vectorA.mX, vectorA.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAB[4] = { vectorB.mY, vectorB.mX, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorAResult, sseResult);
-	return vectorAResult[0] - vectorAResult[1];
-}
+real32 Vec2::cross(const Vec2 &vectorA, const Vec2 &vectorB) { return vectorA.cross(vectorB); }
 
-real32 Vec2::angle(const Vec2 &vectorA, const Vec2 &vectorB) {
-	// Here use a small trick to avoid the situation when lose precision in
-	// calculating a real32 number.
-	// a · b = |a| * |b| * cosθ = (xa * xb) + (ya * yb) a × b = |a| * |b| * sinθ = (xa * yb) - (ya * xb) tanθ = (a × b) / (a ·
-	// b) So we can use it to calculate tanθ, using this method can avoid some unnecessary calculating.
-	RF_ALIGN16 real32 vectorAA[4] = { vectorA.mX, vectorA.mY, vectorA.mX, vectorA.mY };
-	RF_ALIGN16 real32 vectorAB[4] = { vectorB.mY, vectorB.mX, vectorB.mX, vectorB.mY };
-	RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorAResult, sseResult);
-	return Scalar::atan2(vectorAResult[2] + vectorAResult[3], vectorAResult[0] - vectorAResult[1]);
-}
+real32 Vec2::angle(const Vec2 &vectorA, const Vec2 &vectorB) { return vectorA.angle(vectorB); }
 
-Vec2 Vec2::project(const Vec2 &vectorA, const Vec2 &vectorB) {
-	real32 module = Vec2::rmodule(vectorB);
-	real32 scalar = Vec2::dot(vectorA, vectorB) * (module * module); // a' = ((a · b) / |b|^2) * b
-	RF_ALIGN16 real32 vectorAA[4] = { vectorB.mX, vectorB.mY, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAB[4] = { scalar, scalar, 0.0f, 0.0f };
-	RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
-	__m128 sseA;
-	__m128 sseB;
-	__m128 sseResult;
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorAResult, sseResult);
-	return Vec2(vectorAResult[0], vectorAResult[1]);
-}
+Vec2 Vec2::project(const Vec2 &vectorA, const Vec2 &vectorB) { return vectorA.project(vectorB); }
 
-real32 Vec2::x(const Vec2 &vector) { return vector.mX; }
+real32 Vec2::x(const Vec2 &vector) { return vector.mVector[0]; }
 
-real32 Vec2::y(const Vec2 &vector) { return vector.mY; }
+real32 Vec2::y(const Vec2 &vector) { return vector.mVector[1]; }
 
 void Vec2::set(Vec2 &vector, real32 (&array)[2]) { vector = Vec2(array); }
 
-void Vec2::setX(Vec2 &vector, real32 x) { vector.mX = x; }
+void Vec2::setX(Vec2 &vector, real32 x) { vector.mVector[0] = x; }
 
-void Vec2::setY(Vec2 &vector, real32 y) { vector.mY = y; }
+void Vec2::setY(Vec2 &vector, real32 y) { vector.mVector[1] = y; }
 
-bool Vec2::isZero(const Vec2 &vector) { return vector.mX == 0 && vector.mY == 0; }
+bool Vec2::isZero(const Vec2 &vector) { return vector.mVector[0] == 0 && vector.mVector[1] == 0; }
 
-bool Vec2::isOne(const Vec2 &vector) { return vector.mX == 1 && vector.mY == 1; }
+bool Vec2::isOne(const Vec2 &vector) { return vector.mVector[0] == 1 && vector.mVector[1] == 1; }
 
 } // namespace Core

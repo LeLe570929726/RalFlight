@@ -8,7 +8,7 @@
 // @Create: 2018/11/30 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "PathStatus.h"
-#include <assert.h>
+#include <cassert>
 
 namespace Core {
 

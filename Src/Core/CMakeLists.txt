@@ -52,6 +52,7 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 # Math
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+	"Math/Scalar.cpp"
     "Math/Vec2.cpp"
     "Math/Vec3.cpp"
     "Math/Vec4.cpp"

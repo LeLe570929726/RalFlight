@@ -25,6 +25,7 @@ set(RF_SRC_TEST_DEPENDENCES_INCLUDE ${RF_SRC_TEST_DEPENDENCES_INCLUDE} ${Boost_I
 # Sources
 set(RF_SRC_CORE_TEST_MATH_SOURCES ${RF_SRC_CORE_TEST_MATH_SOURCES}
 	"Math/Module.cpp"
+	"Math/Vec2.cpp"
     "Math/Mat2.cpp"
 	"Math/Mat3.cpp"
 	"Math/Mat4.cpp"

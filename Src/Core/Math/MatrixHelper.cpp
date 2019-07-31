@@ -8,7 +8,7 @@
 // @Create: 2017/07/13 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "MatrixHelper.h"
-#include <assert.h>
+#include <cassert>
 
 namespace Core {
 

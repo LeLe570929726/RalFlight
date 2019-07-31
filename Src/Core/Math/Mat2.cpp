@@ -8,7 +8,7 @@
 // @Create: 2016/12/16 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Mat2.h"
-#include <assert.h>
+#include <cassert>
 #include <cstring>
 #if defined(RF_OS_WIN)
 #include <intrin.h>
@@ -62,7 +62,7 @@ Mat2 &Mat2::mul(real32 scalar) {
 }
 
 Vec2 Mat2::mul(const Vec2 &vector) const {
-	RF_ALIGN16 real32 vecA[4] = { vector.mX, vector.mY, vector.mX, vector.mY };
+	RF_ALIGN16 real32 vecA[4] = { vector.mVector[0], vector.mVector[1], vector.mVector[0], vector.mVector[1] };
 	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
 	__m128 sseA, sseB, sseRes;
 	sseA = _mm_load_ps(this->mMatrix);
@@ -149,14 +149,14 @@ void Mat2::set(real32 (&array)[4]) { std::memcpy(this->mMatrix, array, sizeof(th
 
 void Mat2::setRow(uint8 row, const Vec2 &vector) {
 	assert(row > 0 && row < 3);
-	this->mMatrix[(row - 1) << 1] = vector.mX;
-	this->mMatrix[((row - 1) << 1) + 1] = vector.mY;
+	this->mMatrix[(row - 1) << 1] = vector.mVector[0];
+	this->mMatrix[((row - 1) << 1) + 1] = vector.mVector[1];
 }
 
 void Mat2::setCol(uint8 col, const Vec2 &vector) {
 	assert(col > 0 && col < 3);
-	this->mMatrix[col - 1] = vector.mX;
-	this->mMatrix[col - 1 + 2] = vector.mY;
+	this->mMatrix[col - 1] = vector.mVector[0];
+	this->mMatrix[col - 1 + 2] = vector.mVector[1];
 }
 
 // More function here

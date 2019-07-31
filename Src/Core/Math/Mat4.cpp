@@ -8,7 +8,7 @@
 // @Create: 2016/12/17 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Mat4.h"
-#include <assert.h>
+#include <cassert>
 #include <cstring>
 #if defined(RF_OS_WIN)
 #include <intrin.h>

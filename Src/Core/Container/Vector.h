@@ -11,7 +11,7 @@
 
 #include "../Global/Token.h"
 #include "../Math/Scalar.h"
-#include <assert.h>
+#include <cassert>
 #include <initializer_list>
 #include <utility>
 #include <vector>

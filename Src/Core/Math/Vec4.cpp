@@ -8,7 +8,7 @@
 // @Create: 2016/12/11 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Vec4.h"
-#include <assert.h>
+#include <cassert>
 #if defined(RF_OS_WIN)
 #include <intrin.h>
 #elif defined(RF_OS_LINUX)

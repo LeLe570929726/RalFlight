@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------------------------------------------
 #include "Convertor.h"
 #include <boost/locale.hpp>
-#include <assert.h>
+#include <cassert>
 
 namespace Core {
 

@@ -8,7 +8,7 @@
 // @Create: 2018/08/25 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "StackTracer.h"
-#include <assert.h>
+#include <cassert>
 #include <boost/stacktrace.hpp>
 
 namespace Core {

@@ -47,37 +47,21 @@ public:
 	}
 
 public:
-	inline Vec2 &add(const Vec2 &vector) {
-		*this = Vec2::add(*this, vector);
-		return *this;
-	}
-	inline Vec2 &sub(const Vec2 &vector) {
-		*this = Vec2::sub(*this, vector);
-		return *this;
-	}
-	inline Vec2 &mul(real32 scalar) {
-		*this = Vec2::mul(*this, scalar);
-		return *this;
-	}
-	inline Vec2 &div(real32 scalar) {
-		*this = Vec2::div(*this, scalar);
-		return *this;
-	}
-	inline real32 module() const { return Vec2::module(*this); }
-	// Module's reciprocal
-	inline real32 rmodule() const { return Vec2::rmodule(*this); }
-	inline Vec2 &normalize() {
-		*this = Vec2::normalize(*this);
-		return *this;
-	}
-	inline real32 dot(const Vec2 &vector) const { return Vec2::dot(*this, vector); }
-	inline real32 cross(const Vec2 &vector) const { return Vec2::cross(*this, vector); }
-	inline real32 angle(const Vec2 &vector) const { return Vec2::angle(*this, vector); }
-	inline Vec2 project(const Vec2 &vector) const { return Vec2::project(*this, vector); }
+	Vec2 &add(const Vec2 &vector);
+	Vec2 &sub(const Vec2 &vector);
+	Vec2 &mul(real32 scalar);
+	Vec2 &div(real32 scalar);
+	real32 module() const;
+	real32 rmodule() const;
+	Vec2 &normalize();
+	real32 dot(const Vec2 &vector) const;
+	real32 cross(const Vec2 &vector) const;
+	real32 angle(const Vec2 &vector) const;
+	Vec2 project(const Vec2 &vector) const;
 
 public:
-	inline real32 x() const { return this->mX; }
-	inline real32 y() const { return this->mY; }
+	inline real32 x() const { return this->mVector[0]; }
+	inline real32 y() const { return this->mVector[1]; }
 	inline void set(real32 (&array)[2]) { Vec2::set(*this, array); }
 	inline void setX(real32 x) { Vec2::setX(*this, x); }
 	inline void setY(real32 y) { Vec2::setY(*this, y); }
@@ -110,12 +94,14 @@ public:
 	static bool isZero(const Vec2 &vector);
 	static bool isOne(const Vec2 &vector);
 
+public:
+	static const Vec2 zero;
+
 private:
 	friend Mat2;
 
 private:
-	real32 mX;
-	real32 mY;
+	RF_ALIGN16 real32 mVector[4];
 };
 
 } // namespace Core

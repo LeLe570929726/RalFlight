@@ -8,7 +8,7 @@
 // @Create: 2018/6/30 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "String.h"
-#include <assert.h>
+#include <cassert>
 #include <boost/algorithm/string.hpp>
 #include <cwctype>
 #include <utility>
