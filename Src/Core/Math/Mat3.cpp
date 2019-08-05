@@ -75,9 +75,9 @@ Vec3 Mat3::mul(const Vec3 &vector) {
 	sseA = _mm_load_ps(vecA);
 	sseB = _mm_load_ps(vecB);
 	sseC = _mm_load_ps(vecC);
-	sseD = _mm_broadcast_ss(&vector.mX);
-	sseE = _mm_broadcast_ss(&vector.mY);
-	sseF = _mm_broadcast_ss(&vector.mZ);
+	sseD = _mm_broadcast_ss(&vector.mVector[0]);
+	sseE = _mm_broadcast_ss(&vector.mVector[1]);
+	sseF = _mm_broadcast_ss(&vector.mVector[2]);
 	sseD = _mm_mul_ss(sseA, sseD);
 	sseE = _mm_mul_ss(sseB, sseE);
 	sseF = _mm_mul_ss(sseC, sseF);
@@ -185,16 +185,16 @@ void Mat3::set(real32 (&array)[9]) { std::memcpy(this->mMatrix, array, sizeof(th
 
 void Mat3::setRow(uint8 row, const Vec3 &vector) {
 	assert(row > 0 && row < 4);
-	this->mMatrix[(row - 1) * 3] = vector.mX;
-	this->mMatrix[((row - 1) * 3) + 1] = vector.mY;
-	this->mMatrix[((row - 1) * 3) + 2] = vector.mZ;
+	this->mMatrix[(row - 1) * 3] = vector.mVector[0];
+	this->mMatrix[((row - 1) * 3) + 1] = vector.mVector[1];
+	this->mMatrix[((row - 1) * 3) + 2] = vector.mVector[2];
 }
 
 void Mat3::setCol(uint8 col, const Vec3 &vector) {
 	assert(col > 0 && col < 4);
-	this->mMatrix[col - 1] = vector.mX;
-	this->mMatrix[col - 1 + 3] = vector.mY;
-	this->mMatrix[col - 1 + 6] = vector.mZ;
+	this->mMatrix[col - 1] = vector.mVector[0];
+	this->mMatrix[col - 1 + 3] = vector.mVector[1];
+	this->mMatrix[col - 1 + 6] = vector.mVector[2];
 }
 
 Mat3 Mat3::add(const Mat3 &matrixA, const Mat3 &matrixB) {

@@ -115,7 +115,38 @@ Vec3 Vec3::cross(const Vec3 &vector) const {
 	return tmpVec;
 }
 
-// TODO
+real32 Vec3::angle(const Vec3& vector) const {
+	return Scalar::atan2(this->cross(vector).module(), this->dot(vector));
+}
+
+Vec3 Vec3::project(const Vec3& vector) const {
+	Vec3 tmpVec = Vec3::zero;
+	real32 scalar = this->dot(vector) * Scalar::pow(vector.rmodule(), 2.0f);
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(vector.mVector);
+	sseB = _mm_broadcast_ss(&scalar);
+	sseRes = _mm_mul_ps(sseA, sseB);
+	_mm_store_ps(tmpVec.mVector, sseRes);
+	return tmpVec;
+}
+
+real32 Vec3::x() const { return this->mVector[0]; }
+
+real32 Vec3::y() const { return this->mVector[1]; }
+
+real32 Vec3::z() const { return this->mVector[2]; }
+
+void Vec3::set(real32(&array)[3]) { std::memcpy(this->mVector, array, sizeof(array)); }
+
+void Vec3::setX(real32 x) { this->mVector[0] = x; }
+
+void Vec3::setY(real32 y) { this->mVector[1] = y; }
+
+void Vec3::setZ(real32 z) { this->mVector[2] = z; }
+
+bool Vec3::isZero() const { return this->mVector[0] == 0.0f && this->mVector[1] == 0.0f && this->mVector[2] == 0.0f; }
+
+bool Vec3::isOne() const { return this->mVector[0] == 1.0f && this->mVector[1] == 1.0f && this->mVector[2] == 1.0f; }
 
 Vec3 Vec3::add(const Vec3 &vectorA, const Vec3 &vectorB) {
 	auto tmpVec = vectorA;
@@ -151,40 +182,26 @@ real32 Vec3::dot(const Vec3 &vectorA, const Vec3 &vectorB) { return vectorA.dot(
 
 Vec3 Vec3::cross(const Vec3 &vectorA, const Vec3 &vectorB){ return vectorA.cross(vectorB); }
 
-real32 Vec3::angle(const Vec3 &vectorA, const Vec3 &vectorB) {
-	return Scalar::radianToDegree(Scalar::atan(Vec3::cross(vectorA, vectorB).module() / Vec3::dot(vectorA, vectorB)));
-}
+real32 Vec3::angle(const Vec3 &vectorA, const Vec3 &vectorB) { return vectorA.angle(vectorB); }
 
-Vec3 Vec3::project(const Vec3 &vectorA, const Vec3 &vectorB) {
-	real32 module = Vec3::rmodule(vectorB);
-	real32 scalar = Vec3::dot(vectorA, vectorB) * (module * module); // u' = ((u · v) / |v|^2) * v
-	RF_ALIGN16 real32 vectorAA[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, 0.0f };
-	RF_ALIGN16 real32 vectorAB[4] = { scalar, scalar, scalar, 0.0f };
-	RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorAResult, sseResult);
-	return Vec3(vectorAResult[0], vectorAResult[1], vectorAResult[2]);
-}
+Vec3 Vec3::project(const Vec3 &vectorA, const Vec3 &vectorB) { return vectorA.project(vectorB); }
 
-real32 Vec3::x(const Vec3 &vector) { return vector.mX; }
+real32 Vec3::x(const Vec3 &vector) { return vector.x(); }
 
-real32 Vec3::y(const Vec3 &vector) { return vector.mY; }
+real32 Vec3::y(const Vec3 &vector) { return vector.y(); }
 
-real32 Vec3::z(const Vec3 &vector) { return vector.mZ; }
+real32 Vec3::z(const Vec3 &vector) { return vector.z(); }
 
 void Vec3::set(Vec3 &vector, real32 (&array)[3]) { vector = Vec3(array); }
 
-void Vec3::setX(Vec3 &vector, real32 x) { vector.mX = x; }
+void Vec3::setX(Vec3 &vector, real32 x) { vector.setX(x); }
 
-void Vec3::setY(Vec3 &vector, real32 y) { vector.mY = y; }
+void Vec3::setY(Vec3 &vector, real32 y) { vector.setY(y); }
 
-void Vec3::setZ(Vec3 &vector, real32 z) { vector.mZ = z; }
+void Vec3::setZ(Vec3 &vector, real32 z) { vector.setZ(z); }
 
-bool Vec3::isZero(const Vec3 &vector) { return vector.mX == 0 && vector.mY == 0 && vector.mZ == 0; }
+bool Vec3::isZero(const Vec3 &vector) { return vector.isZero(); }
 
-bool Vec3::isOne(const Vec3 &vector) { return vector.mX == 1 && vector.mY == 1 && vector.mZ == 1; }
+bool Vec3::isOne(const Vec3 &vector) { return vector.isOne(); }
 
 } // namespace Core

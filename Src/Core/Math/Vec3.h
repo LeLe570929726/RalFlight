@@ -56,21 +56,21 @@ public:
 	Vec3 &normalize();
 	real32 dot(const Vec3 &vector) const;
 	Vec3 cross(const Vec3 &vector) const;
-	inline real32 angle(const Vec3 &vector) const { return Vec3::angle(*this, vector); }
-	inline Vec3 project(const Vec3 &vector) const { return Vec3::project(*this, vector); }
+	real32 angle(const Vec3 &vector) const;
+	Vec3 project(const Vec3 &vector) const;
 
 public:
-	inline real32 x() const { return Vec3::x(*this); }
-	inline real32 y() const { return Vec3::y(*this); }
-	inline real32 z() const { return Vec3::z(*this); }
-	inline void set(real32 (&array)[3]) { Vec3::set(*this, array); }
-	inline void setX(real32 x) { Vec3::setX(*this, x); }
-	inline void setY(real32 y) { Vec3::setY(*this, y); }
-	inline void setZ(real32 z) { Vec3::setZ(*this, z); }
+	real32 x() const;
+	real32 y() const;
+	real32 z() const;
+	void set(real32 (&array)[3]);
+	void setX(real32 x);
+	void setY(real32 y);
+	void setZ(real32 z);
 
 public:
-	inline bool isZero() const { return Vec3::isZero(*this); }
-	inline bool isOne() const { return Vec3::isOne(*this); }
+	bool isZero() const;
+	bool isOne() const;
 
 public:
 	static Vec3 add(const Vec3 &vectorA, const Vec3 &vectorB);

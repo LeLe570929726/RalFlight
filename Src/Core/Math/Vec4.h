@@ -48,30 +48,14 @@ public:
 	}
 
 public:
-	inline Vec4 &add(const Vec4 &vector) {
-		*this = Vec4::add(*this, vector);
-		return *this;
-	}
-	inline Vec4 &sub(const Vec4 &vector) {
-		*this = Vec4::sub(*this, vector);
-		return *this;
-	}
-	inline Vec4 &mul(real32 scalar) {
-		*this = Vec4::mul(*this, scalar);
-		return *this;
-	}
-	inline Vec4 &div(real32 scalar) {
-		*this = Vec4::div(*this, scalar);
-		return *this;
-	}
-	inline real32 module() const { return Vec4::module(*this); }
-	// Module's reciprocal
-	inline real32 rmodule() const { return Vec4::rmodule(*this); }
-	inline Vec4 &normalize() {
-		*this = Vec4::normalize(*this);
-		return *this;
-	}
-	inline real32 dot(const Vec4 &vector) const { return Vec4::dot(*this, vector); }
+	Vec4 &add(const Vec4 &vector);
+	Vec4 &sub(const Vec4 &vector);
+	Vec4 &mul(real32 scalar);
+	Vec4 &div(real32 scalar);
+	real32 module() const;
+	real32 rmodule() const;
+	Vec4 &normalize();
+	real32 dot(const Vec4 &vector) const;
 	inline real32 angle(const Vec4 &vector) const { return Vec4::angle(*this, vector); }
 	inline Vec4 project(const Vec4 &vector) const { return Vec4::project(*this, vector); }
 
@@ -117,14 +101,14 @@ public:
 	static bool isZero(const Vec4 &vector);
 	static bool isOne(const Vec4 &vector);
 
+public:
+	static const Vec4 zero;
+
 private:
 	friend Mat4;
 
 private:
-	real32 mX;
-	real32 mY;
-	real32 mZ;
-	real32 mW;
+	RF_ALIGN16 real32 mVector[4];
 };
 
 } // namespace Core
