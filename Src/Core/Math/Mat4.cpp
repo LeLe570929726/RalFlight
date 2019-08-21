@@ -26,12 +26,12 @@ Mat4::Mat4(real32 m11, real32 m12, real32 m13, real32 m14, real32 m21, real32 m2
 	: mMatrix{ m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44 } {}
 
 Mat4::Mat4(real32 (&array)[16])
-	: mMatrix{ array[0], array[1], array[2],  array[3],  array[4],  array[5],  array[6],  array[7],
+	: mMatrix{ array[0], array[1], array[2],  array[3],	 array[4],	array[5],  array[6],  array[7],
 			   array[8], array[9], array[10], array[11], array[12], array[13], array[14], array[15] } {}
 
 Mat4::Mat4(const Mat4 &other)
-	: mMatrix{ other.mMatrix[0],  other.mMatrix[1],  other.mMatrix[2],  other.mMatrix[3], other.mMatrix[4],  other.mMatrix[5],
-			   other.mMatrix[6],  other.mMatrix[7],  other.mMatrix[8],  other.mMatrix[9], other.mMatrix[10], other.mMatrix[11],
+	: mMatrix{ other.mMatrix[0],  other.mMatrix[1],	 other.mMatrix[2],	other.mMatrix[3], other.mMatrix[4],	 other.mMatrix[5],
+			   other.mMatrix[6],  other.mMatrix[7],	 other.mMatrix[8],	other.mMatrix[9], other.mMatrix[10], other.mMatrix[11],
 			   other.mMatrix[12], other.mMatrix[13], other.mMatrix[14], other.mMatrix[15] } {}
 
 Mat4 &Mat4::operator=(const Mat4 &other) {
@@ -78,13 +78,13 @@ Mat4 &Mat4::mul(real32 scalar) {
 }
 
 Vec4 Mat4::mul(const Vec4 &vector) {
-	RF_ALIGN32 real32 vecA[8] = { vector.mX, vector.mY, vector.mZ, vector.mW, vector.mX, vector.mY, vector.mZ, vector.mW };
-	__m256 avxA, avxB, avxC, avxRes;
-	avxA = _mm256_load_ps(vecA);
-	avxB = _mm256_load_ps(this->mMatrix);
-	avxC = _mm256_load_ps(&this->mMatrix[8]);
-	avxB = _mm256_mul_ps(avxA, avxB);
-	avxC = _mm256_mul_ps(avxA, avxC);
+	RF_ALIGN32 real32 vecA[8] = {
+		vector.x(), vector.y(), vector.z(), vector.w(), vector.x(), vector.y(), vector.z(), vector.w()
+	};
+	__m256 avxA, avxB, avxC;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_load_ps(&this->mMatrix[8]);
+	avxC = _mm256_load_ps(vecA);
 	// TODO
 	return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
 }

@@ -97,35 +97,6 @@ PathPermisson PathStatus::permission() const {
 	}
 }
 
-void PathStatus::setType(PathType type) {
-	assert(type != PathType::Unknow);
-	switch (type) {
-	case PathType::File:
-		this->mFileStatus.type(boost::filesystem::file_type::regular_file);
-		break;
-	case PathType::Directory:
-		this->mFileStatus.type(boost::filesystem::file_type::directory_file);
-		break;
-	case PathType::Symlink:
-		this->mFileStatus.type(boost::filesystem::file_type::symlink_file);
-		break;
-	case PathType::Block:
-		this->mFileStatus.type(boost::filesystem::file_type::block_file);
-		break;
-	case PathType::Character:
-		this->mFileStatus.type(boost::filesystem::file_type::character_file);
-		break;
-	case PathType::FIFO:
-		this->mFileStatus.type(boost::filesystem::file_type::fifo_file);
-		break;
-	case PathType::Socket:
-		this->mFileStatus.type(boost::filesystem::file_type::socket_file);
-		break;
-	default:
-		break;
-	}
-}
-
 PathType PathStatus::type() const {
 	switch (this->mFileStatus.type()) {
 	case boost::filesystem::file_type::regular_file:
@@ -142,6 +113,8 @@ PathType PathStatus::type() const {
 		return PathType::FIFO;
 	case boost::filesystem::file_type::socket_file:
 		return PathType::Socket;
+	case boost::filesystem::file_type::file_not_found:
+		return PathType::NotFound;
 	default:
 		return PathType::Unknow;
 	}

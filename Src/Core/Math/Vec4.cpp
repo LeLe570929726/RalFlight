@@ -107,7 +107,66 @@ real32 Vec4::dot(const Vec4 &vector) const {
 	return vecRes[0] + vecRes[1] + vecRes[2] + vecRes[3];
 }
 
-// TODO
+real32 Vec4::angle(const Vec4 &vector) const {
+	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
+	__m128 sseA, sseB, sseC, sseD, sseRes;
+	Vec3 tmpVec = Vec3::zero;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_load_ps(vector.mVector);
+	sseC = _mm_permute_ps(sseA, 0x93); // 10 01 00 11
+	sseD = _mm_permute_ps(sseB, 0x6C); // 01 10 11 00
+	sseRes = _mm_mul_ps(sseC, sseD);
+	_mm_store_ps(vecRes, sseRes);
+	tmpVec.setX(vecRes[0] - vecRes[1] - vecRes[2] + vecRes[3]);
+	sseC = _mm_permute_ps(sseA, 0x27); // 00 10 01 11
+	sseD = _mm_permute_ps(sseB, 0x8D); // 10 00 11 01
+	sseRes = _mm_mul_ps(sseC, sseD);
+	_mm_store_ps(vecRes, sseRes);
+	tmpVec.setY(vecRes[0] - vecRes[1] - vecRes[2] + vecRes[3]);
+	sseC = _mm_permute_ps(sseA, 0x4B); // 01 00 10 11
+	sseD = _mm_permute_ps(sseB, 0x1E); // 00 01 11 10
+	sseRes = _mm_mul_ps(sseC, sseD);
+	_mm_store_ps(vecRes, sseRes);
+	tmpVec.setZ(vecRes[0] - vecRes[1] - vecRes[2] + vecRes[3]);
+	return Scalar::atan2(tmpVec.module(), this->dot(vector));
+}
+
+Vec4 Vec4::project(const Vec4 &vector) const {
+	Vec4 tmpVec = Vec4::zero;
+	real32 scalar = this->dot(vector) * Scalar::pow(vector.rmodule(), 2.0f);
+	__m128 sseA, sseB, sseRes;
+	sseA = _mm_load_ps(this->mVector);
+	sseB = _mm_broadcast_ss(&scalar);
+	sseRes = _mm_mul_ps(sseA, sseB);
+	_mm_store_ps(tmpVec.mVector, sseRes);
+	return tmpVec;
+}
+
+real32 Vec4::x() const { return this->mVector[0]; }
+
+real32 Vec4::y() const { return this->mVector[1]; }
+
+real32 Vec4::z() const { return this->mVector[2]; }
+
+real32 Vec4::w() const { return this->mVector[3]; }
+
+void Vec4::set(real32 (&array)[4]) { std::memcpy(this->mVector, array, sizeof(array)); }
+
+void Vec4::setX(real32 x) { this->mVector[0] = x; }
+
+void Vec4::setY(real32 y) { this->mVector[1] = y; }
+
+void Vec4::setZ(real32 z) { this->mVector[2] = z; }
+
+void Vec4::setW(real32 w) { this->mVector[3] = w; }
+
+bool Vec4::isZero() const {
+	return this->mVector[0] == 0.0f && this->mVector[1] == 0.0f && this->mVector[2] == 0.0f && this->mVector[3] == 0.0f;
+}
+
+bool Vec4::isOne() const {
+	return this->mVector[0] == 1.0f && this->mVector[1] == 1.0f && this->mVector[2] == 1.0f && this->mVector[3] == 1.0f;
+}
 
 Vec4 Vec4::add(const Vec4 &vectorA, const Vec4 &vectorB) {
 	auto tmpVec = vectorA;
@@ -141,68 +200,30 @@ Vec4 Vec4::normalize(const Vec4 &vector) {
 
 real32 Vec4::dot(const Vec4 &vectorA, const Vec4 &vectorB) { return vectorA.dot(vectorB); }
 
-real32 Vec4::angle(const Vec4 &vectorA, const Vec4 &vectorB) {
-	RF_ALIGN16 real32 vectorAA[4] = { vectorA.mW, vectorA.mX, vectorA.mY, vectorA.mZ };
-	RF_ALIGN16 real32 vectorAB[4] = { vectorB.mX, vectorB.mW, vectorB.mZ, vectorB.mY };
-	RF_ALIGN16 real32 vectorAC[4] = { vectorA.mW, vectorA.mY, vectorA.mZ, vectorA.mX };
-	RF_ALIGN16 real32 vectorAD[4] = { vectorB.mY, vectorB.mW, vectorB.mX, vectorB.mZ };
-	RF_ALIGN16 real32 vectorAE[4] = { vectorA.mW, vectorA.mZ, vectorA.mX, vectorA.mY };
-	RF_ALIGN16 real32 vectorAF[4] = { vectorB.mZ, vectorB.mW, vectorB.mY, vectorB.mX };
-	RF_ALIGN16 real32 vectorAResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseResult;
-	Vec3 tempVector(0.0f, 0.0f, 0.0f);
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseC = _mm_load_ps(vectorAC);
-	sseD = _mm_load_ps(vectorAD);
-	sseE = _mm_load_ps(vectorAE);
-	sseF = _mm_load_ps(vectorAF);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectorAResult, sseResult);
-	tempVector.setX(vectorAResult[0] - vectorAResult[1] - vectorAResult[2] + vectorAResult[3]);
-	sseResult = _mm_mul_ps(sseC, sseD);
-	_mm_store_ps(vectorAResult, sseResult);
-	tempVector.setY(vectorAResult[0] - vectorAResult[1] - vectorAResult[2] + vectorAResult[3]);
-	sseResult = _mm_mul_ps(sseE, sseF);
-	_mm_store_ps(vectorAResult, sseResult);
-	tempVector.setZ(vectorAResult[0] - vectorAResult[1] - vectorAResult[2] + vectorAResult[3]);
-	return Scalar::radianToDegree(Scalar::atan(tempVector.module() / Vec4::dot(vectorA, vectorB)));
-}
+real32 Vec4::angle(const Vec4 &vectorA, const Vec4 &vectorB) { return vectorA.angle(vectorB); }
 
-Vec4 Vec4::project(const Vec4 &vectorA, const Vec4 &vectorB) {
-	real32 module = vectorB.rmodule();
-	real32 scalar = Vec4::dot(vectorA, vectorB) * (module * module); // u' = ((u · v) / |v|^2) * v
-	RF_ALIGN16 real32 vectorAA[4] = { vectorB.mX, vectorB.mY, vectorB.mZ, vectorB.mW };
-	RF_ALIGN16 real32 vectorAB[4] = { scalar, scalar, scalar, scalar };
-	RF_ALIGN16 real32 vectoraResult[4] = { 0.0f };
-	__m128 sseA, sseB, sseResult;
-	sseA = _mm_load_ps(vectorAA);
-	sseB = _mm_load_ps(vectorAB);
-	sseResult = _mm_mul_ps(sseA, sseB);
-	_mm_store_ps(vectoraResult, sseResult);
-	return Vec4(vectoraResult[0], vectoraResult[1], vectoraResult[2], vectoraResult[3]);
-}
+Vec4 Vec4::project(const Vec4 &vectorA, const Vec4 &vectorB) { return vectorA.project(vectorB); }
 
-real32 Vec4::x(const Vec4 &vector) { return vector.mX; }
+real32 Vec4::x(const Vec4 &vector) { return vector.x(); }
 
-real32 Vec4::y(const Vec4 &vector) { return vector.mY; }
+real32 Vec4::y(const Vec4 &vector) { return vector.y(); }
 
-real32 Vec4::z(const Vec4 &vector) { return vector.mZ; }
+real32 Vec4::z(const Vec4 &vector) { return vector.z(); }
 
-real32 Vec4::w(const Vec4 &vector) { return vector.mW; }
+real32 Vec4::w(const Vec4 &vector) { return vector.w(); }
 
-void Vec4::set(Vec4 &vector, real32 (&array)[4]) { vector = Vec4(array); }
+void Vec4::set(Vec4 &vector, real32 (&array)[4]) { vector.set(array); }
 
-void Vec4::setX(Vec4 &vector, real32 x) { vector.mX = x; }
+void Vec4::setX(Vec4 &vector, real32 x) { vector.setX(x); }
 
-void Vec4::setY(Vec4 &vector, real32 y) { vector.mY = y; }
+void Vec4::setY(Vec4 &vector, real32 y) { vector.setY(y); }
 
-void Vec4::setZ(Vec4 &vector, real32 z) { vector.mZ = z; }
+void Vec4::setZ(Vec4 &vector, real32 z) { vector.setZ(z); }
 
-void Vec4::setW(Vec4 &vector, real32 w) { vector.mW = w; }
+void Vec4::setW(Vec4 &vector, real32 w) { vector.setW(w); }
 
-bool Vec4::isZero(const Vec4 &vector) { return vector.mX == 0 && vector.mY == 0 && vector.mZ == 0 && vector.mW == 0; }
+bool Vec4::isZero(const Vec4 &vector) { return vector.isZero(); }
 
-bool Vec4::isOne(const Vec4 &vector) { return vector.mX == 1 && vector.mY == 1 && vector.mZ == 1 && vector.mW == 1; }
+bool Vec4::isOne(const Vec4 &vector) { return vector.isOne(); }
 
 } // namespace Core

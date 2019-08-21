@@ -62,12 +62,12 @@ Mat2 &Mat2::mul(real32 scalar) {
 }
 
 Vec2 Mat2::mul(const Vec2 &vector) const {
-	RF_ALIGN16 real32 vecA[4] = { vector.mVector[0], vector.mVector[1], vector.mVector[0], vector.mVector[1] };
 	RF_ALIGN16 real32 vecRes[4] = { 0.0f };
-	__m128 sseA, sseB, sseRes;
+	__m128 sseA, sseB, sseC, sseRes;
 	sseA = _mm_load_ps(this->mMatrix);
-	sseB = _mm_load_ps(vecA);
-	sseRes = _mm_mul_ps(sseA, sseB);
+	sseB = _mm_load_ps(vector.mVector);
+	sseC = _mm_permute_ps(sseB, 0x44); // 01 00 01 00
+	sseRes = _mm_mul_ps(sseA, sseC);
 	_mm_store_ps(vecRes, sseRes);
 	return Vec2(vecRes[0] + vecRes[1], vecRes[2] + vecRes[3]);
 }

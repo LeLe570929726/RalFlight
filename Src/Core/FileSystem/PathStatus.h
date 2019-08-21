@@ -34,7 +34,7 @@ enum class PathPermisson {
 	Unknow
 };
 
-enum class PathType { File, Directory, Symlink, Block, Character, FIFO, Socket, Unknow };
+enum class PathType { File, Directory, Symlink, Block, Character, FIFO, Socket, NotFound, Unknow };
 
 class RF_API PathStatus {
 public:
@@ -48,7 +48,6 @@ public:
 public:
 	void setPermission(PathPermisson permisson);
 	PathPermisson permission() const;
-	void setType(PathType type);
 	PathType type() const;
 
 private:

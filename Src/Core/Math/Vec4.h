@@ -56,23 +56,23 @@ public:
 	real32 rmodule() const;
 	Vec4 &normalize();
 	real32 dot(const Vec4 &vector) const;
-	inline real32 angle(const Vec4 &vector) const { return Vec4::angle(*this, vector); }
-	inline Vec4 project(const Vec4 &vector) const { return Vec4::project(*this, vector); }
+	real32 angle(const Vec4 &vector) const;
+	Vec4 project(const Vec4 &vector) const;
 
 public:
-	inline real32 x() const { return Vec4::x(*this); }
-	inline real32 y() const { return Vec4::y(*this); }
-	inline real32 z() const { return Vec4::z(*this); }
-	inline real32 w() const { return Vec4::w(*this); }
-	inline void set(real32 (&array)[4]) { Vec4::set(*this, array); }
-	inline void setX(real32 x) { Vec4::setX(*this, x); }
-	inline void setY(real32 y) { Vec4::setY(*this, y); }
-	inline void setZ(real32 z) { Vec4::setZ(*this, z); }
-	inline void setW(real32 w) { Vec4::setW(*this, w); }
+	real32 x() const;
+	real32 y() const;
+	real32 z() const;
+	real32 w() const;
+	void set(real32 (&array)[4]);
+	void setX(real32 x);
+	void setY(real32 y);
+	void setZ(real32 z);
+	void setW(real32 w);
 
 public:
-	inline bool isZero() const { return Vec4::isZero(*this); }
-	inline bool isOne() const { return Vec4::isOne(*this); }
+	bool isZero() const;
+	bool isOne() const;
 
 public:
 	static Vec4 add(const Vec4 &vectorA, const Vec4 &vectorB);

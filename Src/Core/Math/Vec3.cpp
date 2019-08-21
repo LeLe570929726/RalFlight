@@ -121,7 +121,7 @@ real32 Vec3::angle(const Vec3& vector) const {
 
 Vec3 Vec3::project(const Vec3& vector) const {
 	Vec3 tmpVec = Vec3::zero;
-	real32 scalar = this->dot(vector) * Scalar::pow(vector.rmodule(), 2.0f);
+	real32 scalar = this->dot(vector) * Scalar::pow(vector.rmodule(), 2.0f);	// u' = ((u · v) / |v| ^ 2) * v
 	__m128 sseA, sseB, sseRes;
 	sseA = _mm_load_ps(vector.mVector);
 	sseB = _mm_broadcast_ss(&scalar);
