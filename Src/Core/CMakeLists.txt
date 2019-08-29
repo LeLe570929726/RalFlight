@@ -106,6 +106,7 @@ set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
     "FileSystem/File.cpp"
     "FileSystem/PathStatus.cpp"
     "FileSystem/Directory.cpp"
+	"FileSystem/DirectoryStatus.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
@@ -113,6 +114,17 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "FileSystem/File.h"
     "FileSystem/PathStatus.h"
     "FileSystem/Directory.h"
+	"FileSystem/DirectoryStatus.h"
+)
+
+# Time
+# Sources
+set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+	"Time/Date.cpp"
+)
+# Headers
+set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+	"Time/Date.h"
 )
 
 # Log

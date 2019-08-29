@@ -82,7 +82,7 @@ public:
 private:
 	friend Directory;
 
-private:
+protected:
 	boost::filesystem::wpath mPath;
 };
 

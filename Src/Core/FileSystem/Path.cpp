@@ -130,7 +130,7 @@ bool Path::isRelative() const { return this->mPath.is_relative(); }
 
 PathStatus Path::status() const {
 	PathStatus tmpStatus;
-	tmpStatus.mFileStatus = boost::filesystem::status(this->mPath);
+	tmpStatus.mPathStatus = boost::filesystem::status(this->mPath);
 	return tmpStatus;
 }
 

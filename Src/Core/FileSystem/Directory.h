@@ -10,33 +10,36 @@
 #pragma once
 
 #include "../Global/Token.h"
+#include "../Math/Scalar.h"
+#include "DirectoryStatus.h"
 #include "Path.h"
 #include <boost/filesystem.hpp>
 
 namespace Core {
-class RF_API Directory {
+class RF_API Directory : public Path {
 public:
 	Directory() = default;
 	Directory(const Path &path);
 	Directory(const Directory &other) = default;
 	Directory(Directory &&other) noexcept = default;
 	Directory &operator=(const Directory &other) = default;
-	Directory &operator=(Directory &&other) = default;
+	Directory &operator=(Directory &&other) noexcept = default;
 	~Directory() = default;
 
 public:
-	bool operator==(const Directory &other);
-	bool operator!=(const Directory &other);
-	bool operator<(const Directory &other);
-	bool operator<=(const Directory &other);
-	bool operator>(const Directory &other);
-	bool operator>=(const Directory &other);
+	enum ErrorCode {
+		Success,
+		Failed, 
+		DirectoryAlreadyExist,
+		DirectoryDoesNotEsist
+	};
 
 public:
-	void replaceFileName(const Path &path);
+	ErrorCode mkdir() const;
+	ErrorCode rmdir() const;
 
-private:
-	boost::filesystem::directory_entry mDirectory;
+public:
+	DirectoryStatus status() const;
 };
 
 } // namespace Core

@@ -8,23 +8,50 @@
 // @Create: 2019/01/31 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #include "Directory.h"
+#ifdef RF_OS_WIN
+#include <Windows.h>
+#endif
 
 namespace Core {
 
-Directory::Directory(const Path &path) : mDirectory(path.mPath) {}
+Directory::Directory(const Path &path) : Path(path) {}
 
-bool Directory::operator==(const Directory &other) { return this->mDirectory == other.mDirectory; }
+Directory::ErrorCode Directory::mkdir() const {
+	if (this->isExist() == false) {
+#ifdef RF_OS_WIN
+		if (CreateDirectoryW(this->native().toWString().c_str(), NULL) != 0) {
+			return ErrorCode::Success;
+		} else {
+			if (GetLastError() == ERROR_ALREADY_EXISTS) {
+				return ErrorCode::DirectoryAlreadyExist;
+			} else {
+				return ErrorCode::Failed;
+			}
+		}
+#endif
+	} else {
+		return ErrorCode::DirectoryAlreadyExist;
+	}
+}
 
-bool Directory::operator!=(const Directory &other) { return this->mDirectory != other.mDirectory; }
+Directory::ErrorCode Directory::rmdir() const {
+	if (this->isExist() == true) {
+#ifdef RF_OS_WIN
+		if (RemoveDirectoryW(this->native().toWString().c_str()) != 0) {
+			return ErrorCode::Success;
+		} else {
+			return ErrorCode::Failed;
+		}
+#endif
+	} else {
+		return ErrorCode::DirectoryDoesNotEsist;
+	}
+}
 
-bool Directory::operator<(const Directory &other) { return this->mDirectory < other.mDirectory; }
-
-bool Directory::operator<=(const Directory &other) { return this->mDirectory <= other.mDirectory; }
-
-bool Directory::operator>(const Directory &other) { return this->mDirectory > other.mDirectory; }
-
-bool Directory::operator>=(const Directory &other) { return this->mDirectory >= other.mDirectory; }
-
-void Directory::replaceFileName(const Path &path) { this->mDirectory.replace_filename(path.mPath); }
+DirectoryStatus Directory::status() const {
+	DirectoryStatus tmpStatus;
+	tmpStatus.mPathStatus = boost::filesystem::status(this->mPath);
+	return tmpStatus;
+}
 
 } // namespace Core

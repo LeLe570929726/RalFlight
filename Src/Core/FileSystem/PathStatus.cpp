@@ -12,58 +12,8 @@
 
 namespace Core {
 
-void PathStatus::setPermission(PathPermisson permisson) {
-	assert(permisson != PathPermisson::Unknow);
-	switch (permisson) {
-	case PathPermisson::None:
-		this->mFileStatus.permissions(boost::filesystem::perms::no_perms);
-		break;
-	case PathPermisson::OwnerRead:
-		this->mFileStatus.permissions(boost::filesystem::perms::owner_read);
-		break;
-	case PathPermisson::OwnerWrite:
-		this->mFileStatus.permissions(boost::filesystem::perms::owner_write);
-		break;
-	case PathPermisson::OwnerExec:
-		this->mFileStatus.permissions(boost::filesystem::perms::owner_exe);
-		break;
-	case PathPermisson::OwnerAll:
-		this->mFileStatus.permissions(boost::filesystem::perms::owner_all);
-		break;
-	case PathPermisson::GroupRead:
-		this->mFileStatus.permissions(boost::filesystem::perms::group_read);
-		break;
-	case PathPermisson::GroupWrite:
-		this->mFileStatus.permissions(boost::filesystem::perms::group_write);
-		break;
-	case PathPermisson::GroupExec:
-		this->mFileStatus.permissions(boost::filesystem::perms::group_exe);
-		break;
-	case PathPermisson::GroupAll:
-		this->mFileStatus.permissions(boost::filesystem::perms::group_all);
-		break;
-	case PathPermisson::OthersRead:
-		this->mFileStatus.permissions(boost::filesystem::perms::others_read);
-		break;
-	case PathPermisson::OthersWrite:
-		this->mFileStatus.permissions(boost::filesystem::perms::others_write);
-		break;
-	case PathPermisson::OthersExec:
-		this->mFileStatus.permissions(boost::filesystem::perms::others_exe);
-		break;
-	case PathPermisson::OthersAll:
-		this->mFileStatus.permissions(boost::filesystem::perms::others_all);
-		break;
-	case PathPermisson::All:
-		this->mFileStatus.permissions(boost::filesystem::perms::all_all);
-		break;
-	default:
- 		break;
-	}
-}
-
 PathPermisson PathStatus::permission() const {
-	switch (this->mFileStatus.permissions()) {
+	switch (this->mPathStatus.permissions()) {
 	case boost::filesystem::perms::no_perms:
 		return PathPermisson::None;
 	case boost::filesystem::perms::owner_read:
@@ -98,7 +48,7 @@ PathPermisson PathStatus::permission() const {
 }
 
 PathType PathStatus::type() const {
-	switch (this->mFileStatus.type()) {
+	switch (this->mPathStatus.type()) {
 	case boost::filesystem::file_type::regular_file:
 		return PathType::File;
 	case boost::filesystem::file_type::directory_file:

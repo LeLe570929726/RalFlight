@@ -46,7 +46,6 @@ public:
 	~PathStatus() = default;
 
 public:
-	void setPermission(PathPermisson permisson);
 	PathPermisson permission() const;
 	PathType type() const;
 
@@ -54,7 +53,7 @@ private:
 	friend Path;
 
 private:
-	boost::filesystem::file_status mFileStatus;
+	boost::filesystem::file_status mPathStatus;
 };
 
 } // namespace Core
