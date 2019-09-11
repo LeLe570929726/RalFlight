@@ -121,10 +121,12 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
 	"Time/Date.cpp"
+	"Time/HiresClock.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 	"Time/Date.h"
+	"Time/HiresClock.h"
 )
 
 # Log

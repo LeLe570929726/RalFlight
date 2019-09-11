@@ -27,12 +27,7 @@ public:
 	~Directory() = default;
 
 public:
-	enum ErrorCode {
-		Success,
-		Failed, 
-		DirectoryAlreadyExist,
-		DirectoryDoesNotEsist
-	};
+	enum ErrorCode { Success, Failed, DirectoryAlreadyExist, DirectoryDoesNotEsist };
 
 public:
 	ErrorCode mkdir() const;

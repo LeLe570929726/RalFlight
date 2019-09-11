@@ -10,6 +10,7 @@
 #pragma once
 
 #include "../Global/Token.h"
+#include "../Time/Date.h"
 #include "PathStatus.h"
 #include <boost/filesystem.hpp>
 
@@ -29,11 +30,16 @@ public:
 public:
 	PathPermisson permission() const;
 
+public:
+	Date createTime() const;
+
 private:
 	friend Directory;
 
 private:
 	boost::filesystem::file_status mPathStatus;
+	Date mCreateTime;
+	Date mWriteTime;
 };
 
 } // namespace Core
