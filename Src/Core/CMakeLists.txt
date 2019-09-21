@@ -121,12 +121,16 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
 	"Time/Date.cpp"
+	"Time/Clock.cpp"
 	"Time/HiresClock.cpp"
+	"Time/Timer.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 	"Time/Date.h"
+	"TIme/Clock.h"
 	"Time/HiresClock.h"
+	"Time/Timer.h"
 )
 
 # Log
@@ -141,12 +145,20 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     #"Log/StackTracer.h"
 )
 
+# Json
+# Sources
+# Headers
+# Dependences
+find_package(RapidJSON REQUIRED)
+set(RF_SRC_CORE_DEPENDENCES_INCLUDE ${RF_SRC_CORE_DEPENDENCES_INCLUDE} ${RAPIDJSON_INCLUDE_DIRS})
+
 # Library
 add_library(RalFlightCore SHARED ${RF_SRC_CORE_SOURCES})
 target_link_libraries(RalFlightCore
     Boost::boost Boost::locale Boost::filesystem
 )
-set_target_properties(RalFlightCore PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES ${RF_SRC_CORE_DEPENDENCES_INCLUDE}
-)
+target_include_directories(RalFlightCore PRIVATE ${RF_SRC_CORE_DEPENDENCES_INCLUDE})
+# set_target_properties(RalFlightCore PROPERTIES
+#    INTERFACE_INCLUDE_DIRECTORIES ${RF_SRC_CORE_DEPENDENCES_INCLUDE}
+# )
 target_compile_options(RalFlightCore PRIVATE ${RF_SRC_CORE_COMPILE_OPTIONS})

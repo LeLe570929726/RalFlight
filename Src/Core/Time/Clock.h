@@ -5,7 +5,7 @@
 // @License: Licensed under GNU General Public License v3.
 // @Description: A free and open-source flight simulator which is based on Qt.
 //
-// @Create: 2019/09/11 by LeLe570929726
+// @Create: 2019/09/15 by LeLe570929726
 // ----------------------------------------------------------------------------------------------------
 #pragma once
 
@@ -13,14 +13,14 @@
 
 namespace Core {
 
-class RF_API HiresClock {
+class RF_API Clock {
 public:
-	HiresClock();
-	HiresClock(const HiresClock &other) = default;
-	HiresClock(HiresClock &&other) noexcept = default;
-	HiresClock &operator=(const HiresClock &other) = default;
-	HiresClock &operator=(HiresClock &&other) noexcept = default;
-	~HiresClock() = default;
+	Clock();
+	Clock(const Clock &other) = default;
+	Clock(Clock &&other) noexcept = default;
+	Clock &operator=(const Clock &other) = default;
+	Clock &operator=(Clock &&other) = default;
+	~Clock() = default;
 
 public:
 	enum ErrorCode { Success, ClockDoesNotStart, ClockDoesNotStop };
@@ -30,10 +30,9 @@ public:
 	ErrorCode stop();
 
 public:
-	long frequency() const;
+	long convertToMillisecond() const;
 	double convertToSecond() const;
-	double convertToMillisecond() const;
-	double convertToMicrosecond() const;
+	double convertToMinute() const;
 
 private:
 	long mStartTick;
