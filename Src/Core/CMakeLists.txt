@@ -47,6 +47,7 @@ set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
     "Memory/UniquePointer.h"
+	"Memory/DefaultPointerDeleter.h"
 )
 
 # Math

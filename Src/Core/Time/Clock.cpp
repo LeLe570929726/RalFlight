@@ -10,6 +10,7 @@
 #include "Clock.h"
 #ifdef RF_OS_WIN
 #include <Windows.h>
+#pragma comment(lib, "winmm.lib")
 #endif
 
 namespace Core {
