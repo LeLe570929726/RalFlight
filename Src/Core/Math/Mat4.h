@@ -56,25 +56,20 @@ public:
 	Mat4 &add(const Mat4 &matrix);
 	Mat4 &sub(const Mat4 &matrix);
 	Mat4 &mul(real32 scalar);
-	Vec4 mul(const Vec4 &vector);
+	Vec4 mul(const Vec4 &vector) const;
 	Mat4 &mul(const Mat4 &matrix);
-	inline Mat4 &div(real32 scalar) {
-		*this = Mat4::div(*this, scalar);
-		return *this;
-	}
-	inline Mat4 &transpose() {
-		*this = Mat4::transpose(*this);
-		return *this;
-	}
+	Mat4 &div(real32 scalar);
+	Mat4 &transpose();
+	real32 det() const;
 
 public:
-	inline real32 get(int col, int row) const { return Mat4::get(*this, col, row); }
-	inline Vec4 row(int row) const { return Mat4::row(*this, row); }
-	inline Vec4 col(int col) const { return Mat4::col(*this, col); }
-	inline void set(int col, int row, real32 scalar) { Mat4::set(*this, col, row, scalar); }
-	inline void set(real32 (&array)[16]) { Mat4::set(*this, array); }
-	inline void setRow(int row, const Vec4 &vector) { Mat4::setRow(*this, row, vector); }
-	inline void setCol(int col, const Vec4 &vector) { Mat4::setCol(*this, col, vector); }
+	real32 get(uint8 col, uint8 row) const;
+	Vec4 row(uint8 row) const;
+	Vec4 col(uint8 col) const;
+	void set(uint8 col, uint8 row, real32 scalar);
+	void set(real32 (&array)[16]);
+	void setRow(uint8 row, const Vec4 &vector);
+	void setCol(uint8 col, const Vec4 &vector);
 
 public:
 	static Mat4 add(const Mat4 &matrixA, const Mat4 &matrixB);
@@ -84,7 +79,7 @@ public:
 	static Mat4 mul(const Mat4 &matrixA, const Mat4 &matrixB);
 	static Mat4 div(const Mat4 &matrix, real32 scalar);
 	static Mat4 transpose(const Mat4 &matrix);
-	static real32 determinant(const Mat4 &matrix);
+	static real32 det(const Mat4 &matrix);
 
 public:
 	static real32 get(const Mat4 &matrix, int col, int row);

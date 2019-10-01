@@ -77,16 +77,27 @@ Mat4 &Mat4::mul(real32 scalar) {
 	return *this;
 }
 
-Vec4 Mat4::mul(const Vec4 &vector) {
-	RF_ALIGN32 real32 vecA[8] = {
-		vector.x(), vector.y(), vector.z(), vector.w(), vector.x(), vector.y(), vector.z(), vector.w()
-	};
-	__m256 avxA, avxB, avxC;
-	avxA = _mm256_load_ps(this->mMatrix);
-	avxB = _mm256_load_ps(&this->mMatrix[8]);
-	avxC = _mm256_load_ps(vecA);
-	// TODO
-	return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
+Vec4 Mat4::mul(const Vec4 &vector) const {
+	Vec4 tmpVec = Vec4::zero;
+	__m128 sseA, sseB, sseC, sseD, sseE, sseRes;
+	sseA = _mm_load_ps(this->mMatrix);
+	sseB = _mm_load_ps(&this->mMatrix[4]);
+	sseC = _mm_load_ps(&this->mMatrix[8]);
+	sseD = _mm_load_ps(&this->mMatrix[12]);
+	_MM_TRANSPOSE4_PS(sseA, sseB, sseC, sseD);
+	sseE = _mm_broadcast_ss(&vector.mVector[0]);
+	sseA = _mm_mul_ps(sseA, sseE);
+	sseE = _mm_broadcast_ss(&vector.mVector[1]);
+	sseB = _mm_mul_ps(sseB, sseE);
+	sseE = _mm_broadcast_ss(&vector.mVector[2]);
+	sseC = _mm_mul_ps(sseC, sseE);
+	sseE = _mm_broadcast_ss(&vector.mVector[3]);
+	sseD = _mm_mul_ps(sseD, sseE);
+	sseB = _mm_add_ps(sseA, sseB);
+	sseC = _mm_add_ps(sseB, sseC);
+	sseRes = _mm_add_ps(sseC, sseD);
+	_mm_store_ps(tmpVec.mVector, sseRes);
+	return tmpVec;
 }
 
 Mat4 &Mat4::mul(const Mat4 &matrix) {
@@ -126,6 +137,121 @@ Mat4 &Mat4::mul(const Mat4 &matrix) {
 	return *this;
 }
 
+Mat4 &Mat4::div(real32 scalar) {
+	assert(scalar);
+	__m256 avxA, avxB, avxC, avxRes;
+	avxA = _mm256_load_ps(this->mMatrix);
+	avxB = _mm256_load_ps(&this->mMatrix[8]);
+	avxC = _mm256_broadcast_ss(&scalar);
+	avxRes = _mm256_div_ps(avxA, avxC);
+	_mm256_store_ps(this->mMatrix, avxRes);
+	avxRes = _mm256_div_ps(avxB, avxC);
+	_mm256_store_ps(&this->mMatrix[8], avxRes);
+	return *this;
+}
+
+Mat4 &Mat4::transpose() {
+	__m128 sseA, sseB, sseC, sseD;
+	sseA = _mm_load_ps(this->mMatrix);
+	sseB = _mm_load_ps(&this->mMatrix[4]);
+	sseC = _mm_load_ps(&this->mMatrix[8]);
+	sseD = _mm_load_ps(&this->mMatrix[12]);
+	_MM_TRANSPOSE4_PS(sseA, sseB, sseC, sseD);
+	_mm_store_ps(this->mMatrix, sseA);
+	_mm_store_ps(&this->mMatrix[4], sseB);
+	_mm_store_ps(&this->mMatrix[8], sseC);
+	_mm_store_ps(&this->mMatrix[12], sseD);
+	return *this;
+}
+
+real32 Mat4::det() const {
+	RF_ALIGN32 real32 vecRes[8] = { 0.0f };
+	__m128 sseA, sseB, sseC, sseD;
+	__m256 avxA, avxB, avxC, avxD, avxE, avxF, avxG, avxH, avxI, avxJ, avxK, avxL, avxM, avxN, avxRes;
+	sseA = _mm_load_ps(this->mMatrix);
+	sseB = _mm_load_ps(&this->mMatrix[4]);
+	sseC = _mm_load_ps(&this->mMatrix[8]);
+	sseD = _mm_load_ps(&this->mMatrix[12]);
+	avxA = _mm256_set_m128(sseA, sseA);
+	avxB = _mm256_set_m128(sseB, sseB);
+	avxC = _mm256_set_m128(sseC, sseC);
+	avxD = _mm256_set_m128(sseD, sseD);
+	avxE = _mm256_permute_ps(avxA, 0x40);
+	avxF = _mm256_permute_ps(avxA, 0x09);
+	avxG = _mm256_blend_ps(avxE, avxF, 0xF0);
+	avxE = _mm256_permute_ps(avxB, 0xB9);
+	avxF = _mm256_permute_ps(avxB, 0x0F);
+	avxH = _mm256_blend_ps(avxE, avxF, 0xF0);
+	avxE = _mm256_permute_ps(avxA, 0xB9);
+	avxF = _mm256_permute_ps(avxA, 0x0F);
+	avxI = _mm256_blend_ps(avxE, avxF, 0xF0);
+	avxE = _mm256_permute_ps(avxB, 0x40);
+	avxF = _mm256_permute_ps(avxA, 0x09);
+	avxJ = _mm256_blend_ps(avxE, avxF, 0xF0);
+	avxE = _mm256_permute_ps(avxC, 0x16);
+	avxF = _mm256_permute_ps(avxC, 0x00);
+	avxK = _mm256_blend_ps(avxE, avxF, 0xF0);
+	avxE = _mm256_permute_ps(avxD, 0xEF);
+	avxF = _mm256_permute_ps(avxD, 0x06);
+	avxL = _mm256_blend_ps(avxE, avxF, 0xF0);
+	avxE = _mm256_permute_ps(avxC, 0xEF);
+	avxF = _mm256_permute_ps(avxC, 0x06);
+	avxM = _mm256_blend_ps(avxE, avxF, 0xF0);
+	avxE = _mm256_permute_ps(avxD, 0x16);
+	avxF = _mm256_permute_ps(avxD, 0x00);
+	avxN = _mm256_blend_ps(avxE, avxF, 0xF0);
+	avxH = _mm256_mul_ps(avxG, avxH);
+	avxJ = _mm256_mul_ps(avxI, avxJ);
+	avxL = _mm256_mul_ps(avxK, avxL);
+	avxN = _mm256_mul_ps(avxM, avxN);
+	avxJ = _mm256_sub_ps(avxH, avxJ);
+	avxN = _mm256_sub_ps(avxL, avxN);
+	avxRes = _mm256_mul_ps(avxJ, avxN);
+	_mm256_store_ps(vecRes, avxRes);
+	return vecRes[0] - vecRes[1] + vecRes[2] + vecRes[3] - vecRes[4] + vecRes[5];
+}
+
+real32 Mat4::get(uint8 col, uint8 row) const {
+	assert(col > 0 && col < 5);
+	assert(row > 0 && row < 5);
+	return this->mMatrix[(col - 1) + ((row - 1) << 2)];
+}
+
+Vec4 Mat4::row(uint8 row) const {
+	assert(row > 0 && row < 5);
+	return Vec4(this->mMatrix[(row - 1) << 2], this->mMatrix[((row - 1) << 2) + 1], this->mMatrix[((row - 1) << 2) + 2],
+				this->mMatrix[((row - 1) << 2) + 3]);
+}
+
+Vec4 Mat4::col(uint8 col) const {
+	assert(col > 0 && col < 5);
+	return Vec4(this->mMatrix[col - 1], this->mMatrix[col - 1 + 4], this->mMatrix[col - 1 + 8], this->mMatrix[col - 1 + 12]);
+}
+
+void Mat4::set(uint8 col, uint8 row, real32 scalar) {
+	assert(col > 0 && col < 5);
+	assert(row > 0 && row < 5);
+	this->mMatrix[(col - 1) + ((row - 1) << 2)] = scalar;
+}
+
+void Mat4::set(real32 (&array)[16]) { std::memcpy(this->mMatrix, array, sizeof(this->mMatrix)); }
+
+void Mat4::setRow(uint8 row, const Vec4 &vector) {
+	assert(row > 0 && row < 5);
+	this->mMatrix[(row - 1) << 2] = vector.mVector[0];
+	this->mMatrix[((row - 1) << 2) + 1] = vector.mVector[1];
+	this->mMatrix[((row - 1) << 2) + 2] = vector.mVector[2];
+	this->mMatrix[((row - 1) << 2) + 3] = vector.mVector[3];
+}
+
+void Mat4::setCol(uint8 col, const Vec4 &vector) {
+	assert(col > 0 && col < 5);
+	this->mMatrix[col - 1] = vector.mVector[0];
+	this->mMatrix[col - 1 + 4] = vector.mVector[1];
+	this->mMatrix[col - 1 + 8] = vector.mVector[2];
+	this->mMatrix[col - 1 + 12] = vector.mVector[3];
+}
+
 Mat4 Mat4::add(const Mat4 &matrixA, const Mat4 &matrixB) {
 	auto tmpMat = matrixA;
 	return tmpMat.add(matrixB);
@@ -141,23 +267,7 @@ Mat4 Mat4::mul(const Mat4 &matrix, real32 scalar) {
 	return tmpMat.mul(scalar);
 }
 
-Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) {
-	real32 tempArray[4] = { 0.0f };
-	RF_ALIGN16 real32 vectorA[4] = { vector.x(), vector.y(), vector.z(), vector.w() };
-	__m128 sseA;
-	sseA = _mm_load_ps(vectorA);
-	for (int i = 0; i <= 12; i += 12) {
-		RF_ALIGN16 real32 vectorB[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2],
-										 matrix.mMatrix[i + 3] };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseB, sseResult;
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_mul_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[static_cast<int>(i >> 2)] = vectorResult[0] + vectorResult[1] + vectorResult[2] + vectorResult[3];
-	}
-	return Vec4(tempArray);
-}
+Vec4 Mat4::mul(const Mat4 &matrix, const Vec4 &vector) { return matrix.mul(vector); }
 
 Mat4 Mat4::mul(const Mat4 &matrixA, const Mat4 &matrixB) {
 	auto tmpMat = matrixA;
@@ -166,152 +276,49 @@ Mat4 Mat4::mul(const Mat4 &matrixA, const Mat4 &matrixB) {
 
 Mat4 Mat4::div(const Mat4 &matrix, real32 scalar) {
 	assert(scalar);
-	real32 tempArray[16] = { 0.0f };
-	for (int i = 0; i <= 12; i += 4) {
-		RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[i], matrix.mMatrix[i + 1], matrix.mMatrix[i + 2],
-										 matrix.mMatrix[i + 3] };
-		RF_ALIGN16 real32 vectorB[4] = { scalar, scalar, scalar, scalar };
-		RF_ALIGN16 real32 vectorResult[4] = { 0.0f };
-		__m128 sseA, sseB, sseResult;
-		sseA = _mm_load_ps(vectorA);
-		sseB = _mm_load_ps(vectorB);
-		sseResult = _mm_div_ps(sseA, sseB);
-		_mm_store_ps(vectorResult, sseResult);
-		tempArray[i] = vectorResult[0];
-		tempArray[i + 1] = vectorResult[1];
-		tempArray[i + 2] = vectorResult[2];
-		tempArray[i + 3] = vectorResult[3];
-	}
-	return Mat4(tempArray);
+	auto tmpMat = matrix;
+	return tmpMat.div(scalar);
 }
 
 Mat4 Mat4::transpose(const Mat4 &matrix) {
-	Mat4 tempMatrix = matrix;
-	real32 tempScalar;
-	tempScalar = tempMatrix.mMatrix[1];
-	tempMatrix.mMatrix[1] = tempMatrix.mMatrix[4];
-	tempMatrix.mMatrix[4] = tempScalar;
-	tempScalar = tempMatrix.mMatrix[2];
-	tempMatrix.mMatrix[2] = tempMatrix.mMatrix[8];
-	tempMatrix.mMatrix[8] = tempScalar;
-	tempScalar = tempMatrix.mMatrix[3];
-	tempMatrix.mMatrix[3] = tempMatrix.mMatrix[12];
-	tempMatrix.mMatrix[12] = tempScalar;
-	tempScalar = tempMatrix.mMatrix[7];
-	tempMatrix.mMatrix[7] = tempMatrix.mMatrix[13];
-	tempMatrix.mMatrix[13] = tempScalar;
-	tempScalar = tempMatrix.mMatrix[11];
-	tempMatrix.mMatrix[11] = tempMatrix.mMatrix[14];
-	tempMatrix.mMatrix[14] = tempScalar;
-	tempScalar = tempMatrix.mMatrix[6];
-	tempMatrix.mMatrix[6] = tempMatrix.mMatrix[9];
-	tempMatrix.mMatrix[9] = tempScalar;
-	return tempMatrix;
+	auto tmpMat = matrix;
+	return tmpMat.transpose();
 }
 
-real32 Mat4::determinant(const Mat4 &matrix) {
-	RF_ALIGN16 real32 vectorA[4] = { matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[0], matrix.mMatrix[1] };
-	RF_ALIGN16 real32 vectorB[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[7], matrix.mMatrix[6] };
-	RF_ALIGN16 real32 vectorC[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[8], matrix.mMatrix[8] };
-	RF_ALIGN16 real32 vectorD[4] = { matrix.mMatrix[7], matrix.mMatrix[7], matrix.mMatrix[13], matrix.mMatrix[14] };
-	RF_ALIGN16 real32 vectorE[4] = { matrix.mMatrix[8], matrix.mMatrix[9], matrix.mMatrix[9], matrix.mMatrix[10] };
-	RF_ALIGN16 real32 vectorF[4] = { matrix.mMatrix[15], matrix.mMatrix[14], matrix.mMatrix[15], matrix.mMatrix[15] };
-	RF_ALIGN16 real32 vectorG[4] = { matrix.mMatrix[1], matrix.mMatrix[2], matrix.mMatrix[3], matrix.mMatrix[2] };
-	RF_ALIGN16 real32 vectorH[4] = { matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[4], matrix.mMatrix[5] };
-	RF_ALIGN16 real32 vectorI[4] = { matrix.mMatrix[3], matrix.mMatrix[3], matrix.mMatrix[9], matrix.mMatrix[10] };
-	RF_ALIGN16 real32 vectorJ[4] = { matrix.mMatrix[5], matrix.mMatrix[6], matrix.mMatrix[12], matrix.mMatrix[12] };
-	RF_ALIGN16 real32 vectorK[4] = { matrix.mMatrix[11], matrix.mMatrix[10], matrix.mMatrix[11], matrix.mMatrix[11] };
-	RF_ALIGN16 real32 vectorL[4] = { matrix.mMatrix[12], matrix.mMatrix[13], matrix.mMatrix[13], matrix.mMatrix[14] };
-	RF_ALIGN16 real32 vectorResultA[4] = { 0.0f };
-	RF_ALIGN16 real32 vectorResultB[4] = { 0.0f };
-	RF_ALIGN16 real32 vectorResultC[4] = { 0.0f };
-	RF_ALIGN16 real32 vectorResultD[4] = { 0.0f };
-	RF_ALIGN16 real32 vectorResultE[4] = { 0.0f };
-	__m128 sseA, sseB, sseC, sseD, sseE, sseF, sseG, sseH, sseI, sseJ, sseK, sseL, sseM, sseN, sseO, sseP, sseResultA,
-		sseResultB, sseResultC;
-	sseA = _mm_load_ps(vectorA);
-	sseB = _mm_load_ps(vectorB);
-	sseC = _mm_load_ps(vectorC);
-	sseD = _mm_load_ps(vectorD);
-	sseE = _mm_load_ps(vectorE);
-	sseF = _mm_load_ps(vectorF);
-	sseG = _mm_load_ps(vectorG);
-	sseH = _mm_load_ps(vectorH);
-	sseI = _mm_load_ps(vectorI);
-	sseJ = _mm_load_ps(vectorJ);
-	sseK = _mm_load_ps(vectorK);
-	sseL = _mm_load_ps(vectorL);
-	sseB = _mm_mul_ps(sseA, sseB);
-	sseD = _mm_mul_ps(sseC, sseD);
-	sseF = _mm_mul_ps(sseE, sseF);
-	sseH = _mm_mul_ps(sseG, sseH);
-	sseJ = _mm_mul_ps(sseI, sseJ);
-	sseL = _mm_mul_ps(sseK, sseL);
-	sseResultA = _mm_sub_ps(sseB, sseH);
-	sseResultB = _mm_sub_ps(sseD, sseJ);
-	sseResultC = _mm_sub_ps(sseF, sseL);
-	_mm_store_ps(vectorResultA, sseResultA);
-	_mm_store_ps(vectorResultB, sseResultB);
-	_mm_store_ps(vectorResultC, sseResultC);
-	RF_ALIGN16 real32 vectorM[4] = { vectorResultA[0], vectorResultA[1], vectorResultA[2], 0.0f };
-	RF_ALIGN16 real32 vectorN[4] = { vectorResultC[3], vectorResultC[2], vectorResultC[1], 0.0f };
-	RF_ALIGN16 real32 vectorO[4] = { vectorResultA[4], vectorResultB[0], vectorResultB[1], 0.0f };
-	RF_ALIGN16 real32 vectorP[4] = { vectorResultC[0], vectorResultB[3], vectorResultB[2], 0.0f };
-	sseM = _mm_load_ps(vectorM);
-	sseN = _mm_load_ps(vectorN);
-	sseO = _mm_load_ps(vectorO);
-	sseP = _mm_load_ps(vectorP);
-	sseN = _mm_mul_ps(sseM, sseN);
-	sseP = _mm_mul_ps(sseO, sseP);
-	_mm_store_ps(vectorResultD, sseN);
-	_mm_store_ps(vectorResultE, sseP);
-	return vectorResultD[0] - vectorResultD[1] + vectorResultD[2] + vectorResultE[0] - vectorResultE[1] + vectorResultE[2];
-}
+real32 Mat4::det(const Mat4 &matrix) { return matrix.det(); }
 
 real32 Mat4::get(const Mat4 &matrix, int col, int row) {
 	assert(col > 0 && col < 5);
 	assert(row > 0 && row < 5);
-	return matrix.mMatrix[(col - 1) + ((row - 1) << 2)];
+	return matrix.get(col, row);
 }
 
 Vec4 Mat4::row(const Mat4 &matrix, int row) {
 	assert(row > 0 && row < 5);
-	return Vec4(matrix.mMatrix[(row - 1) << 2], matrix.mMatrix[((row - 1) << 2) + 1], matrix.mMatrix[((row - 1) << 2) + 2],
-				matrix.mMatrix[((row - 1) << 2) + 3]);
+	return matrix.row(row);
 }
 
 Vec4 Mat4::col(const Mat4 &matrix, int col) {
 	assert(col > 0 && col < 5);
-	return Vec4(matrix.mMatrix[col - 1], matrix.mMatrix[col - 1 + 4], matrix.mMatrix[col - 1 + 8],
-				matrix.mMatrix[col - 1 + 12]);
+	return matrix.col(col);
 }
 
 void Mat4::set(Mat4 &matrix, int col, int row, real32 scalar) {
 	assert(col > 0 && col < 5);
 	assert(row > 0 && row < 5);
-	matrix.mMatrix[(col - 1) + ((row - 1) << 2)] = scalar;
+	matrix.set(col, row, scalar);
 }
 
-void Mat4::set(Mat4 &matrix, real32 (&array)[16]) {
-	for (int i = 0; i < 16; ++i) {
-		matrix.mMatrix[i] = array[i];
-	}
-}
+void Mat4::set(Mat4 &matrix, real32 (&array)[16]) { matrix.set(array); }
 
 void Mat4::setRow(Mat4 &matrix, int row, const Vec4 &vector) {
 	assert(row > 0 && row < 5);
-	matrix.mMatrix[(row - 1) << 2] = vector.x();
-	matrix.mMatrix[((row - 1) << 2) + 1] = vector.y();
-	matrix.mMatrix[((row - 1) << 2) + 2] = vector.z();
-	matrix.mMatrix[((row - 1) << 2) + 3] = vector.w();
+	matrix.setRow(row, vector);
 }
 
 void Mat4::setCol(Mat4 &matrix, int col, const Vec4 &vector) {
 	assert(col > 0 && col < 5);
-	matrix.mMatrix[col - 1] = vector.x();
-	matrix.mMatrix[col - 1 + 4] = vector.y();
-	matrix.mMatrix[col - 1 + 8] = vector.z();
-	matrix.mMatrix[col - 1 + 12] = vector.w();
+	matrix.setCol(col, vector);
 }
 
 } // namespace Core

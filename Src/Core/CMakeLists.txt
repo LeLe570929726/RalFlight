@@ -43,9 +43,11 @@ set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
 # Memory
 # Sources
 set(RF_SRC_CORE_SOURCES ${RF_SRC_CORE_SOURCES}
+	"Memory/Malloc.cpp"
 )
 # Headers
 set(RF_SRC_CORE_HEADERS ${RF_SRC_CORE_HEADERS}
+	"Memory/Malloc.h"
 	"Memory/SharedPointer.h"
     "Memory/UniquePointer.h"
 	"Memory/DefaultPointerDeleter.h"

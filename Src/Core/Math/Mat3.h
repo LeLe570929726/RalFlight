@@ -55,7 +55,7 @@ public:
 	Mat3 &add(const Mat3 &matrix);
 	Mat3 &sub(const Mat3 &matrix);
 	Mat3 &mul(real32 scalar);
-	Vec3 mul(const Vec3 &vector);
+	Vec3 mul(const Vec3 &vector) const;
 	Mat3 &mul(const Mat3 &matrix);
 	Mat3 &div(real32 scalar);
 	Mat3 &transpose();
@@ -71,7 +71,7 @@ public:
 	void setCol(uint8 col, const Vec3 &vector);
 
 public:
-	static Mat3	add(const Mat3 &matrixA, const Mat3 &matrixB);
+	static Mat3 add(const Mat3 &matrixA, const Mat3 &matrixB);
 	static Mat3 sub(const Mat3 &matrixA, const Mat3 &matrixB);
 	static Mat3 mul(const Mat3 &matrix, real32 scalar);
 	static Vec3 mul(const Mat3 &matrix, const Vec3 &vector);

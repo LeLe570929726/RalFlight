@@ -66,7 +66,7 @@ Mat3 &Mat3::mul(real32 scalar) {
 	return *this;
 }
 
-Vec3 Mat3::mul(const Vec3 &vector) {
+Vec3 Mat3::mul(const Vec3 &vector) const {
 	RF_ALIGN16 real32 vecA[4] = { this->mMatrix[0], this->mMatrix[3], this->mMatrix[6], 0.0f };
 	RF_ALIGN16 real32 vecB[4] = { this->mMatrix[1], this->mMatrix[4], this->mMatrix[7], 0.0f };
 	RF_ALIGN16 real32 vecC[4] = { this->mMatrix[2], this->mMatrix[5], this->mMatrix[8], 0.0f };
@@ -212,10 +212,7 @@ Mat3 Mat3::mul(const Mat3 &matrix, real32 scalar) {
 	return tmpMat.mul(scalar);
 }
 
-Vec3 Mat3::mul(const Mat3 &matrix, const Vec3 &vector) {
-	auto tmpMat = matrix;
-	return tmpMat.mul(vector);
-}
+Vec3 Mat3::mul(const Mat3 &matrix, const Vec3 &vector) { return matrix.mul(vector); }
 
 Mat3 Mat3::mul(const Mat3 &matrixA, const Mat3 &matrixB) {
 	auto tmpMat = matrixA;
